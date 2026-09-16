@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SentraGuard EPM — Creating Access Profiles | Admin Guide Sample</title>
+<style>
+  :root {
+    --ink: #1f2937;
+    --muted: #6b7280;
+    --accent: #1f3864;
+    --line: #e5e7eb;
+    --bg: #ffffff;
+    --note-bg: #eef4fb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+  .tag {
+    display: inline-block;
+    background: #f3f4f6;
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+  h1 {
+    color: var(--accent);
+    font-size: 1.8rem;
+    margin: 0 0 6px;
+  }
+  .subtitle {
+    color: var(--muted);
+    margin: 0 0 32px;
+    font-size: 1.05rem;
+  }
+  .case-note {
+    background: #fafafa;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 36px;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+  .case-note strong { color: var(--ink); }
+  h2 {
+    color: var(--accent);
+    font-size: 1.25rem;
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+    margin-top: 28px;
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+  h3 { font-size: 1.05rem; margin-top: 22px; }
+  ol, ul { padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  .note {
+    background: var(--note-bg);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 0.92rem;
+  }
+  .placeholder {
+    border: 1px dashed #c7ccd4;
+    border-radius: 8px;
+    padding: 40px 16px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin: 16px 0;
+    background: #fafbfc;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.92rem;
+  }
+  th, td {
+    border: 1px solid var(--line);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #f3f4f6;
+    color: var(--accent);
+  }
+  code {
+    background: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.88rem;
+  }
+  .back-link {
+    display: inline-block;
+    margin-top: 40px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .back-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="tag">Writing Sample — Admin Guide</span>
+  <h1>Creating Access Profiles in SentraGuard EPM</h1>
+  <p class="subtitle">A step-by-step admin guide for configuring endpoint privilege profiles</p>
+
+  <div class="case-note">
+    <strong>About this sample:</strong> SentraGuard is a fictional Endpoint Privilege Management (EPM) product created for portfolio purposes. It represents the type of admin-facing documentation I write in my current role — clear, task-oriented guides for cybersecurity administrators — without using any real product, client, or company content.
+  </div>
+
+  <h2>1. What is an Access Profile?</h2>
+  <p>
+    An Access Profile in SentraGuard defines what a user or group of users is allowed to run,
+    install, or elevate on their endpoint. Instead of granting broad local administrator rights,
+    admins build a profile that lists exactly which applications and processes are permitted,
+    restricted, or allowed to run with elevated privileges — and then assign that profile to the
+    right users, groups, or machines.
+  </p>
+  <p>
+    Profiles can be built manually, one rule at a time, or generated automatically from a device's
+    recent activity history, which is useful when you want a starting point based on what a user
+    already runs day to day.
+  </p>
+
+  <h2>2. Why Access Profiles Matter</h2>
+  <ul>
+    <li><strong>Reduces standing admin rights</strong> — users get only the specific privileges they need, not full local admin access.</li>
+    <li><strong>Keeps policy consistent</strong> — one profile can be reused across an entire team or department instead of configuring each machine separately.</li>
+    <li><strong>Speeds up audits</strong> — because rules live in one place, security teams can review exactly what's permitted without checking individual endpoints.</li>
+    <li><strong>Adapts as teams change</strong> — profiles can be edited centrally, and the update applies everywhere the profile is assigned.</li>
+  </ul>
+
+  <h2>3. Before You Start</h2>
+  <div class="note">
+    You'll need <strong>Profile Administrator</strong> permissions in SentraGuard, and you should know
+    which department or business unit (referred to as a <strong>Team Scope</strong>) the profile applies to.
+    A profile can only be created under a single Team Scope — it cannot span "All Teams."
+  </div>
+
+  <h2>4. Creating a New Profile</h2>
+  <ol>
+    <li>From the left navigation menu, go to <strong>Access &gt; Profiles</strong>.</li>
+    <li>Select the correct <strong>Team Scope</strong> from the dropdown at the top of the page.</li>
+    <li>Click <strong>+ New Profile</strong> in the upper right corner.</li>
+    <li>Fill in the profile details (see the field reference table below), then click <strong>Continue</strong>.</li>
+  </ol>
+
+  <div class="placeholder">[Screenshot placeholder: "New Profile" setup panel]</div>
+
+  <h3>Profile Setup Fields</h3>
+  <table>
+    <tr><th>Field</th><th>Description</th></tr>
+    <tr><td><code>Profile Name</code></td><td>A short, identifiable name for the profile, e.g. "Finance Team – Standard Access."</td></tr>
+    <tr><td><code>Description</code></td><td>A brief note on who this profile is for and what it restricts, for future reference.</td></tr>
+    <tr><td><code>Operating System</code></td><td>Windows, macOS, or Linux. Each profile applies to one OS type.</td></tr>
+    <tr><td><code>Set as Default</code></td><td>When enabled, this profile is automatically applied to any new device enrolled under the selected Team Scope. Only one default profile is allowed per OS type.</td></tr>
+    <tr><td><code>Time-Limited Access</code></td><td>When enabled, grants temporary elevated rights that automatically expire after a set duration, rather than persisting indefinitely.</td></tr>
+    <tr><td><code>Auto-Suggest Rules</code></td><td>When enabled, SentraGuard scans recent activity on assigned endpoints and suggests commonly used applications to pre-populate the profile.</td></tr>
+  </table>
+
+  <div class="note">
+    Enabling <strong>Set as Default</strong> and <strong>Auto-Suggest Rules</strong> at the same time isn't
+    supported — turning one on automatically disables the other, since a default profile is meant to apply
+    a fixed baseline rather than one built from variable usage data.
+  </div>
+
+  <h2>5. Adding Rules to the Profile</h2>
+  <p>Once the profile shell is created, you'll define what it actually allows or blocks:</p>
+  <ol>
+    <li>Open the profile and select <strong>Add Rule</strong>.</li>
+    <li>Choose a rule type: <strong>Allow</strong>, <strong>Block</strong>, or <strong>Elevate</strong>.</li>
+    <li>Search for the application by name, or paste in its file hash for an exact match.</li>
+    <li>Click <strong>Save Rule</strong>. Repeat for each application you want to control.</li>
+  </ol>
+
+  <div class="placeholder">[Screenshot placeholder: rule list showing Allow / Block / Elevate tags]</div>
+
+  <h3>If You Used Auto-Suggest Rules</h3>
+  <p>
+    Instead of adding applications one at a time, review the suggested list SentraGuard generated from
+    endpoint activity. Each suggested application shows how many users or devices ran it recently. Select
+    the ones you want to approve, choose whether to allow them as-is or elevate them, and click
+    <strong>Apply Selected</strong>.
+  </p>
+
+  <h2>6. Assigning the Profile</h2>
+  <ol>
+    <li>From the Profiles list, click the <strong>Assign</strong> icon next to the profile you created.</li>
+    <li>Choose who the profile applies to: individual users, a user group, specific devices, or a device group.</li>
+    <li>Set the assignment as <strong>Permanent</strong> or <strong>Scheduled</strong> (with a start and end date).</li>
+    <li>Click <strong>Save Assignment</strong>.</li>
+  </ol>
+
+  <div class="note">
+    A device or user can only have one active profile per OS type at a time. Assigning a new profile
+    automatically replaces the previous one for that device or user — it doesn't stack on top of it.
+  </div>
+
+  <h2>7. Confirming It Worked</h2>
+  <p>
+    After saving an assignment, SentraGuard displays a confirmation banner and updates the profile's
+    <strong>Assigned To</strong> column on the main Profiles list. To double-check a specific device picked up
+    the new rules, go to <strong>Devices &gt; [device name] &gt; Active Profile</strong> and confirm the profile
+    name and last sync time match what you expect.
+  </p>
+
+  <h2>Summary</h2>
+  <p>
+    Access Profiles let administrators centralize privilege management instead of configuring
+    permissions device by device. Getting the setup right — the correct Team Scope, a clear default vs.
+    auto-suggested baseline, and a deliberate assignment scope — keeps privilege creep low and makes
+    future audits far easier to run.
+  </p>
+
+  <a class="back-link" href="index.html">← Back to portfolio</a>
+
+</div>
+</body>
+</html>
