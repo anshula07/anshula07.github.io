@@ -1,0 +1,3088 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Sentinel Privilege Manager — Identity Provider Integration Guide
+    </title>
+
+    <meta name="description"
+          content="Identity Provider Integration Guide for Sentinel Privilege Manager, a fictional Endpoint Privilege Management platform.">
+
+    <style>
+
+        :root {
+            --primary: #0d8cd8;
+            --primary-dark: #086aa5;
+            --primary-light: #eaf6fd;
+
+            --text: #263238;
+            --muted: #667085;
+
+            --border: #dfe5eb;
+
+            --background: #f7f9fc;
+            --white: #ffffff;
+
+            --code-bg: #17212b;
+            --code-text: #e7edf2;
+
+            --success: #198754;
+            --success-light: #edf8f2;
+
+            --warning: #b7791f;
+            --warning-light: #fff8e8;
+
+            --danger: #c0392b;
+            --danger-light: #fff1f0;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: var(--text);
+
+            background: var(--background);
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .topbar {
+            background: var(--white);
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+        .topbar-inner {
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding:
+                15px 25px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap: 20px;
+        }
+
+
+        .brand {
+            color: var(--primary);
+
+            text-decoration: none;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+
+        .back-link {
+            color: var(--muted);
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #eaf6fd,
+                    #ffffff
+                );
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            padding:
+                65px 25px;
+        }
+
+
+        .hero-container {
+            max-width: 1050px;
+
+            margin: auto;
+        }
+
+
+        .eyebrow {
+            display: inline-block;
+
+            background:
+                var(--primary-light);
+
+            color:
+                var(--primary-dark);
+
+            padding:
+                6px 13px;
+
+            border-radius:
+                20px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing: 0.6px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .hero h1 {
+            margin:
+                0 0 15px;
+
+            font-size: 42px;
+
+            line-height: 1.2;
+
+            color:
+                #172b3a;
+        }
+
+
+        .hero p {
+            max-width:
+                850px;
+
+            margin: 0;
+
+            font-size: 18px;
+
+            color:
+                var(--muted);
+        }
+
+
+        .metadata {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+
+        .metadata span {
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                6px;
+
+            padding:
+                7px 12px;
+
+            font-size: 13px;
+
+            color:
+                #475467;
+        }
+
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .layout {
+            max-width:
+                1250px;
+
+            margin:
+                40px auto;
+
+            padding:
+                0 25px;
+
+            display:
+                grid;
+
+            grid-template-columns:
+                235px
+                minmax(0, 1fr);
+
+            gap:
+                35px;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position:
+                sticky;
+
+            top:
+                95px;
+
+            height:
+                fit-content;
+
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                10px;
+
+            padding:
+                20px;
+        }
+
+
+        .sidebar-title {
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            color:
+                #475467;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.5px;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .sidebar a {
+            display:
+                block;
+
+            color:
+                #475467;
+
+            text-decoration:
+                none;
+
+            font-size:
+                13px;
+
+            padding:
+                6px 0;
+        }
+
+
+        .sidebar a:hover {
+            color:
+                var(--primary);
+        }
+
+
+        /* =========================
+           DOCUMENT
+        ========================= */
+
+        .document {
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                10px;
+
+            padding:
+                48px;
+
+            min-width:
+                0;
+        }
+
+
+        .document h2 {
+            color:
+                var(--primary);
+
+            font-size:
+                27px;
+
+            margin-top:
+                55px;
+
+            margin-bottom:
+                18px;
+
+            padding-bottom:
+                8px;
+
+            border-bottom:
+                1px solid
+                var(--border);
+        }
+
+
+        .document h2:first-child {
+            margin-top: 0;
+        }
+
+
+        .document h3 {
+            color:
+                #344054;
+
+            font-size:
+                20px;
+
+            margin-top:
+                30px;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .document h4 {
+            color:
+                #475467;
+
+            font-size:
+                16px;
+
+            margin-top:
+                25px;
+        }
+
+
+        .document p {
+            margin:
+                10px 0 16px;
+        }
+
+
+        .document ul,
+        .document ol {
+            padding-left:
+                25px;
+        }
+
+
+        .document li {
+            margin-bottom:
+                7px;
+        }
+
+
+        /* =========================
+           INFO BOXES
+        ========================= */
+
+        .info-box {
+            background:
+                var(--primary-light);
+
+            border-left:
+                4px solid
+                var(--primary);
+
+            padding:
+                18px 20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px 7px 0;
+        }
+
+
+        .info-box strong {
+            display:
+                block;
+
+            color:
+                var(--primary-dark);
+
+            margin-bottom:
+                4px;
+        }
+
+
+        .note {
+            background:
+                var(--success-light);
+
+            border-left:
+                4px solid
+                var(--success);
+
+            padding:
+                18px 20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px 7px 0;
+        }
+
+
+        .note strong {
+            color:
+                var(--success);
+        }
+
+
+        .warning {
+            background:
+                var(--warning-light);
+
+            border-left:
+                4px solid
+                var(--warning);
+
+            padding:
+                18px 20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px 7px 0;
+        }
+
+
+        .danger {
+            background:
+                var(--danger-light);
+
+            border-left:
+                4px solid
+                var(--danger);
+
+            padding:
+                18px 20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px 7px 0;
+        }
+
+
+        /* =========================
+           ARCHITECTURE FLOW
+        ========================= */
+
+        .architecture {
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                10px;
+
+            margin:
+                30px 0;
+        }
+
+
+        .architecture-box {
+            border:
+                1px solid
+                #cdeafa;
+
+            background:
+                var(--primary-light);
+
+            color:
+                var(--primary-dark);
+
+            border-radius:
+                8px;
+
+            padding:
+                18px;
+
+            min-width:
+                150px;
+
+            text-align:
+                center;
+
+            font-weight:
+                700;
+
+            font-size:
+                14px;
+        }
+
+
+        .architecture-box small {
+            display:
+                block;
+
+            margin-top:
+                5px;
+
+            color:
+                var(--muted);
+
+            font-weight:
+                normal;
+        }
+
+
+        .architecture-arrow {
+            font-size:
+                22px;
+
+            color:
+                var(--muted);
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+            overflow-x:
+                auto;
+
+            margin:
+                20px 0 30px;
+        }
+
+
+        table {
+            width:
+                100%;
+
+            border-collapse:
+                collapse;
+
+            min-width:
+                600px;
+        }
+
+
+        th,
+        td {
+            border:
+                1px solid
+                var(--border);
+
+            padding:
+                12px 14px;
+
+            text-align:
+                left;
+
+            vertical-align:
+                top;
+        }
+
+
+        th {
+            background:
+                #f2f6f9;
+
+            color:
+                #344054;
+        }
+
+
+        tr:nth-child(even) td {
+            background:
+                #fafbfd;
+        }
+
+
+        /* =========================
+           CODE
+        ========================= */
+
+        code {
+            background:
+                #eef2f5;
+
+            color:
+                #c0392b;
+
+            padding:
+                2px 6px;
+
+            border-radius:
+                4px;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-size:
+                90%;
+        }
+
+
+        pre {
+            background:
+                var(--code-bg);
+
+            color:
+                var(--code-text);
+
+            padding:
+                20px;
+
+            border-radius:
+                8px;
+
+            overflow-x:
+                auto;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-size:
+                13px;
+
+            line-height:
+                1.65;
+
+            margin:
+                20px 0 28px;
+        }
+
+
+        /* =========================
+           STEPS
+        ========================= */
+
+        .steps {
+            margin:
+                25px 0;
+        }
+
+
+        .step {
+            display:
+                grid;
+
+            grid-template-columns:
+                45px 1fr;
+
+            gap:
+                15px;
+
+            margin-bottom:
+                18px;
+
+            padding:
+                18px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                8px;
+
+            background:
+                #ffffff;
+        }
+
+
+        .step-number {
+            width:
+                36px;
+
+            height:
+                36px;
+
+            border-radius:
+                50%;
+
+            background:
+                var(--primary);
+
+            color:
+                white;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            font-size:
+                13px;
+
+            font-weight:
+                700;
+        }
+
+
+        .step-content h3 {
+            margin:
+                0 0 5px;
+
+            font-size:
+                18px;
+        }
+
+
+        .step-content p {
+            margin:
+                0;
+
+            color:
+                var(--muted);
+        }
+
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .card-grid {
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                15px;
+
+            margin:
+                22px 0;
+        }
+
+
+        .card {
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                8px;
+
+            padding:
+                18px;
+
+            background:
+                #fbfcfd;
+        }
+
+
+        .card h3 {
+            margin:
+                0 0 7px;
+
+            font-size:
+                17px;
+
+            color:
+                var(--primary-dark);
+        }
+
+
+        .card p {
+            margin:
+                0;
+
+            font-size:
+                14px;
+
+            color:
+                var(--muted);
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align:
+                center;
+
+            padding:
+                40px 20px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                13px;
+        }
+
+
+        footer a {
+            color:
+                var(--primary);
+
+            text-decoration:
+                none;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .layout {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .sidebar {
+                position:
+                    relative;
+
+                top:
+                    0;
+            }
+
+
+            .sidebar a {
+                display:
+                    inline-block;
+
+                margin-right:
+                    12px;
+            }
+
+
+            .card-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .document {
+                padding:
+                    30px;
+            }
+
+
+            .hero h1 {
+                font-size:
+                    34px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .hero {
+                padding:
+                    45px 18px;
+            }
+
+
+            .hero h1 {
+                font-size:
+                    29px;
+            }
+
+
+            .hero p {
+                font-size:
+                    16px;
+            }
+
+
+            .layout {
+                padding:
+                    0 15px;
+
+                margin:
+                    25px auto;
+            }
+
+
+            .document {
+                padding:
+                    22px;
+            }
+
+
+            .document h2 {
+                font-size:
+                    24px;
+            }
+
+
+            .architecture {
+                flex-direction:
+                    column;
+            }
+
+
+            .architecture-arrow {
+                transform:
+                    rotate(90deg);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="topbar">
+
+    <div class="topbar-inner">
+
+        <a href="index.html"
+           class="brand">
+
+            Anshula Raina
+
+        </a>
+
+
+        <a href="index.html#documentation"
+           class="back-link">
+
+            ← Back to Portfolio
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-container">
+
+        <span class="eyebrow">
+            Integration Guide
+        </span>
+
+
+        <h1>
+            Identity Provider Integration
+        </h1>
+
+
+        <p>
+            Configure Sentinel Privilege Manager to
+            synchronize users and groups from an
+            enterprise Identity Provider.
+        </p>
+
+
+        <div class="metadata">
+
+            <span>
+                <strong>Product:</strong>
+                Sentinel Privilege Manager
+            </span>
+
+
+            <span>
+                <strong>Integration:</strong>
+                Identity Provider
+            </span>
+
+
+            <span>
+                <strong>Version:</strong>
+                3.2
+            </span>
+
+
+            <span>
+                <strong>Audience:</strong>
+                Administrators & Integrators
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="layout">
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">
+        On this page
+    </div>
+
+
+    <a href="#overview">
+        1. Overview
+    </a>
+
+
+    <a href="#use-case">
+        2. Integration Use Case
+    </a>
+
+
+    <a href="#architecture">
+        3. Integration Architecture
+    </a>
+
+
+    <a href="#prerequisites">
+        4. Prerequisites
+    </a>
+
+
+    <a href="#configuration">
+        5. Configure the Integration
+    </a>
+
+
+    <a href="#authentication">
+        6. Authentication
+    </a>
+
+
+    <a href="#mapping">
+        7. Attribute Mapping
+    </a>
+
+
+    <a href="#sync">
+        8. Synchronization
+    </a>
+
+
+    <a href="#validation">
+        9. Validate the Integration
+    </a>
+
+
+    <a href="#troubleshooting">
+        10. Troubleshooting
+    </a>
+
+
+    <a href="#rollback">
+        11. Rollback
+    </a>
+
+
+    <a href="#best-practices">
+        12. Best Practices
+    </a>
+
+
+</aside>
+
+
+
+<!-- =========================
+     DOCUMENT
+========================= -->
+
+<main class="document">
+
+
+<!-- =========================
+     1. OVERVIEW
+========================= -->
+
+<section id="overview">
+
+    <h2>
+        1. Overview
+    </h2>
+
+
+    <p>
+        Sentinel Privilege Manager can integrate with
+        an enterprise Identity Provider (IdP) to
+        synchronize users and groups with the
+        privilege management platform.
+    </p>
+
+
+    <p>
+        This integration reduces duplicate user
+        administration and enables administrators to
+        use centrally managed identity information
+        when assigning endpoint privilege policies.
+    </p>
+
+
+    <div class="info-box">
+
+        <strong>
+            What does this integration do?
+        </strong>
+
+        The integration retrieves identity information
+        from the configured Identity Provider and
+        synchronizes supported users and groups with
+        Sentinel Privilege Manager.
+
+    </div>
+
+
+    <h3>
+        1.1 Benefits
+    </h3>
+
+
+    <div class="card-grid">
+
+
+        <div class="card">
+
+            <h3>
+                Centralized Identity
+            </h3>
+
+            <p>
+                User and group information can be
+                maintained in a central identity system.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Reduced Administration
+            </h3>
+
+            <p>
+                Administrators do not need to manually
+                recreate every user and group.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Consistent Access
+            </h3>
+
+            <p>
+                Existing group structures can be used
+                when assigning privilege policies.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Automated Synchronization
+            </h3>
+
+            <p>
+                Scheduled synchronization keeps identity
+                information aligned.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     2. USE CASE
+========================= -->
+
+<section id="use-case">
+
+    <h2>
+        2. Integration Use Case
+    </h2>
+
+
+    <p>
+        The example scenario in this guide assumes
+        that an organization already maintains users
+        and groups in an enterprise Identity Provider.
+    </p>
+
+
+    <h3>
+        2.1 Example Scenario
+    </h3>
+
+
+    <p>
+        The organization wants to synchronize its
+        <strong>Engineering</strong>,
+        <strong>Finance</strong>, and
+        <strong>Security</strong> groups with
+        Sentinel Privilege Manager.
+    </p>
+
+
+    <p>
+        The synchronized groups will later be used
+        to assign endpoint privilege policies.
+    </p>
+
+
+    <div class="info-box">
+
+        <strong>
+            Integration Flow
+        </strong>
+
+        Identity Provider → Integration Connector →
+        Sentinel Privilege Manager → Policy Assignment
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     3. ARCHITECTURE
+========================= -->
+
+<section id="architecture">
+
+    <h2>
+        3. Integration Architecture
+    </h2>
+
+
+    <p>
+        The integration consists of the Identity
+        Provider, the SPM integration service, and
+        the SPM management platform.
+    </p>
+
+
+    <div class="architecture">
+
+
+        <div class="architecture-box">
+
+            Identity Provider
+
+            <small>
+                Users & Groups
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            →
+        </div>
+
+
+        <div class="architecture-box">
+
+            Integration Service
+
+            <small>
+                Authentication & Sync
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            →
+        </div>
+
+
+        <div class="architecture-box">
+
+            SPM Platform
+
+            <small>
+                Identity Repository
+            </small>
+
+        </div>
+
+
+        <div class="architecture-arrow">
+            →
+        </div>
+
+
+        <div class="architecture-box">
+
+            Policy Engine
+
+            <small>
+                Access Policies
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <h3>
+        3.1 Data Flow
+    </h3>
+
+
+    <ol>
+
+        <li>
+            The integration service authenticates
+            with the Identity Provider.
+        </li>
+
+        <li>
+            The service retrieves supported user
+            and group attributes.
+        </li>
+
+        <li>
+            SPM validates the received information.
+        </li>
+
+        <li>
+            New and updated identities are synchronized.
+        </li>
+
+        <li>
+            Removed identities are processed according
+            to the configured synchronization policy.
+        </li>
+
+    </ol>
+
+</section>
+
+
+
+<!-- =========================
+     4. PREREQUISITES
+========================= -->
+
+<section id="prerequisites">
+
+    <h2>
+        4. Prerequisites
+    </h2>
+
+
+    <p>
+        Complete the following prerequisites before
+        configuring the integration.
+    </p>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Requirement
+                    </th>
+
+                    <th>
+                        Description
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Administrator Access
+                    </td>
+
+                    <td>
+                        SPM administrator privileges are required
+                        to configure the integration.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        IdP Administrator Access
+                    </td>
+
+                    <td>
+                        Access to create and configure the
+                        integration application in the IdP.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Network Connectivity
+                    </td>
+
+                    <td>
+                        The SPM integration service must be
+                        able to reach the IdP endpoints.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Integration Credentials
+                    </td>
+
+                    <td>
+                        Client credentials or another supported
+                        authentication mechanism must be available.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        User and Group Data
+                    </td>
+
+                    <td>
+                        Required identity attributes must be
+                        available in the IdP.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="warning">
+
+        <strong>
+            Security Note:
+        </strong>
+
+        Store client secrets, access tokens, certificates,
+        and other credentials using an approved secrets
+        management mechanism. Do not place credentials
+        directly in documentation or source repositories.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     5. CONFIGURATION
+========================= -->
+
+<section id="configuration">
+
+    <h2>
+        5. Configure the Integration
+    </h2>
+
+
+    <p>
+        Configure the Identity Provider integration
+        from the SPM administration console.
+    </p>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Open Administration
+                </h3>
+
+                <p>
+                    Sign in to the SPM administration
+                    console and open
+                    <strong>Administration → Integrations</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Create an Integration
+                </h3>
+
+                <p>
+                    Click <strong>Add Integration</strong>
+                    and select <strong>Identity Provider</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Enter Connection Details
+                </h3>
+
+                <p>
+                    Enter the IdP tenant, endpoint,
+                    client identifier, and other required
+                    connection information.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                4
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Configure Synchronization
+                </h3>
+
+                <p>
+                    Select the users and groups that
+                    should be synchronized and configure
+                    the synchronization schedule.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                5
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Save the Configuration
+                </h3>
+
+                <p>
+                    Review the configuration and click
+                    <strong>Save</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <h3>
+        5.1 Connection Parameters
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Parameter
+                    </th>
+
+                    <th>
+                        Description
+                    </th>
+
+                    <th>
+                        Example
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Provider Name
+                    </td>
+
+                    <td>
+                        Display name of the Identity Provider.
+                    </td>
+
+                    <td>
+                        Corporate Identity
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Tenant ID
+                    </td>
+
+                    <td>
+                        Identifier of the IdP tenant.
+                    </td>
+
+                    <td>
+                        tenant-001
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Directory URL
+                    </td>
+
+                    <td>
+                        Base URL used to access the
+                        Identity Provider.
+                    </td>
+
+                    <td>
+                        https://idp.example.com
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Client ID
+                    </td>
+
+                    <td>
+                        Identifier assigned to the SPM
+                        integration application.
+                    </td>
+
+                    <td>
+                        spm-integration-client
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Sync Interval
+                    </td>
+
+                    <td>
+                        Frequency at which identity data
+                        is synchronized.
+                    </td>
+
+                    <td>
+                        30 minutes
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     6. AUTHENTICATION
+========================= -->
+
+<section id="authentication">
+
+    <h2>
+        6. Authentication
+    </h2>
+
+
+    <p>
+        SPM uses an application identity to authenticate
+        requests to the Identity Provider.
+    </p>
+
+
+    <h3>
+        6.1 Example Authentication Configuration
+    </h3>
+
+
+    <pre>
+{
+    "authentication": {
+        "type": "client_credentials",
+        "clientId": "spm-integration-client",
+        "tokenEndpoint": "https://idp.example.com/oauth2/token"
+    }
+}
+    </pre>
+
+
+    <div class="warning">
+
+        <strong>
+            Important:
+        </strong>
+
+        The configuration above is an illustrative
+        example. Never publish real client IDs,
+        client secrets, tokens, or private keys
+        in a public repository.
+
+    </div>
+
+
+    <h3>
+        6.2 Test Authentication
+    </h3>
+
+
+    <p>
+        Use the <strong>Test Connection</strong>
+        option in the SPM integration configuration
+        page to verify that the configured credentials
+        can authenticate successfully.
+    </p>
+
+
+    <div class="note">
+
+        <strong>
+            Expected Result:
+        </strong>
+
+        The console displays a successful connection
+        message and allows the integration configuration
+        to proceed.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     7. ATTRIBUTE MAPPING
+========================= -->
+
+<section id="mapping">
+
+    <h2>
+        7. Attribute Mapping
+    </h2>
+
+
+    <p>
+        Attribute mapping defines how identity fields
+        from the Identity Provider are represented
+        within SPM.
+    </p>
+
+
+    <h3>
+        7.1 User Attribute Mapping
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        IdP Attribute
+                    </th>
+
+                    <th>
+                        SPM Attribute
+                    </th>
+
+                    <th>
+                        Required
+                    </th>
+
+                    <th>
+                        Example
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        userId
+                    </td>
+
+                    <td>
+                        External ID
+                    </td>
+
+                    <td>
+                        Yes
+                    </td>
+
+                    <td>
+                        usr-10245
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        userPrincipalName
+                    </td>
+
+                    <td>
+                        Username
+                    </td>
+
+                    <td>
+                        Yes
+                    </td>
+
+                    <td>
+                        alex.smith@example.com
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        displayName
+                    </td>
+
+                    <td>
+                        Display Name
+                    </td>
+
+                    <td>
+                        Yes
+                    </td>
+
+                    <td>
+                        Alex Smith
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        mail
+                    </td>
+
+                    <td>
+                        Email
+                    </td>
+
+                    <td>
+                        No
+                    </td>
+
+                    <td>
+                        alex.smith@example.com
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        accountEnabled
+                    </td>
+
+                    <td>
+                        Status
+                    </td>
+
+                    <td>
+                        Yes
+                    </td>
+
+                    <td>
+                        true
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        7.2 Group Attribute Mapping
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        IdP Attribute
+                    </th>
+
+                    <th>
+                        SPM Attribute
+                    </th>
+
+                    <th>
+                        Description
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        groupId
+                    </td>
+
+                    <td>
+                        External ID
+                    </td>
+
+                    <td>
+                        Unique identifier of the group.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        displayName
+                    </td>
+
+                    <td>
+                        Group Name
+                    </td>
+
+                    <td>
+                        Name displayed in SPM.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        members
+                    </td>
+
+                    <td>
+                        Members
+                    </td>
+
+                    <td>
+                        Users associated with the group.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     8. SYNCHRONIZATION
+========================= -->
+
+<section id="sync">
+
+    <h2>
+        8. Synchronization
+    </h2>
+
+
+    <p>
+        Synchronization transfers supported identity
+        information from the Identity Provider to SPM.
+    </p>
+
+
+    <h3>
+        8.1 Synchronization Modes
+    </h3>
+
+
+    <div class="card-grid">
+
+
+        <div class="card">
+
+            <h3>
+                Manual Sync
+            </h3>
+
+            <p>
+                Administrators can initiate synchronization
+                on demand.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Scheduled Sync
+            </h3>
+
+            <p>
+                SPM automatically synchronizes identity
+                information according to the configured
+                schedule.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <h3>
+        8.2 Start a Manual Synchronization
+    </h3>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Open Integrations
+                </h3>
+
+                <p>
+                    Navigate to
+                    <strong>Administration → Integrations</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Select the IdP Integration
+                </h3>
+
+                <p>
+                    Select the configured Identity Provider
+                    integration.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Start Synchronization
+                </h3>
+
+                <p>
+                    Click <strong>Sync Now</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                4
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Review Results
+                </h3>
+
+                <p>
+                    Review the synchronization summary
+                    and verify created, updated, skipped,
+                    and failed records.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <h3>
+        8.3 Synchronization Results
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Meaning
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Created
+                    </td>
+
+                    <td>
+                        New identity record was created in SPM.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Updated
+                    </td>
+
+                    <td>
+                        Existing identity information was updated.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Skipped
+                    </td>
+
+                    <td>
+                        Record was not processed because it did
+                        not meet the synchronization criteria.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Failed
+                    </td>
+
+                    <td>
+                        Record could not be synchronized.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     9. VALIDATION
+========================= -->
+
+<section id="validation">
+
+    <h2>
+        9. Validate the Integration
+    </h2>
+
+
+    <p>
+        Complete the following validation checks after
+        the first successful synchronization.
+    </p>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Validation
+                    </th>
+
+                    <th>
+                        Expected Result
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Connection Test
+                    </td>
+
+                    <td>
+                        Connection test succeeds.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        User Synchronization
+                    </td>
+
+                    <td>
+                        Expected users appear in SPM.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Group Synchronization
+                    </td>
+
+                    <td>
+                        Expected groups appear in SPM.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Attribute Mapping
+                    </td>
+
+                    <td>
+                        User and group fields contain
+                        expected values.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Policy Assignment
+                    </td>
+
+                    <td>
+                        Synchronized groups can be selected
+                        for supported policy assignments.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Scheduled Sync
+                    </td>
+
+                    <td>
+                        The next scheduled synchronization
+                        executes successfully.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="note">
+
+        <strong>
+            Validation Complete:
+        </strong>
+
+        The integration is ready for operational use
+        when connection, synchronization, mapping,
+        and policy assignment checks are successful.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     10. TROUBLESHOOTING
+========================= -->
+
+<section id="troubleshooting">
+
+    <h2>
+        10. Troubleshooting
+    </h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Issue
+                    </th>
+
+                    <th>
+                        Possible Cause
+                    </th>
+
+                    <th>
+                        Resolution
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Connection test fails
+                    </td>
+
+                    <td>
+                        Incorrect endpoint or credentials.
+                    </td>
+
+                    <td>
+                        Verify the IdP URL, tenant information,
+                        and authentication configuration.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Users are not synchronized
+                    </td>
+
+                    <td>
+                        Synchronization filters or attribute
+                        mappings are incorrect.
+                    </td>
+
+                    <td>
+                        Review synchronization criteria and
+                        required attribute mappings.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Groups are missing
+                    </td>
+
+                    <td>
+                        Group synchronization is disabled
+                        or the configured scope excludes
+                        the required groups.
+                    </td>
+
+                    <td>
+                        Verify group synchronization settings
+                        and scope.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        User attributes are incorrect
+                    </td>
+
+                    <td>
+                        Attribute mapping does not match
+                        the IdP schema.
+                    </td>
+
+                    <td>
+                        Review and update the attribute mapping.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Scheduled sync fails
+                    </td>
+
+                    <td>
+                        Network connectivity or credential
+                        issues.
+                    </td>
+
+                    <td>
+                        Review integration logs and verify
+                        connectivity and credentials.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        10.1 Integration Logs
+    </h3>
+
+
+    <p>
+        Review the integration logs when additional
+        diagnostic information is required.
+    </p>
+
+
+    <pre>
+C:\ProgramData\SentinelPM\Logs\Integration\
+    </pre>
+
+
+    <div class="danger">
+
+        <strong>
+            Protect Log Data:
+        </strong>
+
+        Integration logs may contain usernames,
+        tenant information, endpoint details, or
+        diagnostic data. Do not publish production
+        logs in public repositories.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     11. ROLLBACK
+========================= -->
+
+<section id="rollback">
+
+    <h2>
+        11. Rollback
+    </h2>
+
+
+    <p>
+        If the integration causes unexpected behavior,
+        administrators can disable synchronization
+        while investigating the issue.
+    </p>
+
+
+    <h3>
+        11.1 Disable Synchronization
+    </h3>
+
+
+    <ol>
+
+        <li>
+            Open
+            <strong>Administration → Integrations</strong>.
+        </li>
+
+        <li>
+            Select the affected Identity Provider integration.
+        </li>
+
+        <li>
+            Disable scheduled synchronization.
+        </li>
+
+        <li>
+            Save the configuration.
+        </li>
+
+        <li>
+            Review existing synchronized records and
+            determine the appropriate remediation.
+        </li>
+
+    </ol>
+
+
+    <div class="warning">
+
+        <strong>
+            Important:
+        </strong>
+
+        Disabling synchronization does not necessarily
+        remove previously synchronized identities.
+        Review the platform's identity lifecycle
+        configuration before deleting records.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     12. BEST PRACTICES
+========================= -->
+
+<section id="best-practices">
+
+    <h2>
+        12. Integration Best Practices
+    </h2>
+
+
+    <ul>
+
+        <li>
+            Use dedicated integration credentials
+            rather than personal administrator accounts.
+        </li>
+
+        <li>
+            Store secrets in an approved secrets
+            management system.
+        </li>
+
+        <li>
+            Grant only the permissions required
+            for synchronization.
+        </li>
+
+        <li>
+            Test the integration with a limited
+            synchronization scope before production rollout.
+        </li>
+
+        <li>
+            Monitor synchronization results and
+            investigate repeated failures.
+        </li>
+
+        <li>
+            Document changes to attribute mappings
+            and synchronization filters.
+        </li>
+
+        <li>
+            Maintain a rollback procedure for
+            integration changes.
+        </li>
+
+        <li>
+            Review integration credentials and
+            certificates according to organizational
+            security requirements.
+        </li>
+
+    </ul>
+
+
+    <div class="info-box">
+
+        <strong>
+            Operational Recommendation
+        </strong>
+
+        Treat integrations as managed production
+        components. Maintain documented ownership,
+        configuration, monitoring, troubleshooting,
+        and change procedures.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     DOCUMENT INFORMATION
+========================= -->
+
+<section>
+
+    <h2>
+        Document Information
+    </h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <tbody>
+
+                <tr>
+
+                    <th>
+                        Document Type
+                    </th>
+
+                    <td>
+                        Integration Guide
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Product
+                    </th>
+
+                    <td>
+                        Sentinel Privilege Manager
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Integration
+                    </th>
+
+                    <td>
+                        Identity Provider
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Version
+                    </th>
+
+                    <td>
+                        3.2
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Audience
+                    </th>
+
+                    <td>
+                        System Administrators,
+                        Security Administrators,
+                        and Integration Engineers
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <td>
+                        Portfolio Sample
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Author
+                    </th>
+
+                    <td>
+                        Anshula Raina
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="warning">
+
+        <strong>
+            Portfolio Disclaimer:
+        </strong>
+
+        Sentinel Privilege Manager and the integration
+        scenario described in this document are fictional.
+        URLs, configuration values, attributes, commands,
+        and procedures are illustrative examples created
+        for portfolio demonstration purposes.
+
+    </div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+
+        <strong>
+            Sentinel Privilege Manager
+        </strong>
+
+        — Identity Provider Integration Guide
+
+    </p>
+
+
+    <p>
+
+        Portfolio sample created by
+
+        <a href="index.html">
+            Anshula Raina
+        </a>
+
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
