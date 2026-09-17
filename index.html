@@ -1,174 +1,1266 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anshula Raina — Technical Writer Portfolio</title>
+
+<title>Anshula Raina — Technical Writer & Documentation Specialist</title>
+
+<meta name="description" content="Technical writing portfolio of Anshula Raina, showcasing product documentation, API documentation, runbooks, SOPs, troubleshooting guides, release notes, and technical documentation.">
+
 <style>
   :root {
     --ink: #1f2937;
     --muted: #6b7280;
     --accent: #1f3864;
+    --accent-light: #eef3f9;
     --line: #e5e7eb;
     --bg: #ffffff;
+    --soft-bg: #f8fafc;
   }
-  * { box-sizing: border-box; }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Helvetica, Arial, sans-serif;
     color: var(--ink);
     background: var(--bg);
-    line-height: 1.6;
+    line-height: 1.65;
   }
-  header {
-    max-width: 760px;
+
+  a {
+    color: var(--accent);
+  }
+
+  /* Navigation */
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.96);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-inner {
+    max-width: 960px;
     margin: 0 auto;
-    padding: 64px 24px 32px;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-  header h1 {
-    font-size: 2rem;
-    margin: 0 0 4px;
+
+  .nav-name {
+    font-weight: 700;
     color: var(--accent);
   }
-  header p.role {
-    font-size: 1.1rem;
-    color: var(--muted);
-    margin: 0 0 20px;
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
   }
-  header p.bio {
-    max-width: 620px;
-  }
-  .links a {
-    color: var(--accent);
+
+  .nav-links a {
     text-decoration: none;
-    margin-right: 16px;
-    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--muted);
   }
-  .links a:hover { text-decoration: underline; }
+
+  .nav-links a:hover {
+    color: var(--accent);
+  }
+
+  /* Header */
+
+  header {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 88px 24px 64px;
+  }
+
+  .eyebrow {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.1;
+    margin: 0 0 12px;
+    color: var(--accent);
+  }
+
+  header .role {
+    font-size: 1.25rem;
+    color: var(--muted);
+    margin: 0 0 24px;
+  }
+
+  header .bio {
+    max-width: 760px;
+    font-size: 1.05rem;
+  }
+
+  .header-actions {
+    margin-top: 28px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid var(--accent);
+  }
+
+  .button.primary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .button.secondary {
+    background: white;
+    color: var(--accent);
+  }
+
+  /* Main */
 
   main {
-    max-width: 760px;
+    max-width: 960px;
     margin: 0 auto;
     padding: 0 24px 80px;
   }
+
   section {
     border-top: 1px solid var(--line);
-    padding: 32px 0;
+    padding: 56px 0;
   }
+
   section h2 {
-    font-size: 1.3rem;
+    font-size: 1.7rem;
     color: var(--accent);
-    margin: 0 0 16px;
+    margin: 0 0 10px;
   }
+
+  .section-intro {
+    max-width: 700px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  /* About */
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .about-box {
+    background: var(--soft-bg);
+    padding: 24px;
+    border-radius: 10px;
+  }
+
+  .about-box h3 {
+    margin-top: 0;
+    color: var(--accent);
+  }
+
+  /* Documentation cards */
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
   .sample-card {
     border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 16px;
+    border-radius: 10px;
+    padding: 24px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
+
+  .sample-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(31,56,100,0.08);
+  }
+
   .sample-card h3 {
-    margin: 0 0 6px;
-    font-size: 1.05rem;
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+    color: var(--accent);
   }
+
   .sample-card p {
-    margin: 0 0 10px;
+    margin: 0 0 14px;
     color: var(--muted);
     font-size: 0.95rem;
   }
-  .sample-card a {
+
+  .sample-type {
+    display: inline-block;
+    background: var(--accent-light);
     color: var(--accent);
-    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .sample-card a {
+    font-weight: 600;
     text-decoration: none;
   }
-  .sample-card a:hover { text-decoration: underline; }
+
+  .sample-card a:hover {
+    text-decoration: underline;
+  }
+
+  /* Documentation types */
+
+  .documentation-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .documentation-item {
+    border: 1px solid var(--line);
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .documentation-item strong {
+    display: block;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .documentation-item span {
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+
+  /* Skills */
 
   .skills-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 9px;
   }
+
   .skills-list span {
     background: #f3f4f6;
     border-radius: 999px;
-    padding: 4px 12px;
-    font-size: 0.85rem;
+    padding: 6px 13px;
+    font-size: 0.88rem;
     color: var(--ink);
   }
 
+  /* Tools */
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .tool {
+    border: 1px solid var(--line);
+    padding: 18px;
+    border-radius: 8px;
+  }
+
+  .tool strong {
+    color: var(--accent);
+  }
+
+  .tool p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin: 5px 0 0;
+  }
+
+  /* Methodology */
+
+  .process {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .process-step {
+    background: var(--soft-bg);
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .process-number {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.85rem;
+  }
+
+  .process-step h3 {
+    font-size: 1rem;
+    margin: 8px 0 5px;
+  }
+
+  .process-step p {
+    font-size: 0.86rem;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* Experience */
+
+  .experience {
+    border-left: 3px solid var(--accent);
+    padding-left: 22px;
+  }
+
+  .experience h3 {
+    margin: 0 0 3px;
+  }
+
+  .experience .company {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .experience ul {
+    margin-top: 16px;
+  }
+
+  /* Privacy note */
+
+  .note {
+    background: #f8fafc;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    padding: 18px 20px;
+    border-radius: 6px;
+    color: var(--muted);
+  }
+
+  /* Contact */
+
+  .contact-box {
+    background: var(--accent-light);
+    padding: 32px;
+    border-radius: 10px;
+  }
+
+  .contact-box h3 {
+    color: var(--accent);
+    margin-top: 0;
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .contact-links a {
+    font-weight: 600;
+  }
+
+  /* Footer */
+
   footer {
-    max-width: 760px;
+    max-width: 960px;
     margin: 0 auto;
     padding: 24px 24px 64px;
     color: var(--muted);
     font-size: 0.9rem;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Responsive */
+
+  @media (max-width: 760px) {
+
+    .nav-inner {
+      align-items: flex-start;
+      gap: 10px;
+      flex-direction: column;
+    }
+
+    header {
+      padding-top: 60px;
+    }
+
+    .about-grid,
+    .card-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .documentation-list,
+    .tools-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .process {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 500px) {
+
+    .documentation-list,
+    .tools-grid,
+    .process {
+      grid-template-columns: 1fr;
+    }
+
+    .nav-links {
+      gap: 12px;
+    }
   }
 </style>
+
 </head>
+
 <body>
 
-<header>
-  <h1>Anshula Raina</h1>
-  <p class="role">Technical Writer — B2B SaaS &amp; Cybersecurity Documentation</p>
-  <p class="bio">
-    I write client-facing documentation, release notes, admin guides, and API docs for
-    SaaS cybersecurity products, and build video walkthroughs to help users onboard faster.
-    Currently a Technical Documentation Specialist at Arcon Tech Solutions, Mumbai.
-  </p>
-  <div class="links">
-    <a href="mailto:anshularaina16@gmail.com">Email</a>
-    <a href="#" target="_blank">LinkedIn</a>
-    <a href="https://github.com/anshula07" target="_blank">GitHub</a>
+<!-- Navigation -->
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-name">Anshula Raina</div>
+
+```
+<div class="nav-links">
+  <a href="#about">About</a>
+  <a href="#samples">Work</a>
+  <a href="#documentation">Documentation</a>
+  <a href="#skills">Skills</a>
+  <a href="#process">Approach</a>
+  <a href="#contact">Contact</a>
+</div>
+```
+
   </div>
+</nav>
+
+<!-- Hero -->
+
+<header>
+
+  <div class="eyebrow">Technical Writing Portfolio</div>
+
+  <h1>Anshula Raina</h1>
+
+  <p class="role">
+    Technical Writer &amp; Documentation Specialist —
+    B2B SaaS &amp; Cybersecurity
+  </p>
+
+  <p class="bio">
+    I create clear, structured, and user-focused technical documentation
+    for enterprise software and cybersecurity products. My work includes
+    product documentation, administrator and user guides, installation
+    documentation, release notes, API and integration documentation,
+    troubleshooting content, and operational documentation.
+  </p>
+
+  <div class="header-actions">
+    <a class="button primary" href="#samples">View Documentation</a>
+
+```
+<a class="button secondary"
+   href="https://github.com/anshula07"
+   target="_blank"
+   rel="noopener">
+   GitHub
+</a>
+```
+
+  </div>
+
 </header>
 
 <main>
 
-  <section id="samples">
-    <h2>Writing Samples</h2>
+<!-- About -->
 
-    <div class="sample-card">
-      <h3>Sample Admin Guide</h3>
-      <p>Placeholder — replace with a short case study and a link or PDF once you've added the sample.</p>
-   <a href="admin-guide-profile-creation.html">View sample →</a>   
-    </div>
+<section id="about">
 
-    <div class="sample-card">
-      <h3>Sample Release Notes</h3>
-      <p>Placeholder — replace with a short case study and a link or PDF once you've added the sample.</p>
-      <a href="#">View sample →</a>
-    </div>
+  <h2>About Me</h2>
 
-    <div class="sample-card">
-      <h3>Sample API Documentation</h3>
-      <p>Placeholder — replace with a short case study and a link or PDF once you've added the sample.</p>
-      <a href="#">View sample →</a>
-    </div>
+  <p class="section-intro">
+    Technical writer focused on transforming complex technical information
+    into documentation that is accurate, accessible, searchable, and useful
+    for its intended audience.
+  </p>
 
-    <div class="sample-card">
-      <h3>Video Walkthrough</h3>
-      <p>Placeholder — embed or link a Guidde walkthrough video here once ready.</p>
-      <a href="#">Watch sample →</a>
-    </div>
-  </section>
+  <div class="about-grid">
 
-  <section id="skills">
-    <h2>Skills</h2>
-    <div class="skills-list">
-      <span>User &amp; Admin Guides</span>
-      <span>Release Notes</span>
-      <span>API Documentation</span>
-      <span>Jira &amp; Confluence</span>
-      <span>Agile/Scrum</span>
-      <span>AI Video Tools (Guidde)</span>
-      <span>DITA / XML / Oxygen</span>
-      <span>Content Editing</span>
-    </div>
-  </section>
+```
+<div class="about-box">
+
+  <h3>What I Do</h3>
+
+  <p>
+    I work across the documentation lifecycle — from understanding
+    product requirements and technical workflows to structuring,
+    writing, reviewing, publishing, and maintaining documentation.
+  </p>
+
+  <p>
+    My documentation experience covers enterprise cybersecurity
+    products, SaaS applications, product workflows, integrations,
+    administrative processes, and technical configurations.
+  </p>
+
+</div>
+
+<div class="about-box">
+
+  <h3>Documentation Focus</h3>
+
+  <p>
+    My approach combines task-oriented writing, information
+    architecture, consistent terminology, clear procedures,
+    structured content, and audience-focused documentation.
+  </p>
+
+  <p>
+    I also create supporting training and video content to help
+    users understand products and complete workflows more effectively.
+  </p>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- Featured Samples -->
+
+<section id="samples">
+
+  <h2>Featured Documentation</h2>
+
+  <p class="section-intro">
+    A selection of documentation samples demonstrating different
+    technical writing formats and audiences. Portfolio samples may use
+    fictional products and generalized technical information to protect
+    confidential or proprietary content.
+  </p>
+
+  <div class="card-grid">
+
+```
+<div class="sample-card">
+
+  <span class="sample-type">Product Documentation</span>
+
+  <h3>Sample Administrator Guide</h3>
+
+  <p>
+    Step-by-step administrator documentation demonstrating user
+    management, configuration, permissions, and administrative
+    workflows for a fictional enterprise application.
+  </p>
+
+  <a href="admin-guide-profile-creation.html">
+    View sample →
+  </a>
+
+</div>
+
+
+<div class="sample-card">
+
+  <span class="sample-type">Getting Started</span>
+
+  <h3>Quick Start Guide</h3>
+
+  <p>
+    A concise getting-started guide designed to take a new user
+    from prerequisites through initial configuration and first use.
+  </p>
+
+  <a href="quick-start-guide.html">
+    View sample →
+  </a>
+
+</div>
+
+
+<div class="sample-card">
+
+  <span class="sample-type">Installation</span>
+
+  <h3>Installation &amp; Configuration Guide</h3>
+
+  <p>
+    Technical documentation covering prerequisites, installation,
+    configuration, validation, and common post-installation issues.
+  </p>
+
+  <a href="installation-guide.html">
+    View sample →
+  </a>
+
+</div>
+
+
+<div class="sample-card">
+
+  <span class="sample-type">API Documentation</span>
+
+  <h3>REST API Documentation</h3>
+
+  <p>
+    Developer-focused API documentation covering authentication,
+    endpoints, parameters, request and response examples, and
+    error handling.
+  </p>
+
+  <a href="api-documentation.html">
+    View sample →
+  </a>
+
+</div>
+
+
+<div class="sample-card">
+
+  <span class="sample-type">Integration</span>
+
+  <h3>Integration Guide</h3>
+
+  <p>
+    Documentation demonstrating how two enterprise systems
+    communicate through APIs, including prerequisites, configuration,
+    authentication, workflows, and troubleshooting.
+  </p>
+
+  <a href="integration-guide.html">
+    View sample →
+  </a>
+
+</div>
+
+
+<div class="sample-card">
+
+  <span class="sample-type">Operations</span>
+
+  <h3>Production Deployment Runbook</h3>
+
+  <p>
+    An operational runbook covering pre-deployment checks,
+    deployment steps, validation, monitoring, rollback, and
+    post-deployment verification.
+  </p>
+
+  <a href="deployment-runbook.html">
+    View sample →
+  </a>
+
+</div>
+
+
+<div class="sample-card">
+
+  <span class="sample-type">Process Documentation</span>
+
+  <h3>Standard Operating Procedure</h3>
+
+  <p>
+    A structured SOP demonstrating how a repeatable operational
+    process can be documented with roles, prerequisites, steps,
+    controls, and verification.
+  </p>
+
+  <a href="sop.html">
+    View sample →
+  </a>
+
+</div>
+
+
+<div class="sample-card">
+
+  <span class="sample-type">Support Documentation</span>
+
+  <h3>Troubleshooting Guide</h3>
+
+  <p>
+    Problem-oriented documentation organized around symptoms,
+    possible causes, resolution steps, and verification.
+  </p>
+
+  <a href="troubleshooting-guide.html">
+    View sample →
+  </a>
+
+</div>
+
+
+<div class="sample-card">
+
+  <span class="sample-type">Product Lifecycle</span>
+
+  <h3>Sample Release Notes</h3>
+
+  <p>
+    Concise release documentation covering new features,
+    enhancements, fixes, security updates, and other product
+    changes.
+  </p>
+
+  <a href="release-notes.html">
+    View sample →
+  </a>
+
+</div>
+
+
+<div class="sample-card">
+
+  <span class="sample-type">Engineering Documentation</span>
+
+  <h3>System Architecture Document</h3>
+
+  <p>
+    Technical documentation describing system components,
+    relationships, data flow, integrations, dependencies,
+    and deployment architecture.
+  </p>
+
+  <a href="architecture-document.html">
+    View sample →
+  </a>
+
+</div>
+
+
+<div class="sample-card">
+
+  <span class="sample-type">Technical Decision</span>
+
+  <h3>Architecture Decision Record</h3>
+
+  <p>
+    A concise record documenting a technical decision, its context,
+    alternatives considered, rationale, and consequences.
+  </p>
+
+  <a href="adr.html">
+    View sample →
+  </a>
+
+</div>
+
+
+<div class="sample-card">
+
+  <span class="sample-type">Training</span>
+
+  <h3>Product Training &amp; Video Walkthrough</h3>
+
+  <p>
+    A sample training workflow combining instructional content,
+    product walkthroughs, and task-focused explanations.
+  </p>
+
+  <a href="training.html">
+    View sample →
+  </a>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- Documentation Types -->
+
+<section id="documentation">
+
+  <h2>Documentation Expertise</h2>
+
+  <p class="section-intro">
+    Documentation formats I work with or am building portfolio
+    samples around.
+  </p>
+
+  <div class="documentation-list">
+
+```
+<div class="documentation-item">
+  <strong>User Guides</strong>
+  <span>Product usage and task-oriented guidance.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Administrator Guides</strong>
+  <span>Administration, configuration, and management workflows.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Quick Start Guides</strong>
+  <span>Focused getting-started and first-use experiences.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Installation Guides</strong>
+  <span>Prerequisites, installation, validation, and setup.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Configuration Guides</strong>
+  <span>System and product configuration procedures.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>How-to Guides</strong>
+  <span>Task-focused instructions for specific goals.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>API Documentation</strong>
+  <span>Endpoints, parameters, schemas, examples, and errors.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Integration Guides</strong>
+  <span>System integration and API-based workflows.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Reference Documentation</strong>
+  <span>Parameters, configuration values, commands, and technical details.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Runbooks</strong>
+  <span>Operational procedures for repeatable technical activities.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>SOPs</strong>
+  <span>Standardized organizational processes.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Troubleshooting</strong>
+  <span>Problem, cause, resolution, and verification content.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Knowledge Base Articles</strong>
+  <span>Searchable solutions to common user and support questions.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Release Notes</strong>
+  <span>Features, enhancements, fixes, and product changes.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Architecture Documentation</strong>
+  <span>Components, dependencies, integrations, and data flows.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Technical Specifications</strong>
+  <span>Detailed technical requirements and implementation information.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Training Documentation</strong>
+  <span>Training guides, walkthroughs, scripts, and learning material.</span>
+</div>
+
+<div class="documentation-item">
+  <strong>Documentation Standards</strong>
+  <span>Style, terminology, templates, and content governance.</span>
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- Skills -->
+
+<section id="skills">
+
+  <h2>Skills</h2>
+
+  <p class="section-intro">
+    Core technical writing, documentation, content, and collaboration skills.
+  </p>
+
+  <div class="skills-list">
+
+```
+<span>Technical Writing</span>
+<span>Product Documentation</span>
+<span>User Documentation</span>
+<span>Administrator Guides</span>
+<span>Quick Start Guides</span>
+<span>Installation Documentation</span>
+<span>Configuration Documentation</span>
+<span>API Documentation</span>
+<span>REST APIs</span>
+<span>Integration Documentation</span>
+<span>Runbooks</span>
+<span>SOPs</span>
+<span>Process Documentation</span>
+<span>Troubleshooting</span>
+<span>Knowledge Base Content</span>
+<span>Release Notes</span>
+<span>Technical Specifications</span>
+<span>Information Architecture</span>
+<span>Content Editing</span>
+<span>Content Structuring</span>
+<span>Documentation Maintenance</span>
+<span>Agile/Scrum</span>
+<span>Cross-functional Collaboration</span>
+<span>Content Governance</span>
+```
+
+  </div>
+
+</section>
+
+<!-- Tools -->
+
+<section id="tools">
+
+  <h2>Tools &amp; Technologies</h2>
+
+  <p class="section-intro">
+    Tools and technologies used for documentation development,
+    collaboration, publishing, and technical content creation.
+  </p>
+
+  <div class="tools-grid">
+
+```
+<div class="tool">
+  <strong>Confluence</strong>
+  <p>Documentation, knowledge bases, and collaborative content.</p>
+</div>
+
+<div class="tool">
+  <strong>GitHub</strong>
+  <p>Version-controlled documentation and portfolio publishing.</p>
+</div>
+
+<div class="tool">
+  <strong>Markdown</strong>
+  <p>Structured documentation and docs-as-code workflows.</p>
+</div>
+
+<div class="tool">
+  <strong>Jira</strong>
+  <p>Agile workflows, requirements, issues, and documentation tracking.</p>
+</div>
+
+<div class="tool">
+  <strong>Swagger / OpenAPI</strong>
+  <p>REST API exploration and API documentation.</p>
+</div>
+
+<div class="tool">
+  <strong>Microsoft Word</strong>
+  <p>Structured documents, guides, and professional deliverables.</p>
+</div>
+
+<div class="tool">
+  <strong>Microsoft PowerPoint</strong>
+  <p>Training presentations, product walkthroughs, and instructional content.</p>
+</div>
+
+<div class="tool">
+  <strong>HTML / CSS</strong>
+  <p>Web-based documentation and portfolio development.</p>
+</div>
+
+<div class="tool">
+  <strong>JSON</strong>
+  <p>Configuration structures, API examples, and technical references.</p>
+</div>
+
+<div class="tool">
+  <strong>Guidde</strong>
+  <p>AI-assisted video walkthroughs and instructional content.</p>
+</div>
+
+<div class="tool">
+  <strong>DITA / XML</strong>
+  <p>Structured authoring and modular documentation concepts.</p>
+</div>
+
+<div class="tool">
+  <strong>Oxygen XML Editor</strong>
+  <p>Structured XML and DITA content development.</p>
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- Documentation Approach -->
+
+<section id="process">
+
+  <h2>My Documentation Approach</h2>
+
+  <p class="section-intro">
+    I approach documentation as a structured product rather than
+    simply a collection of written pages.
+  </p>
+
+  <div class="process">
+
+```
+<div class="process-step">
+  <div class="process-number">01</div>
+  <h3>Understand</h3>
+  <p>
+    Identify the audience, product, workflow, user goal,
+    prerequisites, and technical context.
+  </p>
+</div>
+
+<div class="process-step">
+  <div class="process-number">02</div>
+  <h3>Structure</h3>
+  <p>
+    Define the information architecture, document type,
+    navigation, sections, and content hierarchy.
+  </p>
+</div>
+
+<div class="process-step">
+  <div class="process-number">03</div>
+  <h3>Write</h3>
+  <p>
+    Create clear, concise, task-oriented content using
+    consistent terminology and formatting.
+  </p>
+</div>
+
+<div class="process-step">
+  <div class="process-number">04</div>
+  <h3>Validate &amp; Maintain</h3>
+  <p>
+    Review technical accuracy, incorporate feedback,
+    publish, version, and maintain documentation.
+  </p>
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- Experience -->
+
+<section id="experience">
+
+  <h2>Professional Experience</h2>
+
+  <div class="experience">
+
+```
+<h3>Technical Writer / Technical Documentation Specialist</h3>
+
+<div class="company">
+  Arcon Tech Solutions · Mumbai
+</div>
+
+<ul>
+  <li>
+    Create and maintain technical documentation for enterprise
+    cybersecurity products.
+  </li>
+
+  <li>
+    Develop user guides, administrator guides, quick start guides,
+    installation documentation, and product documentation.
+  </li>
+
+  <li>
+    Create release notes describing product features,
+    enhancements, and fixes.
+  </li>
+
+  <li>
+    Document product workflows, configurations, integrations,
+    APIs, and technical procedures.
+  </li>
+
+  <li>
+    Develop training material and product walkthrough content
+    to support user onboarding and learning.
+  </li>
+
+  <li>
+    Collaborate with product, engineering, QA, and other
+    stakeholders to understand technical changes and validate content.
+  </li>
+
+  <li>
+    Structure and maintain documentation in collaborative
+    documentation environments.
+  </li>
+</ul>
+```
+
+  </div>
+
+</section>
+
+<!-- Documentation Philosophy -->
+
+<section>
+
+  <h2>Documentation Principles</h2>
+
+  <div class="about-grid">
+
+```
+<div class="about-box">
+  <h3>Audience First</h3>
+  <p>
+    Documentation should be written for the person using it,
+    with terminology, depth, and structure appropriate to their
+    knowledge and goal.
+  </p>
+</div>
+
+<div class="about-box">
+  <h3>Task Focused</h3>
+  <p>
+    Procedures should help users complete tasks efficiently,
+    with prerequisites, steps, expected results, and verification
+    where appropriate.
+  </p>
+</div>
+
+<div class="about-box">
+  <h3>Consistent</h3>
+  <p>
+    Consistent terminology, headings, UI references, formatting,
+    and information structure make documentation easier to use.
+  </p>
+</div>
+
+<div class="about-box">
+  <h3>Maintainable</h3>
+  <p>
+    Documentation should be structured so that it can be reviewed,
+    versioned, updated, and maintained as products evolve.
+  </p>
+</div>
+```
+
+  </div>
+
+</section>
+
+<!-- Portfolio Note -->
+
+<section>
+
+  <div class="note">
+
+```
+<strong>Portfolio Note:</strong><br>
+
+The samples in this portfolio are created for demonstration
+purposes. Fictional product names, organizations, configurations,
+URLs, credentials, and other technical details are used where
+appropriate. No confidential or proprietary company documentation
+is published in this portfolio.
+```
+
+  </div>
+
+</section>
+
+<!-- Contact -->
+
+<section id="contact">
+
+  <div class="contact-box">
+
+```
+<h3>Let's Connect</h3>
+
+<p>
+  I'm interested in opportunities involving technical writing,
+  product documentation, documentation operations, knowledge
+  management, and documentation/runbook development.
+</p>
+
+<div class="contact-links">
+
+  <a href="mailto:anshularaina16@gmail.com">
+    Email
+  </a>
+
+  <a href="https://github.com/anshula07"
+     target="_blank"
+     rel="noopener">
+    GitHub
+  </a>
+
+  <a href="https://www.linkedin.com/"
+     target="_blank"
+     rel="noopener">
+    LinkedIn
+  </a>
+
+</div>
+```
+
+  </div>
+
+</section>
 
 </main>
 
 <footer>
-  © 2026 Anshula Raina. Built with GitHub Pages.
+
+© 2026 Anshula Raina · Technical Writing Portfolio
+
 </footer>
 
 </body>
