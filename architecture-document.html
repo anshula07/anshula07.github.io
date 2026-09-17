@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SPM — System Architecture Document</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f8fb;
+            color: #263238;
+            line-height: 1.7;
+        }
+
+        a {
+            color: #0d8cd8;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #dfe7ee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0d8cd8;
+        }
+
+        nav a {
+            margin-left: 24px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .layout {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 35px;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 95px;
+            height: fit-content;
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 10px;
+            padding: 22px;
+        }
+
+        .sidebar h3 {
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #12344d;
+        }
+
+        .sidebar a {
+            display: block;
+            font-size: 13px;
+            padding: 7px 0;
+            color: #536775;
+        }
+
+        .sidebar a:hover {
+            color: #0d8cd8;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        .hero {
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 12px;
+            padding: 42px;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #eaf6fd;
+            color: #0d8cd8;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            line-height: 1.25;
+            color: #12344d;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: #5d6d78;
+            max-width: 850px;
+        }
+
+        .metadata {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .metadata div {
+            background: #f7fafc;
+            border: 1px solid #e5edf3;
+            padding: 13px;
+            border-radius: 7px;
+        }
+
+        .metadata strong {
+            display: block;
+            font-size: 11px;
+            color: #71818c;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .metadata span {
+            font-size: 13px;
+        }
+
+        section {
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 10px;
+            padding: 32px;
+            margin-bottom: 22px;
+        }
+
+        section h2 {
+            color: #0d8cd8;
+            font-size: 23px;
+            margin-bottom: 18px;
+        }
+
+        section h3 {
+            color: #12344d;
+            font-size: 17px;
+            margin: 22px 0 10px;
+        }
+
+        section p {
+            margin-bottom: 14px;
+        }
+
+        ul,
+        ol {
+            margin: 12px 0 18px 25px;
+        }
+
+        li {
+            margin-bottom: 7px;
+        }
+
+        .info-box,
+        .note-box,
+        .warning-box {
+            padding: 17px 20px;
+            border-radius: 7px;
+            margin: 18px 0;
+        }
+
+        .info-box {
+            background: #eef8fe;
+            border-left: 4px solid #0d8cd8;
+        }
+
+        .note-box {
+            background: #f4f8f4;
+            border-left: 4px solid #5a8f5a;
+        }
+
+        .warning-box {
+            background: #fff8e8;
+            border-left: 4px solid #e2a62b;
+        }
+
+        .architecture {
+            background: #f8fbfd;
+            border: 1px solid #dce7ee;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .architecture-row {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 15px;
+            margin: 15px 0;
+            min-width: 650px;
+        }
+
+        .component {
+            background: #ffffff;
+            border: 1px solid #bcd8e8;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            min-width: 145px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+
+        .component strong {
+            display: block;
+            color: #12344d;
+            margin-bottom: 5px;
+        }
+
+        .component span {
+            font-size: 11px;
+            color: #697b86;
+        }
+
+        .arrow-down {
+            text-align: center;
+            color: #0d8cd8;
+            font-size: 22px;
+            font-weight: bold;
+            margin: 3px 0;
+        }
+
+        .layer-label {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #71818c;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+        }
+
+        th {
+            background: #edf6fb;
+            color: #12344d;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #dce5eb;
+            padding: 12px 14px;
+            vertical-align: top;
+            font-size: 13px;
+        }
+
+        tr:nth-child(even) {
+            background: #fafcfd;
+        }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 25px 0;
+        }
+
+        .flow-item {
+            background: #eef8fe;
+            border: 1px solid #cfe7f5;
+            border-radius: 7px;
+            padding: 11px 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .flow-arrow {
+            color: #71818c;
+            font-weight: bold;
+        }
+
+        code {
+            background: #f0f3f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        pre {
+            background: #18252e;
+            color: #e8f0f4;
+            padding: 18px;
+            border-radius: 7px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #71818c;
+            font-size: 13px;
+        }
+
+        @media (max-width: 850px) {
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .metadata {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .hero,
+            section {
+                padding: 22px;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .metadata {
+                grid-template-columns: 1fr;
+            }
+
+            .header-container {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-container">
+
+        <div class="logo">
+            SPM Documentation
+        </div>
+
+        <nav>
+            <a href="index.html">Portfolio</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#components">Components</a>
+            <a href="#security">Security</a>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<div class="layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <h3>Contents</h3>
+
+        <a href="#overview">1. Overview</a>
+        <a href="#architecture">2. Architecture</a>
+        <a href="#components">3. Components</a>
+        <a href="#dataflow">4. Data Flow</a>
+        <a href="#deployment">5. Deployment Topology</a>
+        <a href="#integrations">6. Integrations</a>
+        <a href="#security">7. Security Architecture</a>
+        <a href="#availability">8. Availability</a>
+        <a href="#communication">9. Communication</a>
+        <a href="#document">10. Document Information</a>
+
+    </aside>
+
+
+    <main>
+
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <span class="badge">
+                SYSTEM ARCHITECTURE DOCUMENT
+            </span>
+
+            <h1>
+                Sentinel Privilege Manager — System Architecture
+            </h1>
+
+            <p>
+                This document describes the logical architecture,
+                major system components, communication paths,
+                deployment model, integrations, and security
+                boundaries of Sentinel Privilege Manager (SPM).
+            </p>
+
+            <div class="metadata">
+
+                <div>
+                    <strong>Product</strong>
+                    <span>Sentinel Privilege Manager</span>
+                </div>
+
+                <div>
+                    <strong>Document Type</strong>
+                    <span>Architecture</span>
+                </div>
+
+                <div>
+                    <strong>Version</strong>
+                    <span>1.0</span>
+                </div>
+
+                <div>
+                    <strong>Audience</strong>
+                    <span>Architects & Administrators</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- OVERVIEW -->
+
+        <section id="overview">
+
+            <h2>1. Overview</h2>
+
+            <p>
+                Sentinel Privilege Manager is an enterprise privilege
+                management platform designed to control and monitor
+                elevated access to applications and endpoints.
+            </p>
+
+            <p>
+                The platform consists of a centralized management
+                layer and endpoint agents. Administrators use the
+                web console to configure policies, manage users,
+                review privilege activity, and generate reports.
+            </p>
+
+            <div class="info-box">
+
+                <strong>Architecture principle:</strong>
+                Centralized policy management is separated from
+                endpoint enforcement so that privilege decisions
+                can be managed consistently across an organization's
+                endpoint environment.
+
+            </div>
+
+            <h3>Architectural Goals</h3>
+
+            <ul>
+
+                <li>Centralize privilege policy administration.</li>
+
+                <li>Enforce privilege controls at the endpoint.</li>
+
+                <li>Provide visibility into privilege activity.</li>
+
+                <li>Integrate with enterprise identity systems.</li>
+
+                <li>Support scalable endpoint management.</li>
+
+                <li>Maintain separation between management and enforcement.</li>
+
+            </ul>
+
+        </section>
+
+
+        <!-- ARCHITECTURE -->
+
+        <section id="architecture">
+
+            <h2>2. High-Level Architecture</h2>
+
+            <p>
+                The SPM architecture is organized into presentation,
+                application, data, endpoint, and external integration
+                layers.
+            </p>
+
+
+            <div class="architecture">
+
+                <div class="layer-label">
+                    Presentation Layer
+                </div>
+
+                <div class="architecture-row">
+
+                    <div class="component">
+                        <strong>Web Console</strong>
+                        <span>
+                            Administration and reporting
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="arrow-down">
+                    ↓
+                </div>
+
+
+                <div class="layer-label">
+                    Application Layer
+                </div>
+
+                <div class="architecture-row">
+
+                    <div class="component">
+                        <strong>API Gateway</strong>
+                        <span>
+                            Request routing and access control
+                        </span>
+                    </div>
+
+                    <div class="component">
+                        <strong>Policy Engine</strong>
+                        <span>
+                            Policy evaluation
+                        </span>
+                    </div>
+
+                    <div class="component">
+                        <strong>Sync Service</strong>
+                        <span>
+                            Endpoint synchronization
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="arrow-down">
+                    ↓
+                </div>
+
+
+                <div class="layer-label">
+                    Data Layer
+                </div>
+
+                <div class="architecture-row">
+
+                    <div class="component">
+                        <strong>Application Database</strong>
+                        <span>
+                            Configuration and operational data
+                        </span>
+                    </div>
+
+                    <div class="component">
+                        <strong>Audit Store</strong>
+                        <span>
+                            Privilege activity records
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="arrow-down">
+                    ↕
+                </div>
+
+
+                <div class="layer-label">
+                    Endpoint Layer
+                </div>
+
+                <div class="architecture-row">
+
+                    <div class="component">
+                        <strong>SPM Agent</strong>
+                        <span>
+                            Local policy enforcement
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="note-box">
+
+                The architecture diagram is a logical representation
+                intended to communicate component relationships.
+                Physical infrastructure may vary between deployments.
+
+            </div>
+
+        </section>
+
+
+        <!-- COMPONENTS -->
+
+        <section id="components">
+
+            <h2>3. System Components</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Component</th>
+                        <th>Layer</th>
+                        <th>Responsibility</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td><strong>Web Console</strong></td>
+                        <td>Presentation</td>
+                        <td>
+                            Provides the administrative interface for
+                            users and administrators.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>API Gateway</strong></td>
+                        <td>Application</td>
+                        <td>
+                            Receives API requests and routes them to
+                            the appropriate backend service.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Policy Engine</strong></td>
+                        <td>Application</td>
+                        <td>
+                            Evaluates privilege policies and determines
+                            the applicable access behavior.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Sync Service</strong></td>
+                        <td>Application</td>
+                        <td>
+                            Coordinates policy and configuration
+                            synchronization with managed endpoints.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Application Database</strong></td>
+                        <td>Data</td>
+                        <td>
+                            Stores platform configuration, users,
+                            policies, and related application data.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Audit Store</strong></td>
+                        <td>Data</td>
+                        <td>
+                            Stores privilege-related activity and
+                            audit information.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>SPM Agent</strong></td>
+                        <td>Endpoint</td>
+                        <td>
+                            Applies privilege policies and monitors
+                            relevant endpoint activity.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- DATA FLOW -->
+
+        <section id="dataflow">
+
+            <h2>4. Data Flow</h2>
+
+            <h3>4.1 Administrative Policy Flow</h3>
+
+            <p>
+                Policy configuration originates in the web console
+                and is processed by the application services before
+                being synchronized to managed endpoints.
+            </p>
+
+            <div class="flow">
+
+                <div class="flow-item">
+                    Administrator
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-item">
+                    Web Console
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-item">
+                    API Gateway
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-item">
+                    Policy Engine
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-item">
+                    Database
+                </div>
+
+            </div>
+
+
+            <h3>4.2 Endpoint Synchronization Flow</h3>
+
+            <div class="flow">
+
+                <div class="flow-item">
+                    Policy Engine
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-item">
+                    Sync Service
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-item">
+                    SPM Agent
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-item">
+                    Endpoint
+                </div>
+
+            </div>
+
+
+            <h3>4.3 Privilege Event Flow</h3>
+
+            <div class="flow">
+
+                <div class="flow-item">
+                    User Action
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-item">
+                    SPM Agent
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-item">
+                    Management Layer
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-item">
+                    Audit Store
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DEPLOYMENT -->
+
+        <section id="deployment">
+
+            <h2>5. Deployment Topology</h2>
+
+            <p>
+                A typical enterprise deployment separates user-facing
+                services, application services, data services, and
+                managed endpoints.
+            </p>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Zone</th>
+                        <th>Components</th>
+                        <th>Purpose</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Client Network</td>
+                        <td>Web Browser, SPM Agent</td>
+                        <td>
+                            Provides administrator access and
+                            endpoint enforcement.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Application Zone</td>
+                        <td>Web Console, API Gateway, Policy Engine, Sync Service</td>
+                        <td>
+                            Hosts the central SPM application.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Data Zone</td>
+                        <td>Application Database, Audit Store</td>
+                        <td>
+                            Stores application and audit data.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Integration Zone</td>
+                        <td>Identity Provider</td>
+                        <td>
+                            Provides external identity and
+                            authentication services.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="warning-box">
+
+                <strong>Architecture note:</strong>
+                Network segmentation, server placement, load balancing,
+                and database topology are deployment-specific and
+                should be defined during infrastructure design.
+
+            </div>
+
+        </section>
+
+
+        <!-- INTEGRATIONS -->
+
+        <section id="integrations">
+
+            <h2>6. External Integrations</h2>
+
+            <p>
+                SPM can integrate with enterprise systems to support
+                identity, authentication, and operational workflows.
+            </p>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Integration</th>
+                        <th>Purpose</th>
+                        <th>Interaction</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Identity Provider</td>
+                        <td>
+                            User authentication and identity information.
+                        </td>
+                        <td>
+                            Authentication / API
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Directory Service</td>
+                        <td>
+                            User and group synchronization.
+                        </td>
+                        <td>
+                            Directory protocol
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Monitoring Platform</td>
+                        <td>
+                            Operational monitoring and alerting.
+                        </td>
+                        <td>
+                            API / Events
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Ticketing System</td>
+                        <td>
+                            Linking privilege requests to service requests.
+                        </td>
+                        <td>
+                            REST API
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- SECURITY -->
+
+        <section id="security">
+
+            <h2>7. Security Architecture</h2>
+
+            <p>
+                Security controls are applied across the application,
+                communication, identity, endpoint, and data layers.
+            </p>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Control Area</th>
+                        <th>Architectural Consideration</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Authentication</td>
+                        <td>
+                            Users authenticate through the configured
+                            identity mechanism.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Authorization</td>
+                        <td>
+                            Administrative capabilities are controlled
+                            through role-based permissions.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Communication</td>
+                        <td>
+                            Application and endpoint communication should
+                            use secured transport.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Privilege Enforcement</td>
+                        <td>
+                            Policies are enforced at the managed endpoint.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Auditability</td>
+                        <td>
+                            Privilege activity and administrative actions
+                            are recorded for review.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Data Protection</td>
+                        <td>
+                            Sensitive configuration and audit data should
+                            be protected according to organizational
+                            security requirements.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- AVAILABILITY -->
+
+        <section id="availability">
+
+            <h2>8. Availability Considerations</h2>
+
+            <p>
+                Enterprise deployments should consider availability
+                requirements for central management services and
+                endpoint operations.
+            </p>
+
+            <ul>
+
+                <li>
+                    Application services may be deployed redundantly
+                    where required.
+                </li>
+
+                <li>
+                    Database availability should align with the
+                    organization's recovery requirements.
+                </li>
+
+                <li>
+                    Monitoring should cover application services,
+                    database connectivity, and endpoint communication.
+                </li>
+
+                <li>
+                    Backup and recovery procedures should be defined
+                    separately for the deployed environment.
+                </li>
+
+                <li>
+                    Endpoint behavior during temporary communication
+                    interruptions should be defined by the product
+                    configuration and security requirements.
+                </li>
+
+            </ul>
+
+        </section>
+
+
+        <!-- COMMUNICATION -->
+
+        <section id="communication">
+
+            <h2>9. Communication Paths</h2>
+
+            <p>
+                The following logical communication paths represent
+                the primary interactions between SPM components.
+            </p>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Source</th>
+                        <th>Destination</th>
+                        <th>Purpose</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Web Console</td>
+                        <td>API Gateway</td>
+                        <td>
+                            Administrative API requests.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>API Gateway</td>
+                        <td>Policy Engine</td>
+                        <td>
+                            Policy and privilege operations.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Policy Engine</td>
+                        <td>Database</td>
+                        <td>
+                            Policy and configuration persistence.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Sync Service</td>
+                        <td>SPM Agent</td>
+                        <td>
+                            Policy and configuration synchronization.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>SPM Agent</td>
+                        <td>Audit Store</td>
+                        <td>
+                            Privilege activity reporting through
+                            the management layer.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>SPM</td>
+                        <td>Identity Provider</td>
+                        <td>
+                            Authentication and identity operations.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- DOCUMENT INFORMATION -->
+
+        <section id="document">
+
+            <h2>10. Document Information</h2>
+
+            <table>
+
+                <tbody>
+
+                    <tr>
+                        <th>Document Owner</th>
+                        <td>Architecture / Product Documentation</td>
+                    </tr>
+
+                    <tr>
+                        <th>Document Type</th>
+                        <td>System Architecture Document</td>
+                    </tr>
+
+                    <tr>
+                        <th>Version</th>
+                        <td>1.0</td>
+                    </tr>
+
+                    <tr>
+                        <th>Status</th>
+                        <td>Sample</td>
+                    </tr>
+
+                    <tr>
+                        <th>Review Frequency</th>
+                        <td>
+                            During major architecture or product changes
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+
+            <div class="note-box">
+
+                <strong>Portfolio Sample:</strong>
+                This document is a fictionalized technical-writing
+                sample created for portfolio demonstration purposes.
+                Sentinel Privilege Manager, components, architecture,
+                integrations, and deployment details are illustrative
+                and do not represent a real production system.
+
+            </div>
+
+
+            <a class="back-link" href="index.html">
+                ← Back to Technical Writing Portfolio
+            </a>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<footer>
+    © 2026 Anshula Raina · Technical Writing Portfolio
+</footer>
+
+
+</body>
+</html>
