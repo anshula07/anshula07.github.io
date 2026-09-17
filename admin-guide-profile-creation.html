@@ -1,237 +1,1732 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SentraGuard EPM — Creating Access Profiles | Admin Guide Sample</title>
-<style>
-  :root {
-    --ink: #1f2937;
-    --muted: #6b7280;
-    --accent: #1f3864;
-    --line: #e5e7eb;
-    --bg: #ffffff;
-    --note-bg: #eef4fb;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    color: var(--ink);
-    background: var(--bg);
-    line-height: 1.65;
-  }
-  .wrap {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 48px 24px 80px;
-  }
-  .tag {
-    display: inline-block;
-    background: #f3f4f6;
-    color: var(--muted);
-    font-size: 0.8rem;
-    padding: 4px 10px;
-    border-radius: 999px;
-    margin-bottom: 16px;
-  }
-  h1 {
-    color: var(--accent);
-    font-size: 1.8rem;
-    margin: 0 0 6px;
-  }
-  .subtitle {
-    color: var(--muted);
-    margin: 0 0 32px;
-    font-size: 1.05rem;
-  }
-  .case-note {
-    background: #fafafa;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 18px 20px;
-    margin-bottom: 36px;
-    font-size: 0.92rem;
-    color: var(--muted);
-  }
-  .case-note strong { color: var(--ink); }
-  h2 {
-    color: var(--accent);
-    font-size: 1.25rem;
-    border-top: 1px solid var(--line);
-    padding-top: 28px;
-    margin-top: 28px;
-  }
-  h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
-  h3 { font-size: 1.05rem; margin-top: 22px; }
-  ol, ul { padding-left: 22px; }
-  li { margin-bottom: 8px; }
-  .note {
-    background: var(--note-bg);
-    border-left: 3px solid var(--accent);
-    padding: 12px 16px;
-    margin: 16px 0;
-    font-size: 0.92rem;
-  }
-  .placeholder {
-    border: 1px dashed #c7ccd4;
-    border-radius: 8px;
-    padding: 40px 16px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.88rem;
-    margin: 16px 0;
-    background: #fafbfc;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 16px 0;
-    font-size: 0.92rem;
-  }
-  th, td {
-    border: 1px solid var(--line);
-    padding: 10px 12px;
-    text-align: left;
-    vertical-align: top;
-  }
-  th {
-    background: #f3f4f6;
-    color: var(--accent);
-  }
-  code {
-    background: #f3f4f6;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 0.88rem;
-  }
-  .back-link {
-    display: inline-block;
-    margin-top: 40px;
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .back-link:hover { text-decoration: underline; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sentinel Privilege Manager — Administrator Guide</title>
+
+    <meta name="description"
+          content="Sample Administrator Guide for Sentinel Privilege Manager, a fictional Endpoint Privilege Management platform.">
+
+    <style>
+        :root {
+            --primary: #0d8cd8;
+            --primary-dark: #086aa5;
+            --primary-light: #eaf6fd;
+            --text: #263238;
+            --muted: #667085;
+            --border: #dfe5eb;
+            --background: #f7f9fc;
+            --white: #ffffff;
+            --code-bg: #17212b;
+            --success: #198754;
+            --warning: #b7791f;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--background);
+            line-height: 1.7;
+        }
+
+        /* =========================
+           TOP HEADER
+        ========================= */
+
+        .topbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .topbar-inner {
+            max-width: 1250px;
+            margin: auto;
+            padding: 16px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background: linear-gradient(135deg, #eef8ff, #ffffff);
+            border-bottom: 1px solid var(--border);
+            padding: 70px 25px;
+        }
+
+        .hero-container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 6px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            margin: 0 0 12px;
+            font-size: 42px;
+            line-height: 1.2;
+            color: #172b3a;
+        }
+
+        .hero p {
+            max-width: 800px;
+            margin: 0;
+            color: var(--muted);
+            font-size: 18px;
+        }
+
+        .metadata {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .metadata span {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 7px 12px;
+            font-size: 13px;
+            color: #475467;
+        }
+
+        /* =========================
+           DOCUMENT LAYOUT
+        ========================= */
+
+        .layout {
+            max-width: 1250px;
+            margin: 40px auto;
+            padding: 0 25px;
+            display: grid;
+            grid-template-columns: 245px minmax(0, 1fr);
+            gap: 45px;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: sticky;
+            top: 95px;
+            height: fit-content;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+        }
+
+        .sidebar-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #475467;
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #475467;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 7px 0;
+        }
+
+        .sidebar a:hover {
+            color: var(--primary);
+        }
+
+        /* =========================
+           DOCUMENT CONTENT
+        ========================= */
+
+        .document {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 50px;
+            min-width: 0;
+        }
+
+        .document h2 {
+            color: var(--primary);
+            font-size: 28px;
+            margin-top: 55px;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .document h2:first-child {
+            margin-top: 0;
+        }
+
+        .document h3 {
+            color: #344054;
+            font-size: 20px;
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+
+        .document h4 {
+            color: #475467;
+            font-size: 16px;
+            margin-top: 25px;
+        }
+
+        .document p {
+            margin: 10px 0 16px;
+        }
+
+        .document ul,
+        .document ol {
+            padding-left: 25px;
+        }
+
+        .document li {
+            margin-bottom: 7px;
+        }
+
+        /* =========================
+           WHAT / WHY / HOW
+        ========================= */
+
+        .info-box {
+            border-left: 4px solid var(--primary);
+            background: var(--primary-light);
+            padding: 18px 20px;
+            margin: 20px 0;
+            border-radius: 0 7px 7px 0;
+        }
+
+        .info-box strong {
+            display: block;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+        }
+
+        /* =========================
+           NOTE / WARNING
+        ========================= */
+
+        .note {
+            background: #f1f8f4;
+            border-left: 4px solid var(--success);
+            padding: 17px 20px;
+            margin: 22px 0;
+            border-radius: 0 7px 7px 0;
+        }
+
+        .warning {
+            background: #fff8e8;
+            border-left: 4px solid var(--warning);
+            padding: 17px 20px;
+            margin: 22px 0;
+            border-radius: 0 7px 7px 0;
+        }
+
+        /* =========================
+           TABLES
+        ========================= */
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0 28px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 550px;
+        }
+
+        th {
+            background: #f2f6f9;
+            color: #344054;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--border);
+            padding: 12px 14px;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) td {
+            background: #fafbfd;
+        }
+
+        /* =========================
+           CODE
+        ========================= */
+
+        code {
+            background: #eef2f5;
+            color: #c0392b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, monospace;
+            font-size: 90%;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #e7edf2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           STEPS
+        ========================= */
+
+        .steps {
+            counter-reset: step;
+            margin: 20px 0;
+        }
+
+        .step {
+            counter-increment: step;
+            position: relative;
+            padding: 0 0 20px 48px;
+        }
+
+        .step::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .step strong {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        /* =========================
+           FEATURE CARDS
+        ========================= */
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 22px 0;
+        }
+
+        .feature {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 18px;
+            background: #fbfcfd;
+        }
+
+        .feature h4 {
+            margin: 0 0 6px;
+            color: var(--primary-dark);
+        }
+
+        .feature p {
+            font-size: 14px;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                margin-right: 14px;
+            }
+
+            .document {
+                padding: 30px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .topbar-inner {
+                padding: 13px 18px;
+            }
+
+            .hero {
+                padding: 45px 18px;
+            }
+
+            .hero h1 {
+                font-size: 29px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .layout {
+                margin: 25px auto;
+                padding: 0 15px;
+            }
+
+            .document {
+                padding: 22px;
+            }
+
+            .document h2 {
+                font-size: 24px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<div class="wrap">
 
-  <span class="tag">Writing Sample — Admin Guide</span>
-  <h1>Creating Access Profiles in SentraGuard EPM</h1>
-  <p class="subtitle">A step-by-step admin guide for configuring endpoint privilege profiles</p>
+<!-- =========================
+     HEADER
+========================= -->
 
-  <div class="case-note">
-    <strong>About this sample:</strong> SentraGuard is a fictional Endpoint Privilege Management (EPM) product created for portfolio purposes. It represents the type of admin-facing documentation I write in my current role — clear, task-oriented guides for cybersecurity administrators — without using any real product, client, or company content.
-  </div>
+<header class="topbar">
+    <div class="topbar-inner">
 
-  <h2>1. What is an Access Profile?</h2>
-  <p>
-    An Access Profile in SentraGuard defines what a user or group of users is allowed to run,
-    install, or elevate on their endpoint. Instead of granting broad local administrator rights,
-    admins build a profile that lists exactly which applications and processes are permitted,
-    restricted, or allowed to run with elevated privileges — and then assign that profile to the
-    right users, groups, or machines.
-  </p>
-  <p>
-    Profiles can be built manually, one rule at a time, or generated automatically from a device's
-    recent activity history, which is useful when you want a starting point based on what a user
-    already runs day to day.
-  </p>
+        <a href="index.html" class="brand">
+            Anshula Raina
+        </a>
 
-  <h2>2. Why Access Profiles Matter</h2>
-  <ul>
-    <li><strong>Reduces standing admin rights</strong> — users get only the specific privileges they need, not full local admin access.</li>
-    <li><strong>Keeps policy consistent</strong> — one profile can be reused across an entire team or department instead of configuring each machine separately.</li>
-    <li><strong>Speeds up audits</strong> — because rules live in one place, security teams can review exactly what's permitted without checking individual endpoints.</li>
-    <li><strong>Adapts as teams change</strong> — profiles can be edited centrally, and the update applies everywhere the profile is assigned.</li>
-  </ul>
+        <a href="index.html#documentation" class="back-link">
+            ← Back to Portfolio
+        </a>
 
-  <h2>3. Before You Start</h2>
-  <div class="note">
-    You'll need <strong>Profile Administrator</strong> permissions in SentraGuard, and you should know
-    which department or business unit (referred to as a <strong>Team Scope</strong>) the profile applies to.
-    A profile can only be created under a single Team Scope — it cannot span "All Teams."
-  </div>
+    </div>
+</header>
 
-  <h2>4. Creating a New Profile</h2>
-  <ol>
-    <li>From the left navigation menu, go to <strong>Access &gt; Profiles</strong>.</li>
-    <li>Select the correct <strong>Team Scope</strong> from the dropdown at the top of the page.</li>
-    <li>Click <strong>+ New Profile</strong> in the upper right corner.</li>
-    <li>Fill in the profile details (see the field reference table below), then click <strong>Continue</strong>.</li>
-  </ol>
 
-  <div class="placeholder">[Screenshot placeholder: "New Profile" setup panel]</div>
+<!-- =========================
+     HERO
+========================= -->
 
-  <h3>Profile Setup Fields</h3>
-  <table>
-    <tr><th>Field</th><th>Description</th></tr>
-    <tr><td><code>Profile Name</code></td><td>A short, identifiable name for the profile, e.g. "Finance Team – Standard Access."</td></tr>
-    <tr><td><code>Description</code></td><td>A brief note on who this profile is for and what it restricts, for future reference.</td></tr>
-    <tr><td><code>Operating System</code></td><td>Windows, macOS, or Linux. Each profile applies to one OS type.</td></tr>
-    <tr><td><code>Set as Default</code></td><td>When enabled, this profile is automatically applied to any new device enrolled under the selected Team Scope. Only one default profile is allowed per OS type.</td></tr>
-    <tr><td><code>Time-Limited Access</code></td><td>When enabled, grants temporary elevated rights that automatically expire after a set duration, rather than persisting indefinitely.</td></tr>
-    <tr><td><code>Auto-Suggest Rules</code></td><td>When enabled, SentraGuard scans recent activity on assigned endpoints and suggests commonly used applications to pre-populate the profile.</td></tr>
-  </table>
+<section class="hero">
 
-  <div class="note">
-    Enabling <strong>Set as Default</strong> and <strong>Auto-Suggest Rules</strong> at the same time isn't
-    supported — turning one on automatically disables the other, since a default profile is meant to apply
-    a fixed baseline rather than one built from variable usage data.
-  </div>
+    <div class="hero-container">
 
-  <h2>5. Adding Rules to the Profile</h2>
-  <p>Once the profile shell is created, you'll define what it actually allows or blocks:</p>
-  <ol>
-    <li>Open the profile and select <strong>Add Rule</strong>.</li>
-    <li>Choose a rule type: <strong>Allow</strong>, <strong>Block</strong>, or <strong>Elevate</strong>.</li>
-    <li>Search for the application by name, or paste in its file hash for an exact match.</li>
-    <li>Click <strong>Save Rule</strong>. Repeat for each application you want to control.</li>
-  </ol>
+        <span class="eyebrow">
+            Administrator Guide
+        </span>
 
-  <div class="placeholder">[Screenshot placeholder: rule list showing Allow / Block / Elevate tags]</div>
+        <h1>
+            Sentinel Privilege Manager
+        </h1>
 
-  <h3>If You Used Auto-Suggest Rules</h3>
-  <p>
-    Instead of adding applications one at a time, review the suggested list SentraGuard generated from
-    endpoint activity. Each suggested application shows how many users or devices ran it recently. Select
-    the ones you want to approve, choose whether to allow them as-is or elevate them, and click
-    <strong>Apply Selected</strong>.
-  </p>
+        <p>
+            Administrator Guide for configuring users, endpoints,
+            privilege policies, application elevation, monitoring,
+            and reporting.
+        </p>
 
-  <h2>6. Assigning the Profile</h2>
-  <ol>
-    <li>From the Profiles list, click the <strong>Assign</strong> icon next to the profile you created.</li>
-    <li>Choose who the profile applies to: individual users, a user group, specific devices, or a device group.</li>
-    <li>Set the assignment as <strong>Permanent</strong> or <strong>Scheduled</strong> (with a start and end date).</li>
-    <li>Click <strong>Save Assignment</strong>.</li>
-  </ol>
+        <div class="metadata">
 
-  <div class="note">
-    A device or user can only have one active profile per OS type at a time. Assigning a new profile
-    automatically replaces the previous one for that device or user — it doesn't stack on top of it.
-  </div>
+            <span>
+                <strong>Document Type:</strong> Administrator Guide
+            </span>
 
-  <h2>7. Confirming It Worked</h2>
-  <p>
-    After saving an assignment, SentraGuard displays a confirmation banner and updates the profile's
-    <strong>Assigned To</strong> column on the main Profiles list. To double-check a specific device picked up
-    the new rules, go to <strong>Devices &gt; [device name] &gt; Active Profile</strong> and confirm the profile
-    name and last sync time match what you expect.
-  </p>
+            <span>
+                <strong>Product:</strong> Sentinel Privilege Manager
+            </span>
 
-  <h2>Summary</h2>
-  <p>
-    Access Profiles let administrators centralize privilege management instead of configuring
-    permissions device by device. Getting the setup right — the correct Team Scope, a clear default vs.
-    auto-suggested baseline, and a deliberate assignment scope — keeps privilege creep low and makes
-    future audits far easier to run.
-  </p>
+            <span>
+                <strong>Version:</strong> 3.2
+            </span>
 
-  <a class="back-link" href="index.html">← Back to portfolio</a>
+            <span>
+                <strong>Audience:</strong> System Administrators
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     DOCUMENT LAYOUT
+========================= -->
+
+<div class="layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-title">
+            On this page
+        </div>
+
+        <a href="#introduction">1. Introduction</a>
+        <a href="#getting-started">2. Getting Started</a>
+        <a href="#dashboard">3. Dashboard</a>
+        <a href="#users">4. User Management</a>
+        <a href="#roles">5. Role Management</a>
+        <a href="#endpoints">6. Endpoint Management</a>
+        <a href="#groups">7. Groups</a>
+        <a href="#policies">8. Privilege Policies</a>
+        <a href="#elevation">9. Application Elevation</a>
+        <a href="#assignment">10. Policy Assignment</a>
+        <a href="#audit">11. Audit & Activity</a>
+        <a href="#reports">12. Reports</a>
+        <a href="#troubleshooting">13. Troubleshooting</a>
+        <a href="#best-practices">14. Best Practices</a>
+        <a href="#glossary">15. Glossary</a>
+
+    </aside>
+
+
+    <!-- DOCUMENT -->
+
+    <main class="document">
+
+
+        <!-- 1. INTRODUCTION -->
+
+        <section id="introduction">
+
+            <h2>1. Introduction</h2>
+
+            <p>
+                Sentinel Privilege Manager (SPM) is a fictional
+                Endpoint Privilege Management platform designed to
+                help organizations control elevated privileges across
+                managed endpoints.
+            </p>
+
+            <p>
+                SPM enables administrators to define privilege policies,
+                manage users and endpoints, control application
+                elevation, monitor security activity, and generate
+                operational reports from a centralized administration
+                console.
+            </p>
+
+            <div class="info-box">
+
+                <strong>Purpose</strong>
+
+                This guide explains how administrators can configure
+                and manage Sentinel Privilege Manager.
+
+            </div>
+
+
+            <h3>1.1 Intended Audience</h3>
+
+            <p>
+                This guide is intended for:
+            </p>
+
+            <ul>
+                <li>System Administrators</li>
+                <li>Security Administrators</li>
+                <li>IT Operations Teams</li>
+                <li>Endpoint Management Teams</li>
+            </ul>
+
+
+            <h3>1.2 Key Capabilities</h3>
+
+            <div class="feature-grid">
+
+                <div class="feature">
+                    <h4>User Management</h4>
+                    <p>
+                        Create and manage administrative users and
+                        assign appropriate roles.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <h4>Endpoint Management</h4>
+                    <p>
+                        Monitor and manage endpoints registered with
+                        the platform.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <h4>Privilege Policies</h4>
+                    <p>
+                        Define rules controlling application and
+                        user privileges.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <h4>Application Elevation</h4>
+                    <p>
+                        Provide controlled elevated access to approved
+                        applications.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <h4>Monitoring</h4>
+                    <p>
+                        Monitor privilege-related events and
+                        administrative activity.
+                    </p>
+                </div>
+
+                <div class="feature">
+                    <h4>Reporting</h4>
+                    <p>
+                        Generate reports for operational and
+                        security analysis.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- 2. GETTING STARTED -->
+
+        <section id="getting-started">
+
+            <h2>2. Getting Started</h2>
+
+            <p>
+                Administrators can access SPM through the web-based
+                administration console.
+            </p>
+
+            <h3>2.1 Access the Administration Console</h3>
+
+            <div class="info-box">
+
+                <strong>What</strong>
+
+                Access the SPM administration console using an
+                administrator account.
+
+                <strong>Why</strong>
+
+                The administration console provides centralized
+                management of users, endpoints, policies, and
+                security activity.
+
+                <strong>How</strong>
+
+                Follow the steps below to sign in.
+
+            </div>
+
+            <div class="steps">
+
+                <div class="step">
+                    <strong>Open a supported browser.</strong>
+                    Launch your preferred supported web browser.
+                </div>
+
+                <div class="step">
+                    <strong>Open the SPM console.</strong>
+                    Enter the URL provided by your organization.
+                </div>
+
+                <div class="step">
+                    <strong>Enter your credentials.</strong>
+                    Provide your administrator username and password.
+                </div>
+
+                <div class="step">
+                    <strong>Sign in.</strong>
+                    Click <strong>Sign In</strong>.
+                </div>
+
+            </div>
+
+            <div class="note">
+
+                <strong>Note:</strong>
+                Access to administrative features depends on the role
+                assigned to your account.
+
+            </div>
+
+        </section>
+
+
+        <!-- 3. DASHBOARD -->
+
+        <section id="dashboard">
+
+            <h2>3. Dashboard</h2>
+
+            <p>
+                The SPM Dashboard provides administrators with an
+                overview of endpoint privilege activity and system
+                status.
+            </p>
+
+            <h3>3.1 Dashboard Widgets</h3>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Widget</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Managed Endpoints</td>
+                            <td>
+                                Displays the number of endpoints
+                                currently managed by SPM.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Active Users</td>
+                            <td>
+                                Displays users associated with
+                                managed endpoints.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Elevation Requests</td>
+                            <td>
+                                Displays privilege elevation
+                                requests generated by endpoints.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Blocked Applications</td>
+                            <td>
+                                Displays applications blocked by
+                                configured policies.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Policy Violations</td>
+                            <td>
+                                Displays events that violate
+                                configured policy conditions.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Recent Activity</td>
+                            <td>
+                                Displays recent privilege-related
+                                activity.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- 4. USER MANAGEMENT -->
+
+        <section id="users">
+
+            <h2>4. User Management</h2>
+
+            <p>
+                Administrators can create and manage users who require
+                access to the SPM administration console.
+            </p>
+
+            <h3>4.1 Create a User</h3>
+
+            <div class="info-box">
+
+                <strong>What</strong>
+
+                Create an administrative user account.
+
+                <strong>Why</strong>
+
+                User accounts allow organizations to provide controlled
+                access to administration functions.
+
+                <strong>How</strong>
+
+                Create the account from the Users page.
+
+            </div>
+
+            <div class="steps">
+
+                <div class="step">
+                    <strong>Open Users.</strong>
+                    Navigate to <code>Administration → Users</code>.
+                </div>
+
+                <div class="step">
+                    <strong>Start user creation.</strong>
+                    Click <strong>Create User</strong>.
+                </div>
+
+                <div class="step">
+                    <strong>Enter user information.</strong>
+                    Enter the required user details.
+                </div>
+
+                <div class="step">
+                    <strong>Assign a role.</strong>
+                    Select the appropriate administrative role.
+                </div>
+
+                <div class="step">
+                    <strong>Save the user.</strong>
+                    Click <strong>Save</strong>.
+                </div>
+
+            </div>
+
+
+            <h3>4.2 User Fields</h3>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>First Name</td>
+                            <td>User's first name.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Last Name</td>
+                            <td>User's last name.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Email</td>
+                            <td>User's business email address.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Username</td>
+                            <td>Unique identifier used to sign in.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Role</td>
+                            <td>Administrative role assigned to the user.</td>
+                        </tr>
+
+                        <tr>
+                            <td>Status</td>
+                            <td>Specifies whether the account is Active or Inactive.</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- 5. ROLES -->
+
+        <section id="roles">
+
+            <h2>5. Role Management</h2>
+
+            <p>
+                SPM uses role-based access control to restrict
+                administrative capabilities.
+            </p>
+
+            <h3>5.1 Available Roles</h3>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Super Administrator</td>
+                            <td>
+                                Provides access to all administrative
+                                capabilities.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Security Administrator</td>
+                            <td>
+                                Provides access to security policies,
+                                privilege management, and reports.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Endpoint Administrator</td>
+                            <td>
+                                Provides access to endpoint management
+                                and endpoint configuration.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Auditor</td>
+                            <td>
+                                Provides read-only access to audit
+                                information and reports.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="warning">
+
+                <strong>Security Recommendation:</strong>
+                Assign administrators only the permissions required
+                to perform their responsibilities.
+
+            </div>
+
+        </section>
+
+
+        <!-- 6. ENDPOINTS -->
+
+        <section id="endpoints">
+
+            <h2>6. Endpoint Management</h2>
+
+            <p>
+                The Endpoints page allows administrators to view and
+                manage endpoints registered with SPM.
+            </p>
+
+            <h3>6.1 Endpoint Information</h3>
+
+            <ul>
+                <li>Endpoint name</li>
+                <li>Operating system</li>
+                <li>IP address</li>
+                <li>Agent version</li>
+                <li>Last check-in time</li>
+                <li>Assigned policy</li>
+                <li>Endpoint status</li>
+            </ul>
+
+
+            <h3>6.2 View Endpoint Details</h3>
+
+            <div class="steps">
+
+                <div class="step">
+                    <strong>Open Endpoints.</strong>
+                    Navigate to <code>Endpoints</code>.
+                </div>
+
+                <div class="step">
+                    <strong>Search for an endpoint.</strong>
+                    Enter the endpoint name or other supported search
+                    criteria.
+                </div>
+
+                <div class="step">
+                    <strong>Open endpoint details.</strong>
+                    Click the endpoint name.
+                </div>
+
+                <div class="step">
+                    <strong>Review endpoint information.</strong>
+                    Review configuration, policy assignment, and
+                    activity information.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- 7. GROUPS -->
+
+        <section id="groups">
+
+            <h2>7. Groups</h2>
+
+            <p>
+                Groups allow administrators to organize users and
+                endpoints based on business or operational requirements.
+            </p>
+
+            <h3>7.1 User Groups</h3>
+
+            <p>
+                User groups can be used to apply common policies to
+                multiple users.
+            </p>
+
+            <p>Example groups include:</p>
+
+            <ul>
+                <li>Finance</li>
+                <li>Human Resources</li>
+                <li>Developers</li>
+                <li>IT Support</li>
+                <li>Contractors</li>
+            </ul>
+
+
+            <h3>7.2 Create a User Group</h3>
+
+            <div class="steps">
+
+                <div class="step">
+                    Navigate to <code>Groups → User Groups</code>.
+                </div>
+
+                <div class="step">
+                    Click <strong>Create Group</strong>.
+                </div>
+
+                <div class="step">
+                    Enter the group name and description.
+                </div>
+
+                <div class="step">
+                    Select the users to add to the group.
+                </div>
+
+                <div class="step">
+                    Click <strong>Save</strong>.
+                </div>
+
+            </div>
+
+
+            <h3>7.3 Endpoint Groups</h3>
+
+            <p>
+                Endpoint groups organize managed devices according to
+                business units, environments, operating systems, or
+                other organizational requirements.
+            </p>
+
+        </section>
+
+
+        <!-- 8. POLICIES -->
+
+        <section id="policies">
+
+            <h2>8. Privilege Policies</h2>
+
+            <p>
+                Privilege policies determine which applications and
+                actions require elevated permissions.
+            </p>
+
+            <div class="info-box">
+
+                <strong>Why use privilege policies?</strong>
+
+                Policies allow organizations to control administrative
+                privileges without providing users with permanent
+                local administrator rights.
+
+            </div>
+
+
+            <h3>8.1 Create a Privilege Policy</h3>
+
+            <div class="steps">
+
+                <div class="step">
+                    Navigate to <code>Policies → Privilege Policies</code>.
+                </div>
+
+                <div class="step">
+                    Click <strong>Create Policy</strong>.
+                </div>
+
+                <div class="step">
+                    Enter a unique policy name.
+                </div>
+
+                <div class="step">
+                    Select the target users or endpoint groups.
+                </div>
+
+                <div class="step">
+                    Define the application conditions.
+                </div>
+
+                <div class="step">
+                    Select the required privilege action.
+                </div>
+
+                <div class="step">
+                    Configure the policy schedule, if required.
+                </div>
+
+                <div class="step">
+                    Click <strong>Save</strong>.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- 9. ELEVATION -->
+
+        <section id="elevation">
+
+            <h2>9. Application Elevation</h2>
+
+            <p>
+                Application Elevation allows administrators to grant
+                elevated privileges to approved applications without
+                providing users with permanent administrator privileges.
+            </p>
+
+            <h3>9.1 Example Workflow</h3>
+
+            <pre>
+User launches approved application
+            ↓
+SPM identifies the application
+            ↓
+SPM evaluates the applicable policy
+            ↓
+Policy conditions are validated
+            ↓
+Application receives controlled elevation
+            ↓
+Activity is recorded for auditing
+            </pre>
+
+            <div class="note">
+
+                <strong>Example:</strong>
+                A developer needs elevated privileges to install an
+                approved development tool. Instead of assigning the
+                developer permanent administrator rights, an elevation
+                policy can provide controlled access to the approved
+                application.
+
+            </div>
+
+        </section>
+
+
+        <!-- 10. POLICY ASSIGNMENT -->
+
+        <section id="assignment">
+
+            <h2>10. Policy Assignment</h2>
+
+            <p>
+                Policies can be assigned to individual users, user
+                groups, endpoints, or endpoint groups.
+            </p>
+
+            <h3>10.1 Assign a Policy</h3>
+
+            <div class="steps">
+
+                <div class="step">
+                    Navigate to <code>Policies</code>.
+                </div>
+
+                <div class="step">
+                    Select the required policy.
+                </div>
+
+                <div class="step">
+                    Click <strong>Assign</strong>.
+                </div>
+
+                <div class="step">
+                    Select the required target.
+                </div>
+
+                <div class="step">
+                    Click <strong>Apply</strong>.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- 11. AUDIT -->
+
+        <section id="audit">
+
+            <h2>11. Audit & Activity</h2>
+
+            <p>
+                SPM records privilege-related activity to support
+                monitoring, investigation, and auditing.
+            </p>
+
+            <h3>11.1 Recorded Activities</h3>
+
+            <ul>
+                <li>Application execution</li>
+                <li>Elevation requests</li>
+                <li>Policy violations</li>
+                <li>Blocked applications</li>
+                <li>Administrative actions</li>
+                <li>Endpoint events</li>
+            </ul>
+
+            <div class="info-box">
+
+                <strong>What administrators can do</strong>
+
+                Administrators can filter activity records and review
+                events to understand privilege-related activity across
+                managed endpoints.
+
+            </div>
+
+        </section>
+
+
+        <!-- 12. REPORTS -->
+
+        <section id="reports">
+
+            <h2>12. Reports</h2>
+
+            <p>
+                The Reports section provides administrators with
+                reporting capabilities for security and operational
+                analysis.
+            </p>
+
+            <h3>12.1 Available Reports</h3>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Report</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Privilege Activity Report</td>
+                            <td>
+                                Provides an overview of privilege-related
+                                endpoint activity.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Application Elevation Report</td>
+                            <td>
+                                Provides information about application
+                                elevation events.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Policy Violation Report</td>
+                            <td>
+                                Provides information about policy
+                                violations.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Endpoint Activity Report</td>
+                            <td>
+                                Provides activity information for
+                                managed endpoints.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Administrative Audit Report</td>
+                            <td>
+                                Provides a record of administrative
+                                actions.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- 13. TROUBLESHOOTING -->
+
+        <section id="troubleshooting">
+
+            <h2>13. Troubleshooting</h2>
+
+            <p>
+                Use the following troubleshooting information to
+                identify and resolve common administration issues.
+            </p>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Issue</th>
+                            <th>Possible Cause</th>
+                            <th>Resolution</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Endpoint is not visible</td>
+                            <td>
+                                Agent has not checked in with the
+                                management service.
+                            </td>
+                            <td>
+                                Verify endpoint connectivity and
+                                agent status.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Policy is not applied</td>
+                            <td>
+                                Incorrect policy assignment.
+                            </td>
+                            <td>
+                                Verify the policy target and assignment.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Application still requests administrator
+                                credentials
+                            </td>
+                            <td>
+                                Application is not included in the
+                                elevation policy.
+                            </td>
+                            <td>
+                                Add the application to the appropriate
+                                elevation policy.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>User cannot access console</td>
+                            <td>
+                                Account may be inactive or assigned
+                                an incorrect role.
+                            </td>
+                            <td>
+                                Verify the user's status and role.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Dashboard data is outdated</td>
+                            <td>
+                                Endpoint has not communicated with
+                                the management service.
+                            </td>
+                            <td>
+                                Check endpoint connectivity and
+                                last check-in time.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- 14. BEST PRACTICES -->
+
+        <section id="best-practices">
+
+            <h2>14. Best Practices</h2>
+
+            <p>
+                Follow these practices when administering Sentinel
+                Privilege Manager:
+            </p>
+
+            <ol>
+
+                <li>
+                    Apply the principle of least privilege.
+                </li>
+
+                <li>
+                    Avoid assigning permanent administrator access
+                    unless required.
+                </li>
+
+                <li>
+                    Use groups for large-scale policy management.
+                </li>
+
+                <li>
+                    Review privilege activity regularly.
+                </li>
+
+                <li>
+                    Test policies before applying them to production
+                    environments.
+                </li>
+
+                <li>
+                    Maintain separate administrative accounts.
+                </li>
+
+                <li>
+                    Review inactive users periodically.
+                </li>
+
+                <li>
+                    Monitor policy violations.
+                </li>
+
+            </ol>
+
+        </section>
+
+
+        <!-- 15. GLOSSARY -->
+
+        <section id="glossary">
+
+            <h2>15. Glossary</h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Term</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Endpoint</td>
+                            <td>
+                                A device managed by Sentinel Privilege
+                                Manager.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Privilege</td>
+                            <td>
+                                Permission required to perform a
+                                restricted operation.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Elevation</td>
+                            <td>
+                                Granting additional privileges to an
+                                application or process.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Policy</td>
+                            <td>
+                                A set of rules defining privilege
+                                behavior.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>User Group</td>
+                            <td>
+                                A collection of users managed together.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Endpoint Group</td>
+                            <td>
+                                A collection of endpoints managed
+                                together.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Agent</td>
+                            <td>
+                                Software installed on an endpoint to
+                                communicate with SPM.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Audit Event</td>
+                            <td>
+                                A recorded activity generated by users,
+                                applications, or endpoints.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- DOCUMENT INFORMATION -->
+
+        <section>
+
+            <h2>Document Information</h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <tbody>
+
+                        <tr>
+                            <th>Document Type</th>
+                            <td>Administrator Guide</td>
+                        </tr>
+
+                        <tr>
+                            <th>Product</th>
+                            <td>Sentinel Privilege Manager</td>
+                        </tr>
+
+                        <tr>
+                            <th>Version</th>
+                            <td>3.2</td>
+                        </tr>
+
+                        <tr>
+                            <th>Audience</th>
+                            <td>System and Security Administrators</td>
+                        </tr>
+
+                        <tr>
+                            <th>Status</th>
+                            <td>Portfolio Sample</td>
+                        </tr>
+
+                        <tr>
+                            <th>Author</th>
+                            <td>Anshula Raina</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="warning">
+
+                <strong>Portfolio Disclaimer:</strong>
+                Sentinel Privilege Manager is a fictional product
+                created for demonstration purposes. This document
+                does not contain confidential or proprietary
+                information from any organization.
+
+            </div>
+
+        </section>
+
+
+    </main>
 
 </div>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        <strong>Sentinel Privilege Manager</strong> —
+        Administrator Guide
+    </p>
+
+    <p>
+        Portfolio sample created by
+        <a href="index.html">Anshula Raina</a>
+    </p>
+
+</footer>
+
 </body>
 </html>
