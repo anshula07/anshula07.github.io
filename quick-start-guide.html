@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Sentinel Privilege Manager — Quick Start Guide
+    </title>
+
+    <meta name="description"
+          content="Quick Start Guide for Sentinel Privilege Manager. Learn how to access the console, register an endpoint, create a privilege policy, and verify application elevation.">
+
+    <style>
+
+        :root {
+            --primary: #0d8cd8;
+            --primary-dark: #086aa5;
+            --primary-light: #eaf6fd;
+            --text: #263238;
+            --muted: #667085;
+            --border: #dfe5eb;
+            --background: #f7f9fc;
+            --white: #ffffff;
+            --success: #198754;
+            --success-light: #edf8f2;
+            --warning: #b7791f;
+            --warning-light: #fff8e8;
+            --code-bg: #17212b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background: var(--background);
+            line-height: 1.7;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .topbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .topbar-inner {
+            max-width: 1200px;
+            margin: auto;
+            padding: 15px 25px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .brand {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .back-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #eaf6fd 0%,
+                    #ffffff 65%
+                );
+
+            border-bottom: 1px solid var(--border);
+
+            padding: 65px 25px;
+        }
+
+        .hero-container {
+            max-width: 950px;
+            margin: auto;
+        }
+
+        .eyebrow {
+            display: inline-block;
+
+            background: var(--primary-light);
+            color: var(--primary-dark);
+
+            padding: 6px 13px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            margin: 0 0 14px;
+
+            font-size: 42px;
+            line-height: 1.2;
+
+            color: #172b3a;
+        }
+
+        .hero p {
+            max-width: 800px;
+
+            margin: 0;
+
+            font-size: 18px;
+
+            color: var(--muted);
+        }
+
+        .metadata {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+        .metadata span {
+            background: var(--white);
+
+            border: 1px solid var(--border);
+
+            border-radius: 6px;
+
+            padding: 7px 12px;
+
+            font-size: 13px;
+
+            color: #475467;
+        }
+
+
+        /* =========================
+           PAGE LAYOUT
+        ========================= */
+
+        .page {
+            max-width: 1100px;
+
+            margin: 40px auto;
+
+            padding: 0 25px;
+        }
+
+
+        /* =========================
+           QUICK START CONTENT
+        ========================= */
+
+        .content {
+            background: var(--white);
+
+            border: 1px solid var(--border);
+
+            border-radius: 10px;
+
+            padding: 45px;
+        }
+
+        .content h2 {
+            color: var(--primary);
+
+            font-size: 27px;
+
+            margin-top: 50px;
+            margin-bottom: 18px;
+
+            padding-bottom: 8px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .content h2:first-child {
+            margin-top: 0;
+        }
+
+        .content h3 {
+            color: #344054;
+
+            font-size: 20px;
+
+            margin-top: 30px;
+            margin-bottom: 12px;
+        }
+
+        .content p {
+            margin: 10px 0 16px;
+        }
+
+
+        /* =========================
+           PREREQUISITES
+        ========================= */
+
+        .requirements {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+
+            margin: 25px 0;
+        }
+
+        .requirement {
+            border: 1px solid var(--border);
+
+            border-radius: 8px;
+
+            padding: 20px;
+
+            background: #fbfcfd;
+        }
+
+        .requirement h3 {
+            margin: 0 0 8px;
+
+            color: var(--primary-dark);
+
+            font-size: 17px;
+        }
+
+        .requirement p {
+            margin: 0;
+
+            color: var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           SUCCESS MESSAGE
+        ========================= */
+
+        .success {
+            background: var(--success-light);
+
+            border-left: 4px solid var(--success);
+
+            padding: 18px 20px;
+
+            border-radius:
+                0 7px 7px 0;
+
+            margin: 25px 0;
+        }
+
+        .success strong {
+            display: block;
+
+            color: var(--success);
+
+            margin-bottom: 4px;
+        }
+
+
+        /* =========================
+           NOTE
+        ========================= */
+
+        .note {
+            background: var(--primary-light);
+
+            border-left: 4px solid var(--primary);
+
+            padding: 18px 20px;
+
+            border-radius:
+                0 7px 7px 0;
+
+            margin: 25px 0;
+        }
+
+        .note strong {
+            display: block;
+
+            color: var(--primary-dark);
+
+            margin-bottom: 4px;
+        }
+
+
+        /* =========================
+           WARNING
+        ========================= */
+
+        .warning {
+            background: var(--warning-light);
+
+            border-left: 4px solid var(--warning);
+
+            padding: 18px 20px;
+
+            border-radius:
+                0 7px 7px 0;
+
+            margin: 25px 0;
+        }
+
+
+        /* =========================
+           STEP CARDS
+        ========================= */
+
+        .steps {
+            display: grid;
+
+            gap: 18px;
+
+            margin: 25px 0;
+        }
+
+        .step {
+            display: grid;
+
+            grid-template-columns:
+                48px 1fr;
+
+            gap: 15px;
+
+            padding: 20px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 9px;
+
+            background: #ffffff;
+        }
+
+        .step-number {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+
+            font-size: 14px;
+        }
+
+        .step-content h3 {
+            margin: 0 0 5px;
+
+            font-size: 18px;
+
+            color: #344054;
+        }
+
+        .step-content p {
+            margin: 0;
+
+            color: var(--muted);
+        }
+
+
+        /* =========================
+           COMMAND / CODE
+        ========================= */
+
+        code {
+            background: #eef2f5;
+
+            color: #c0392b;
+
+            padding: 2px 6px;
+
+            border-radius: 4px;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-size: 90%;
+        }
+
+        pre {
+            background: var(--code-bg);
+
+            color: #e7edf2;
+
+            padding: 20px;
+
+            border-radius: 8px;
+
+            overflow-x: auto;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           CHECKLIST
+        ========================= */
+
+        .checklist {
+            list-style: none;
+
+            padding: 0;
+
+            margin: 20px 0;
+        }
+
+        .checklist li {
+            position: relative;
+
+            padding:
+                10px
+                10px
+                10px
+                32px;
+
+            border-bottom:
+                1px solid
+                var(--border);
+        }
+
+        .checklist li::before {
+            content: "✓";
+
+            position: absolute;
+
+            left: 5px;
+
+            color: var(--success);
+
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+            overflow-x: auto;
+
+            margin: 20px 0 30px;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 550px;
+        }
+
+        th,
+        td {
+            border:
+                1px solid
+                var(--border);
+
+            padding: 12px 14px;
+
+            text-align: left;
+
+            vertical-align: top;
+        }
+
+        th {
+            background: #f2f6f9;
+
+            color: #344054;
+        }
+
+        tr:nth-child(even) td {
+            background: #fafbfd;
+        }
+
+
+        /* =========================
+           NEXT STEPS
+        ========================= */
+
+        .next-steps {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-top: 25px;
+        }
+
+        .next-card {
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 8px;
+
+            padding: 20px;
+
+            background: #fbfcfd;
+        }
+
+        .next-card h3 {
+            margin: 0 0 7px;
+
+            font-size: 17px;
+
+            color: var(--primary-dark);
+        }
+
+        .next-card p {
+            margin: 0;
+
+            color: var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+
+            padding: 40px 20px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+        footer a {
+            color: var(--primary);
+
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .requirements,
+            .next-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 30px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .hero {
+                padding: 45px 18px;
+            }
+
+            .hero h1 {
+                font-size: 29px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .page {
+                padding: 0 15px;
+            }
+
+            .content {
+                padding: 22px;
+            }
+
+            .step {
+                grid-template-columns: 40px 1fr;
+            }
+
+            .step-number {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="topbar">
+
+    <div class="topbar-inner">
+
+        <a href="index.html"
+           class="brand">
+
+            Anshula Raina
+
+        </a>
+
+        <a href="index.html#documentation"
+           class="back-link">
+
+            ← Back to Portfolio
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-container">
+
+        <span class="eyebrow">
+            Quick Start Guide
+        </span>
+
+        <h1>
+            Get Started with
+            Sentinel Privilege Manager
+        </h1>
+
+        <p>
+            Follow this guide to quickly configure Sentinel
+            Privilege Manager, register your first endpoint,
+            create a privilege policy, and verify controlled
+            application elevation.
+        </p>
+
+
+        <div class="metadata">
+
+            <span>
+                <strong>Product:</strong>
+                Sentinel Privilege Manager
+            </span>
+
+            <span>
+                <strong>Version:</strong>
+                3.2
+            </span>
+
+            <span>
+                <strong>Time:</strong>
+                15–20 minutes
+            </span>
+
+            <span>
+                <strong>Audience:</strong>
+                Administrators
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<div class="page">
+
+<main class="content">
+
+
+<!-- =========================
+     OVERVIEW
+========================= -->
+
+<section>
+
+    <h2>1. Overview</h2>
+
+    <p>
+        Sentinel Privilege Manager (SPM) is a fictional
+        Endpoint Privilege Management platform that enables
+        organizations to control elevated privileges across
+        managed endpoints.
+    </p>
+
+    <p>
+        This Quick Start Guide provides the minimum steps
+        required to configure a basic SPM environment and
+        validate application elevation.
+    </p>
+
+
+    <div class="note">
+
+        <strong>
+            Who should use this guide?
+        </strong>
+
+        Use this guide if you are setting up Sentinel
+        Privilege Manager for the first time or want to
+        quickly validate the core privilege management
+        workflow.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     PREREQUISITES
+========================= -->
+
+<section>
+
+    <h2>2. Prerequisites</h2>
+
+    <p>
+        Make sure the following requirements are available
+        before starting the configuration.
+    </p>
+
+
+    <div class="requirements">
+
+
+        <div class="requirement">
+
+            <h3>
+                Administrator Access
+            </h3>
+
+            <p>
+                You must have administrative credentials
+                for the SPM management console.
+            </p>
+
+        </div>
+
+
+        <div class="requirement">
+
+            <h3>
+                Supported Endpoint
+            </h3>
+
+            <p>
+                A supported Windows, macOS, or Linux endpoint
+                is required for testing.
+            </p>
+
+        </div>
+
+
+        <div class="requirement">
+
+            <h3>
+                Network Connectivity
+            </h3>
+
+            <p>
+                The endpoint must be able to communicate
+                with the SPM management service.
+            </p>
+
+        </div>
+
+
+        <div class="requirement">
+
+            <h3>
+                Endpoint Agent
+            </h3>
+
+            <p>
+                The SPM endpoint agent must be installed
+                on the device being managed.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     STEP 1
+========================= -->
+
+<section>
+
+    <h2>3. Access the SPM Console</h2>
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Open the Console
+                </h3>
+
+                <p>
+                    Open a supported web browser and navigate
+                    to the Sentinel Privilege Manager console
+                    URL provided by your organization.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Enter Credentials
+                </h3>
+
+                <p>
+                    Enter your administrator username and
+                    password.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Sign In
+                </h3>
+
+                <p>
+                    Click <strong>Sign In</strong> to access
+                    the administration dashboard.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="success">
+
+        <strong>
+            Expected Result
+        </strong>
+
+        The SPM Dashboard is displayed after successful
+        authentication.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     STEP 2
+========================= -->
+
+<section>
+
+    <h2>4. Register an Endpoint</h2>
+
+    <p>
+        The endpoint agent allows a device to communicate
+        with the SPM management service.
+    </p>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Open Endpoints
+                </h3>
+
+                <p>
+                    From the navigation menu, select
+                    <code>Endpoints</code>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Verify Agent Status
+                </h3>
+
+                <p>
+                    Confirm that the SPM agent is installed
+                    and running on the target endpoint.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Verify Endpoint Registration
+                </h3>
+
+                <p>
+                    Confirm that the endpoint appears in
+                    the managed endpoint list.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="success">
+
+        <strong>
+            Expected Result
+        </strong>
+
+        The endpoint appears in the SPM console with
+        an active or healthy status.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     STEP 3
+========================= -->
+
+<section>
+
+    <h2>5. Create Your First Privilege Policy</h2>
+
+    <p>
+        Create a simple policy that allows a selected
+        application to run with controlled elevated
+        privileges.
+    </p>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Open Privilege Policies
+                </h3>
+
+                <p>
+                    Navigate to
+                    <code>Policies → Privilege Policies</code>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Create a Policy
+                </h3>
+
+                <p>
+                    Click <strong>Create Policy</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Enter Policy Details
+                </h3>
+
+                <p>
+                    Enter a unique policy name and description.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                4
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Define the Application
+                </h3>
+
+                <p>
+                    Specify the application that should receive
+                    controlled elevation.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                5
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Select the Target
+                </h3>
+
+                <p>
+                    Select the required user, user group,
+                    endpoint, or endpoint group.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                6
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Save the Policy
+                </h3>
+
+                <p>
+                    Click <strong>Save</strong> to create
+                    the privilege policy.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     STEP 4
+========================= -->
+
+<section>
+
+    <h2>6. Test Application Elevation</h2>
+
+    <p>
+        After creating the policy, test the configured
+        application from the target endpoint.
+    </p>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Sign in to the Endpoint
+                </h3>
+
+                <p>
+                    Sign in using a user account targeted
+                    by the privilege policy.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Launch the Application
+                </h3>
+
+                <p>
+                    Open the application specified in
+                    the privilege policy.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Verify Elevation
+                </h3>
+
+                <p>
+                    Confirm that the application receives
+                    the configured elevated privileges.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="success">
+
+        <strong>
+            Expected Result
+        </strong>
+
+        The approved application launches successfully
+        with the privileges defined by the policy.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     STEP 5
+========================= -->
+
+<section>
+
+    <h2>7. Verify Activity</h2>
+
+    <p>
+        SPM records privilege-related activity for
+        monitoring and auditing.
+    </p>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Open Activity
+                </h3>
+
+                <p>
+                    Navigate to the activity or audit
+                    section of the SPM console.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Search for the Endpoint
+                </h3>
+
+                <p>
+                    Filter the activity records using
+                    the endpoint or user name.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Review the Event
+                </h3>
+
+                <p>
+                    Verify that the application elevation
+                    event has been recorded.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     VALIDATION CHECKLIST
+========================= -->
+
+<section>
+
+    <h2>8. Quick Validation Checklist</h2>
+
+    <p>
+        Use this checklist to confirm that the basic
+        configuration is working.
+    </p>
+
+
+    <ul class="checklist">
+
+        <li>
+            Administrator can access the SPM console.
+        </li>
+
+        <li>
+            Endpoint agent is installed and running.
+        </li>
+
+        <li>
+            Endpoint appears in the SPM console.
+        </li>
+
+        <li>
+            Privilege policy has been created.
+        </li>
+
+        <li>
+            Policy has been assigned to the correct target.
+        </li>
+
+        <li>
+            Approved application launches successfully.
+        </li>
+
+        <li>
+            Application elevation activity is recorded.
+        </li>
+
+    </ul>
+
+
+    <div class="success">
+
+        <strong>
+            Setup Complete
+        </strong>
+
+        Your basic Sentinel Privilege Manager environment
+        is now configured and ready for further policy
+        configuration.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     TROUBLESHOOTING
+========================= -->
+
+<section>
+
+    <h2>9. Common Issues</h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Issue
+                    </th>
+
+                    <th>
+                        Possible Cause
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Endpoint is not visible
+                    </td>
+
+                    <td>
+                        Agent is not communicating
+                        with the management service.
+                    </td>
+
+                    <td>
+                        Verify agent status and
+                        network connectivity.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Policy is not applied
+                    </td>
+
+                    <td>
+                        Policy target does not match
+                        the user or endpoint.
+                    </td>
+
+                    <td>
+                        Review the policy assignment.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Application does not elevate
+                    </td>
+
+                    <td>
+                        Application conditions may
+                        not match the policy.
+                    </td>
+
+                    <td>
+                        Review the application
+                        configuration and policy
+                        conditions.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Activity is not visible
+                    </td>
+
+                    <td>
+                        Event processing or endpoint
+                        communication may be delayed.
+                    </td>
+
+                    <td>
+                        Verify endpoint connectivity
+                        and review the latest check-in.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     NEXT STEPS
+========================= -->
+
+<section>
+
+    <h2>10. What's Next?</h2>
+
+    <p>
+        After completing the Quick Start configuration,
+        administrators can continue with advanced
+        configuration and management activities.
+    </p>
+
+
+    <div class="next-steps">
+
+
+        <div class="next-card">
+
+            <h3>
+                Create User Groups
+            </h3>
+
+            <p>
+                Organize users for centralized
+                policy assignment.
+            </p>
+
+        </div>
+
+
+        <div class="next-card">
+
+            <h3>
+                Configure Advanced Policies
+            </h3>
+
+            <p>
+                Define application, user, and
+                endpoint-specific privilege rules.
+            </p>
+
+        </div>
+
+
+        <div class="next-card">
+
+            <h3>
+                Review Reports
+            </h3>
+
+            <p>
+                Analyze privilege activity and
+                policy events.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     DOCUMENT INFORMATION
+========================= -->
+
+<section>
+
+    <h2>Document Information</h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <tbody>
+
+                <tr>
+
+                    <th>
+                        Document Type
+                    </th>
+
+                    <td>
+                        Quick Start Guide
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Product
+                    </th>
+
+                    <td>
+                        Sentinel Privilege Manager
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Version
+                    </th>
+
+                    <td>
+                        3.2
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Audience
+                    </th>
+
+                    <td>
+                        System and Security Administrators
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Estimated Completion Time
+                    </th>
+
+                    <td>
+                        15–20 minutes
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <td>
+                        Portfolio Sample
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Author
+                    </th>
+
+                    <td>
+                        Anshula Raina
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="warning">
+
+        <strong>
+            Portfolio Disclaimer:
+        </strong>
+
+        Sentinel Privilege Manager is a fictional product
+        created for demonstration purposes. This document
+        does not contain confidential or proprietary
+        information from any organization.
+
+    </div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+
+        <strong>
+            Sentinel Privilege Manager
+        </strong>
+
+        — Quick Start Guide
+
+    </p>
+
+    <p>
+
+        Portfolio sample created by
+
+        <a href="index.html">
+            Anshula Raina
+        </a>
+
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
