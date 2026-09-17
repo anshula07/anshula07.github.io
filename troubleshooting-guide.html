@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SPM — Troubleshooting Guide</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f8fb;
+            color: #263238;
+            line-height: 1.7;
+        }
+
+        a {
+            color: #0d8cd8;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #dfe7ee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0d8cd8;
+        }
+
+        nav a {
+            margin-left: 24px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .layout {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 35px;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 95px;
+            height: fit-content;
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 10px;
+            padding: 22px;
+        }
+
+        .sidebar h3 {
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #12344d;
+        }
+
+        .sidebar a {
+            display: block;
+            font-size: 13px;
+            padding: 7px 0;
+            color: #536775;
+        }
+
+        .sidebar a:hover {
+            color: #0d8cd8;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        .hero {
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 12px;
+            padding: 42px;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #eaf6fd;
+            color: #0d8cd8;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            line-height: 1.25;
+            color: #12344d;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: #5d6d78;
+            max-width: 820px;
+        }
+
+        .metadata {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .metadata div {
+            background: #f7fafc;
+            border: 1px solid #e5edf3;
+            padding: 13px;
+            border-radius: 7px;
+        }
+
+        .metadata strong {
+            display: block;
+            font-size: 11px;
+            color: #71818c;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .metadata span {
+            font-size: 13px;
+        }
+
+        section {
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 10px;
+            padding: 32px;
+            margin-bottom: 22px;
+        }
+
+        section h2 {
+            color: #0d8cd8;
+            font-size: 23px;
+            margin-bottom: 18px;
+        }
+
+        section h3 {
+            color: #12344d;
+            font-size: 17px;
+            margin: 20px 0 10px;
+        }
+
+        section p {
+            margin-bottom: 14px;
+        }
+
+        ul,
+        ol {
+            margin: 12px 0 18px 25px;
+        }
+
+        li {
+            margin-bottom: 7px;
+        }
+
+        .info-box,
+        .note-box,
+        .warning-box {
+            padding: 17px 20px;
+            border-radius: 7px;
+            margin: 18px 0;
+        }
+
+        .info-box {
+            background: #eef8fe;
+            border-left: 4px solid #0d8cd8;
+        }
+
+        .note-box {
+            background: #f4f8f4;
+            border-left: 4px solid #5a8f5a;
+        }
+
+        .warning-box {
+            background: #fff8e8;
+            border-left: 4px solid #e2a62b;
+        }
+
+        .issue {
+            border: 1px solid #dfe7ee;
+            border-radius: 9px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .issue-header {
+            background: #f7fafc;
+            padding: 18px 22px;
+            border-bottom: 1px solid #dfe7ee;
+        }
+
+        .issue-header h3 {
+            margin: 0;
+            color: #12344d;
+        }
+
+        .issue-body {
+            padding: 22px;
+        }
+
+        .label {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 9px;
+            border-radius: 4px;
+            background: #edf6fb;
+            color: #0d8cd8;
+            margin-bottom: 8px;
+        }
+
+        .severity {
+            float: right;
+            font-size: 11px;
+            font-weight: 700;
+            color: #6d7c85;
+            text-transform: uppercase;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+        }
+
+        th {
+            background: #edf6fb;
+            color: #12344d;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #dce5eb;
+            padding: 12px 14px;
+            vertical-align: top;
+            font-size: 13px;
+        }
+
+        tr:nth-child(even) {
+            background: #fafcfd;
+        }
+
+        .diagnostic-step {
+            background: #fbfdfe;
+            border: 1px solid #e4ebf0;
+            border-radius: 7px;
+            padding: 15px 18px;
+            margin: 10px 0;
+        }
+
+        .diagnostic-step strong {
+            color: #0d8cd8;
+        }
+
+        code {
+            background: #f0f3f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        pre {
+            background: #18252e;
+            color: #e8f0f4;
+            padding: 18px;
+            border-radius: 7px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .checklist li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+            border-bottom: 1px solid #edf1f4;
+        }
+
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: #0d8cd8;
+            font-size: 18px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #71818c;
+            font-size: 13px;
+        }
+
+        @media (max-width: 850px) {
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .metadata {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .hero,
+            section {
+                padding: 22px;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .metadata {
+                grid-template-columns: 1fr;
+            }
+
+            .header-container {
+                padding: 15px 20px;
+            }
+
+            .severity {
+                float: none;
+                display: block;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="header-container">
+
+        <div class="logo">
+            SPM Documentation
+        </div>
+
+        <nav>
+            <a href="index.html">Portfolio</a>
+            <a href="#overview">Overview</a>
+            <a href="#diagnosis">Diagnosis</a>
+            <a href="#issues">Issues</a>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<div class="layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <h3>Contents</h3>
+
+        <a href="#overview">1. Overview</a>
+        <a href="#diagnosis">2. Troubleshooting Approach</a>
+        <a href="#issues">3. Common Issues</a>
+        <a href="#diagnostics">4. Diagnostic Information</a>
+        <a href="#escalation">5. When to Escalate</a>
+        <a href="#prevention">6. Prevention</a>
+        <a href="#document">7. Document Information</a>
+
+    </aside>
+
+
+    <main>
+
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <span class="badge">
+                TROUBLESHOOTING DOCUMENTATION
+            </span>
+
+            <h1>
+                Sentinel Privilege Manager — Troubleshooting Guide
+            </h1>
+
+            <p>
+                A practical troubleshooting reference for diagnosing
+                common privilege-management, agent connectivity,
+                policy, and application access issues in Sentinel
+                Privilege Manager (SPM).
+            </p>
+
+            <div class="metadata">
+
+                <div>
+                    <strong>Product</strong>
+                    <span>Sentinel Privilege Manager</span>
+                </div>
+
+                <div>
+                    <strong>Document Type</strong>
+                    <span>Troubleshooting Guide</span>
+                </div>
+
+                <div>
+                    <strong>Version</strong>
+                    <span>1.0</span>
+                </div>
+
+                <div>
+                    <strong>Audience</strong>
+                    <span>IT Support & Administrators</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- OVERVIEW -->
+
+        <section id="overview">
+
+            <h2>1. Overview</h2>
+
+            <p>
+                This guide helps administrators and support teams
+                identify and resolve common issues encountered while
+                using SPM.
+            </p>
+
+            <p>
+                Each issue follows a consistent troubleshooting pattern:
+            </p>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Objective</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Identify</td>
+                        <td>
+                            Confirm the observed symptom and affected component.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Diagnose</td>
+                        <td>
+                            Gather information and narrow down the cause.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Resolve</td>
+                        <td>
+                            Apply the appropriate corrective action.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Validate</td>
+                        <td>
+                            Confirm that the issue is no longer occurring.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="info-box">
+                <strong>Tip:</strong>
+                Always reproduce or confirm the reported behavior
+                before changing configuration. This helps prevent
+                unnecessary changes and makes troubleshooting easier
+                to document.
+            </div>
+
+        </section>
+
+
+        <!-- APPROACH -->
+
+        <section id="diagnosis">
+
+            <h2>2. Troubleshooting Approach</h2>
+
+            <h3>Step 1: Capture the Symptom</h3>
+
+            <p>
+                Record what the user is experiencing, when the issue
+                started, and whether the behavior affects one user,
+                one endpoint, or multiple endpoints.
+            </p>
+
+            <h3>Step 2: Identify the Scope</h3>
+
+            <ul>
+                <li>Single user</li>
+                <li>Single endpoint</li>
+                <li>Multiple endpoints</li>
+                <li>Specific application</li>
+                <li>Organization-wide behavior</li>
+            </ul>
+
+            <h3>Step 3: Check Recent Changes</h3>
+
+            <p>
+                Determine whether any recent policy, application,
+                network, endpoint, or configuration changes occurred
+                before the issue appeared.
+            </p>
+
+            <h3>Step 4: Collect Evidence</h3>
+
+            <p>
+                Gather relevant logs, timestamps, policy information,
+                screenshots, error messages, and endpoint details.
+            </p>
+
+            <h3>Step 5: Apply the Resolution</h3>
+
+            <p>
+                Follow the corrective action documented for the
+                identified issue.
+            </p>
+
+            <h3>Step 6: Validate</h3>
+
+            <p>
+                Repeat the original action and confirm that the
+                expected behavior has been restored.
+            </p>
+
+        </section>
+
+
+        <!-- COMMON ISSUES -->
+
+        <section id="issues">
+
+            <h2>3. Common Issues</h2>
+
+
+            <!-- ISSUE 1 -->
+
+            <div class="issue">
+
+                <div class="issue-header">
+
+                    <span class="severity">
+                        Endpoint
+                    </span>
+
+                    <h3>
+                        Issue 1: SPM Agent Is Not Connecting
+                    </h3>
+
+                </div>
+
+                <div class="issue-body">
+
+                    <span class="label">
+                        Symptom
+                    </span>
+
+                    <p>
+                        The endpoint appears offline in the SPM
+                        administration console or has not reported
+                        recent activity.
+                    </p>
+
+                    <span class="label">
+                        Possible Causes
+                    </span>
+
+                    <ul>
+                        <li>SPM Agent service is stopped.</li>
+                        <li>Endpoint cannot reach the SPM server.</li>
+                        <li>Network or proxy configuration has changed.</li>
+                        <li>Agent configuration is incorrect.</li>
+                    </ul>
+
+                    <span class="label">
+                        Diagnostic Steps
+                    </span>
+
+                    <div class="diagnostic-step">
+                        <strong>1.</strong>
+                        Check whether the SPM Agent service is running.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>2.</strong>
+                        Confirm that the endpoint has network connectivity.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>3.</strong>
+                        Verify that the configured SPM server is reachable.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>4.</strong>
+                        Review recent agent logs for connection errors.
+                    </div>
+
+                    <span class="label">
+                        Resolution
+                    </span>
+
+                    <p>
+                        Start or restart the agent service if required.
+                        Correct invalid connectivity or proxy settings
+                        and allow the agent to reconnect.
+                    </p>
+
+                    <span class="label">
+                        Validation
+                    </span>
+
+                    <p>
+                        Confirm that the endpoint reports an updated
+                        status in the SPM console.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ISSUE 2 -->
+
+            <div class="issue">
+
+                <div class="issue-header">
+
+                    <span class="severity">
+                        Policy
+                    </span>
+
+                    <h3>
+                        Issue 2: Application Privilege Is Not Applied
+                    </h3>
+
+                </div>
+
+                <div class="issue-body">
+
+                    <span class="label">
+                        Symptom
+                    </span>
+
+                    <p>
+                        A user launches an application but the expected
+                        privilege policy is not applied.
+                    </p>
+
+                    <span class="label">
+                        Possible Causes
+                    </span>
+
+                    <ul>
+                        <li>The endpoint is not assigned to the expected policy.</li>
+                        <li>The application rule does not match the executable.</li>
+                        <li>The policy has not synchronized with the endpoint.</li>
+                        <li>A higher-priority policy is taking precedence.</li>
+                    </ul>
+
+                    <span class="label">
+                        Diagnostic Steps
+                    </span>
+
+                    <div class="diagnostic-step">
+                        <strong>1.</strong>
+                        Identify the affected endpoint and user.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>2.</strong>
+                        Verify the endpoint's assigned policy.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>3.</strong>
+                        Check the application rule and matching criteria.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>4.</strong>
+                        Review policy synchronization status.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>5.</strong>
+                        Check for conflicting or higher-priority rules.
+                    </div>
+
+                    <span class="label">
+                        Resolution
+                    </span>
+
+                    <p>
+                        Correct the application rule or endpoint assignment
+                        as required. Trigger policy synchronization when
+                        appropriate.
+                    </p>
+
+                    <span class="label">
+                        Validation
+                    </span>
+
+                    <p>
+                        Launch the application again and verify that the
+                        expected privilege behavior is applied.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ISSUE 3 -->
+
+            <div class="issue">
+
+                <div class="issue-header">
+
+                    <span class="severity">
+                        User Access
+                    </span>
+
+                    <h3>
+                        Issue 3: User Cannot Submit a Privilege Request
+                    </h3>
+
+                </div>
+
+                <div class="issue-body">
+
+                    <span class="label">
+                        Symptom
+                    </span>
+
+                    <p>
+                        The user can access SPM but cannot submit a
+                        new privilege request.
+                    </p>
+
+                    <span class="label">
+                        Possible Causes
+                    </span>
+
+                    <ul>
+                        <li>User does not have the required role.</li>
+                        <li>Required request fields are incomplete.</li>
+                        <li>The target application is not available for the user.</li>
+                        <li>The request workflow is not configured correctly.</li>
+                    </ul>
+
+                    <span class="label">
+                        Diagnostic Steps
+                    </span>
+
+                    <div class="diagnostic-step">
+                        <strong>1.</strong>
+                        Confirm the user's SPM role.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>2.</strong>
+                        Check whether all mandatory request fields are completed.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>3.</strong>
+                        Verify that the requested application is available.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>4.</strong>
+                        Review the applicable approval workflow.
+                    </div>
+
+                    <span class="label">
+                        Resolution
+                    </span>
+
+                    <p>
+                        Assign the required role, complete missing information,
+                        or correct the applicable workflow configuration.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ISSUE 4 -->
+
+            <div class="issue">
+
+                <div class="issue-header">
+
+                    <span class="severity">
+                        Application
+                    </span>
+
+                    <h3>
+                        Issue 4: Application Fails After Privilege Assignment
+                    </h3>
+
+                </div>
+
+                <div class="issue-body">
+
+                    <span class="label">
+                        Symptom
+                    </span>
+
+                    <p>
+                        The application launches differently or fails
+                        after an elevated privilege has been assigned.
+                    </p>
+
+                    <span class="label">
+                        Possible Causes
+                    </span>
+
+                    <ul>
+                        <li>Application requires additional dependencies.</li>
+                        <li>Incorrect privilege level was assigned.</li>
+                        <li>Application behavior differs under elevated context.</li>
+                        <li>Another security control is blocking execution.</li>
+                    </ul>
+
+                    <span class="label">
+                        Diagnostic Steps
+                    </span>
+
+                    <div class="diagnostic-step">
+                        <strong>1.</strong>
+                        Confirm the exact application executable.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>2.</strong>
+                        Compare behavior with and without the SPM policy.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>3.</strong>
+                        Review application and SPM logs.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>4.</strong>
+                        Check whether another endpoint security control
+                        is involved.
+                    </div>
+
+                    <span class="label">
+                        Resolution
+                    </span>
+
+                    <p>
+                        Update the applicable policy only after confirming
+                        the application's actual privilege requirement.
+                    </p>
+
+                    <div class="warning-box">
+                        <strong>Warning:</strong>
+                        Avoid granting broader privileges as a first
+                        troubleshooting step. Confirm the minimum
+                        privilege required by the application.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ISSUE 5 -->
+
+            <div class="issue">
+
+                <div class="issue-header">
+
+                    <span class="severity">
+                        Synchronization
+                    </span>
+
+                    <h3>
+                        Issue 5: Policy Changes Are Not Reflected on Endpoint
+                    </h3>
+
+                </div>
+
+                <div class="issue-body">
+
+                    <span class="label">
+                        Symptom
+                    </span>
+
+                    <p>
+                        An administrator updates a policy, but the
+                        endpoint continues to use the previous behavior.
+                    </p>
+
+                    <span class="label">
+                        Possible Causes
+                    </span>
+
+                    <ul>
+                        <li>Policy synchronization is delayed.</li>
+                        <li>Endpoint is offline.</li>
+                        <li>Agent communication is unavailable.</li>
+                        <li>Policy update was not successfully published.</li>
+                    </ul>
+
+                    <span class="label">
+                        Diagnostic Steps
+                    </span>
+
+                    <div class="diagnostic-step">
+                        <strong>1.</strong>
+                        Confirm that the policy update was saved and published.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>2.</strong>
+                        Check the endpoint's connectivity status.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>3.</strong>
+                        Verify the latest policy synchronization timestamp.
+                    </div>
+
+                    <div class="diagnostic-step">
+                        <strong>4.</strong>
+                        Review synchronization-related logs.
+                    </div>
+
+                    <span class="label">
+                        Resolution
+                    </span>
+
+                    <p>
+                        Restore endpoint connectivity or initiate a
+                        synchronization according to the configured
+                        operational process.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DIAGNOSTIC INFORMATION -->
+
+        <section id="diagnostics">
+
+            <h2>4. Diagnostic Information</h2>
+
+            <p>
+                Collect the following information before escalating
+                an unresolved issue.
+            </p>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Information</th>
+                        <th>Example</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Username</td>
+                        <td>user@example.com</td>
+                    </tr>
+
+                    <tr>
+                        <td>Endpoint</td>
+                        <td>SPM-CLIENT-001</td>
+                    </tr>
+
+                    <tr>
+                        <td>Application</td>
+                        <td>ExampleApp.exe</td>
+                    </tr>
+
+                    <tr>
+                        <td>Issue Start Time</td>
+                        <td>2026-09-17 14:30</td>
+                    </tr>
+
+                    <tr>
+                        <td>Error Message</td>
+                        <td>Exact message displayed to the user</td>
+                    </tr>
+
+                    <tr>
+                        <td>Policy</td>
+                        <td>Engineering-Elevated-Access</td>
+                    </tr>
+
+                    <tr>
+                        <td>Recent Changes</td>
+                        <td>Policy updated before issue occurred</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <h3>Useful Evidence</h3>
+
+            <ul class="checklist">
+
+                <li>Screenshot of the observed error.</li>
+
+                <li>Relevant application logs.</li>
+
+                <li>SPM Agent logs.</li>
+
+                <li>Policy configuration details.</li>
+
+                <li>Endpoint and operating system information.</li>
+
+                <li>Timestamp of the failed operation.</li>
+
+            </ul>
+
+        </section>
+
+
+        <!-- ESCALATION -->
+
+        <section id="escalation">
+
+            <h2>5. When to Escalate</h2>
+
+            <p>
+                Escalate the issue when the documented troubleshooting
+                steps do not restore expected behavior or when the
+                issue requires changes outside the support team's scope.
+            </p>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Condition</th>
+                        <th>Recommended Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Issue affects multiple endpoints</td>
+                        <td>
+                            Provide affected endpoint count and common symptoms.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Configuration appears correct</td>
+                        <td>
+                            Attach relevant logs and timestamps.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Unexpected product behavior</td>
+                        <td>
+                            Capture reproduction steps and expected behavior.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Security-impacting behavior</td>
+                        <td>
+                            Follow the organization's security incident process.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="note-box">
+
+                <strong>Escalation package:</strong>
+                Include the issue summary, affected users/endpoints,
+                reproduction steps, expected versus actual behavior,
+                timestamps, screenshots, logs, and troubleshooting
+                actions already performed.
+
+            </div>
+
+        </section>
+
+
+        <!-- PREVENTION -->
+
+        <section id="prevention">
+
+            <h2>6. Prevention & Maintenance</h2>
+
+            <p>
+                Consistent operational practices can reduce recurring
+                troubleshooting cases.
+            </p>
+
+            <ul>
+
+                <li>
+                    Review policy changes before publishing them.
+                </li>
+
+                <li>
+                    Keep endpoint and agent configurations documented.
+                </li>
+
+                <li>
+                    Maintain current troubleshooting articles for
+                    recurring support issues.
+                </li>
+
+                <li>
+                    Record recurring issues and identify common patterns.
+                </li>
+
+                <li>
+                    Update this guide when new product behavior or
+                    known issues are identified.
+                </li>
+
+            </ul>
+
+        </section>
+
+
+        <!-- DOCUMENT INFORMATION -->
+
+        <section id="document">
+
+            <h2>7. Document Information</h2>
+
+            <table>
+
+                <tbody>
+
+                    <tr>
+                        <th>Document Owner</th>
+                        <td>Product Documentation / Support</td>
+                    </tr>
+
+                    <tr>
+                        <th>Document Type</th>
+                        <td>Troubleshooting Guide</td>
+                    </tr>
+
+                    <tr>
+                        <th>Version</th>
+                        <td>1.0</td>
+                    </tr>
+
+                    <tr>
+                        <th>Status</th>
+                        <td>Sample</td>
+                    </tr>
+
+                    <tr>
+                        <th>Review Frequency</th>
+                        <td>As required / During product updates</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="note-box">
+
+                <strong>Portfolio Sample:</strong>
+                This document is a fictionalized technical-writing
+                sample created for portfolio demonstration purposes.
+                Sentinel Privilege Manager, issue scenarios,
+                configurations, and troubleshooting procedures are
+                illustrative and do not represent a real production system.
+
+            </div>
+
+            <a class="back-link" href="index.html">
+                ← Back to Technical Writing Portfolio
+            </a>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<footer>
+    © 2026 Anshula Raina · Technical Writing Portfolio
+</footer>
+
+
+</body>
+</html>
