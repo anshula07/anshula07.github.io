@@ -1,0 +1,3277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Sentinel Privilege Manager — Installation & Configuration Guide
+    </title>
+
+    <meta name="description"
+          content="Installation and Configuration Guide for Sentinel Privilege Manager, a fictional Endpoint Privilege Management platform.">
+
+    <style>
+
+        :root {
+            --primary: #0d8cd8;
+            --primary-dark: #086aa5;
+            --primary-light: #eaf6fd;
+
+            --text: #263238;
+            --muted: #667085;
+
+            --border: #dfe5eb;
+
+            --background: #f7f9fc;
+            --white: #ffffff;
+
+            --success: #198754;
+            --success-light: #edf8f2;
+
+            --warning: #b7791f;
+            --warning-light: #fff8e8;
+
+            --danger: #c0392b;
+            --danger-light: #fff1f0;
+
+            --code-bg: #17212b;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: var(--text);
+
+            background: var(--background);
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .topbar {
+            background: var(--white);
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+        .topbar-inner {
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding:
+                15px
+                25px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap: 20px;
+        }
+
+
+        .brand {
+            color: var(--primary);
+
+            text-decoration: none;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+
+        .back-link {
+            color: var(--muted);
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #eaf6fd 0%,
+                    #ffffff 70%
+                );
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            padding:
+                65px
+                25px;
+        }
+
+
+        .hero-container {
+            max-width: 1000px;
+
+            margin: auto;
+        }
+
+
+        .eyebrow {
+            display: inline-block;
+
+            background:
+                var(--primary-light);
+
+            color:
+                var(--primary-dark);
+
+            padding:
+                6px
+                13px;
+
+            border-radius:
+                20px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.6px;
+
+            margin-bottom:
+                18px;
+        }
+
+
+        .hero h1 {
+            margin:
+                0 0 15px;
+
+            font-size:
+                42px;
+
+            line-height:
+                1.2;
+
+            color:
+                #172b3a;
+        }
+
+
+        .hero p {
+            max-width:
+                850px;
+
+            margin: 0;
+
+            font-size:
+                18px;
+
+            color:
+                var(--muted);
+        }
+
+
+        .metadata {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top:
+                25px;
+        }
+
+
+        .metadata span {
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                6px;
+
+            padding:
+                7px
+                12px;
+
+            font-size:
+                13px;
+
+            color:
+                #475467;
+        }
+
+
+        /* =========================
+           MAIN LAYOUT
+        ========================= */
+
+        .layout {
+            max-width:
+                1200px;
+
+            margin:
+                40px auto;
+
+            padding:
+                0 25px;
+
+            display: grid;
+
+            grid-template-columns:
+                240px
+                minmax(0, 1fr);
+
+            gap:
+                40px;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position:
+                sticky;
+
+            top:
+                95px;
+
+            height:
+                fit-content;
+
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                10px;
+
+            padding:
+                20px;
+        }
+
+
+        .sidebar-title {
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            color:
+                #475467;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.5px;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .sidebar a {
+            display:
+                block;
+
+            color:
+                #475467;
+
+            text-decoration:
+                none;
+
+            font-size:
+                13px;
+
+            padding:
+                6px 0;
+        }
+
+
+        .sidebar a:hover {
+            color:
+                var(--primary);
+        }
+
+
+        /* =========================
+           DOCUMENT
+        ========================= */
+
+        .document {
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                10px;
+
+            padding:
+                48px;
+
+            min-width:
+                0;
+        }
+
+
+        .document h2 {
+            color:
+                var(--primary);
+
+            font-size:
+                27px;
+
+            margin-top:
+                55px;
+
+            margin-bottom:
+                18px;
+
+            padding-bottom:
+                8px;
+
+            border-bottom:
+                1px solid
+                var(--border);
+        }
+
+
+        .document h2:first-child {
+            margin-top:
+                0;
+        }
+
+
+        .document h3 {
+            color:
+                #344054;
+
+            font-size:
+                20px;
+
+            margin-top:
+                30px;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .document h4 {
+            color:
+                #475467;
+
+            font-size:
+                16px;
+
+            margin-top:
+                24px;
+        }
+
+
+        .document p {
+            margin:
+                10px 0 16px;
+        }
+
+
+        .document ul,
+        .document ol {
+            padding-left:
+                25px;
+        }
+
+
+        .document li {
+            margin-bottom:
+                7px;
+        }
+
+
+        /* =========================
+           INFO BOXES
+        ========================= */
+
+        .info-box {
+            background:
+                var(--primary-light);
+
+            border-left:
+                4px solid
+                var(--primary);
+
+            padding:
+                18px
+                20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px
+                7px 0;
+        }
+
+
+        .info-box strong {
+            display:
+                block;
+
+            color:
+                var(--primary-dark);
+
+            margin-bottom:
+                4px;
+        }
+
+
+        .note {
+            background:
+                var(--success-light);
+
+            border-left:
+                4px solid
+                var(--success);
+
+            padding:
+                18px
+                20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px
+                7px 0;
+        }
+
+
+        .note strong {
+            color:
+                var(--success);
+        }
+
+
+        .warning {
+            background:
+                var(--warning-light);
+
+            border-left:
+                4px solid
+                var(--warning);
+
+            padding:
+                18px
+                20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px
+                7px 0;
+        }
+
+
+        .danger {
+            background:
+                var(--danger-light);
+
+            border-left:
+                4px solid
+                var(--danger);
+
+            padding:
+                18px
+                20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px
+                7px 0;
+        }
+
+
+        /* =========================
+           REQUIREMENTS
+        ========================= */
+
+        .requirements {
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                15px;
+
+            margin:
+                25px 0;
+        }
+
+
+        .requirement {
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                8px;
+
+            padding:
+                20px;
+
+            background:
+                #fbfcfd;
+        }
+
+
+        .requirement h3 {
+            margin:
+                0 0 7px;
+
+            color:
+                var(--primary-dark);
+
+            font-size:
+                17px;
+        }
+
+
+        .requirement p {
+            margin:
+                0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                14px;
+        }
+
+
+        /* =========================
+           TABLES
+        ========================= */
+
+        .table-wrapper {
+            overflow-x:
+                auto;
+
+            margin:
+                20px 0
+                30px;
+        }
+
+
+        table {
+            width:
+                100%;
+
+            border-collapse:
+                collapse;
+
+            min-width:
+                580px;
+        }
+
+
+        th,
+        td {
+            border:
+                1px solid
+                var(--border);
+
+            padding:
+                12px
+                14px;
+
+            text-align:
+                left;
+
+            vertical-align:
+                top;
+        }
+
+
+        th {
+            background:
+                #f2f6f9;
+
+            color:
+                #344054;
+        }
+
+
+        tr:nth-child(even) td {
+            background:
+                #fafbfd;
+        }
+
+
+        /* =========================
+           CODE
+        ========================= */
+
+        code {
+            background:
+                #eef2f5;
+
+            color:
+                #c0392b;
+
+            padding:
+                2px 6px;
+
+            border-radius:
+                4px;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-size:
+                90%;
+        }
+
+
+        pre {
+            background:
+                var(--code-bg);
+
+            color:
+                #e7edf2;
+
+            padding:
+                20px;
+
+            border-radius:
+                8px;
+
+            overflow-x:
+                auto;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-size:
+                13px;
+
+            line-height:
+                1.6;
+        }
+
+
+        /* =========================
+           STEP LIST
+        ========================= */
+
+        .steps {
+            margin:
+                25px 0;
+        }
+
+
+        .step {
+            display:
+                grid;
+
+            grid-template-columns:
+                45px
+                1fr;
+
+            gap:
+                15px;
+
+            margin-bottom:
+                18px;
+
+            padding:
+                18px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                8px;
+
+            background:
+                #ffffff;
+        }
+
+
+        .step-number {
+            width:
+                36px;
+
+            height:
+                36px;
+
+            border-radius:
+                50%;
+
+            background:
+                var(--primary);
+
+            color:
+                white;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            font-size:
+                13px;
+
+            font-weight:
+                700;
+        }
+
+
+        .step-content h3 {
+            margin:
+                0 0 5px;
+
+            font-size:
+                18px;
+        }
+
+
+        .step-content p {
+            margin:
+                0;
+
+            color:
+                var(--muted);
+        }
+
+
+        /* =========================
+           FLOW
+        ========================= */
+
+        .flow {
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            gap:
+                10px;
+
+            margin:
+                25px 0;
+        }
+
+
+        .flow-item {
+            background:
+                var(--primary-light);
+
+            border:
+                1px solid
+                #cdeafa;
+
+            color:
+                var(--primary-dark);
+
+            padding:
+                12px
+                16px;
+
+            border-radius:
+                7px;
+
+            font-size:
+                13px;
+
+            font-weight:
+                700;
+        }
+
+
+        .arrow {
+            color:
+                var(--muted);
+
+            font-size:
+                20px;
+        }
+
+
+        /* =========================
+           CHECKLIST
+        ========================= */
+
+        .checklist {
+            list-style:
+                none;
+
+            padding:
+                0;
+
+            margin:
+                20px 0;
+        }
+
+
+        .checklist li {
+            padding:
+                10px
+                10px
+                10px
+                32px;
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            position:
+                relative;
+        }
+
+
+        .checklist li::before {
+            content:
+                "✓";
+
+            position:
+                absolute;
+
+            left:
+                5px;
+
+            color:
+                var(--success);
+
+            font-weight:
+                700;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align:
+                center;
+
+            padding:
+                40px 20px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                13px;
+        }
+
+
+        footer a {
+            color:
+                var(--primary);
+
+            text-decoration:
+                none;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .layout {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .sidebar {
+                position:
+                    relative;
+
+                top:
+                    0;
+            }
+
+
+            .sidebar a {
+                display:
+                    inline-block;
+
+                margin-right:
+                    12px;
+            }
+
+
+            .requirements {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .document {
+                padding:
+                    30px;
+            }
+
+
+            .hero h1 {
+                font-size:
+                    34px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .hero {
+                padding:
+                    45px 18px;
+            }
+
+
+            .hero h1 {
+                font-size:
+                    29px;
+            }
+
+
+            .hero p {
+                font-size:
+                    16px;
+            }
+
+
+            .layout {
+                padding:
+                    0 15px;
+
+                margin:
+                    25px auto;
+            }
+
+
+            .document {
+                padding:
+                    22px;
+            }
+
+
+            .document h2 {
+                font-size:
+                    24px;
+            }
+
+
+            .step {
+                grid-template-columns:
+                    38px 1fr;
+            }
+
+
+            .flow {
+                flex-direction:
+                    column;
+            }
+
+
+            .arrow {
+                transform:
+                    rotate(90deg);
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="topbar">
+
+    <div class="topbar-inner">
+
+        <a href="index.html"
+           class="brand">
+
+            Anshula Raina
+
+        </a>
+
+
+        <a href="index.html#documentation"
+           class="back-link">
+
+            ← Back to Portfolio
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-container">
+
+        <span class="eyebrow">
+            Installation & Configuration Guide
+        </span>
+
+
+        <h1>
+            Sentinel Privilege Manager
+        </h1>
+
+
+        <p>
+            Install, configure, validate, upgrade, and
+            troubleshoot Sentinel Privilege Manager
+            components in an enterprise environment.
+        </p>
+
+
+        <div class="metadata">
+
+            <span>
+                <strong>Document Type:</strong>
+                Installation Guide
+            </span>
+
+
+            <span>
+                <strong>Product:</strong>
+                Sentinel Privilege Manager
+            </span>
+
+
+            <span>
+                <strong>Version:</strong>
+                3.2
+            </span>
+
+
+            <span>
+                <strong>Audience:</strong>
+                System Administrators
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="layout">
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">
+        On this page
+    </div>
+
+
+    <a href="#introduction">
+        1. Introduction
+    </a>
+
+
+    <a href="#architecture">
+        2. Deployment Overview
+    </a>
+
+
+    <a href="#requirements">
+        3. System Requirements
+    </a>
+
+
+    <a href="#prerequisites">
+        4. Prerequisites
+    </a>
+
+
+    <a href="#download">
+        5. Download Package
+    </a>
+
+
+    <a href="#installation">
+        6. Installation
+    </a>
+
+
+    <a href="#configuration">
+        7. Configuration
+    </a>
+
+
+    <a href="#service">
+        8. Service Verification
+    </a>
+
+
+    <a href="#agent">
+        9. Endpoint Agent
+    </a>
+
+
+    <a href="#validation">
+        10. Installation Validation
+    </a>
+
+
+    <a href="#upgrade">
+        11. Upgrade
+    </a>
+
+
+    <a href="#uninstall">
+        12. Uninstallation
+    </a>
+
+
+    <a href="#troubleshooting">
+        13. Troubleshooting
+    </a>
+
+
+    <a href="#checklist">
+        14. Deployment Checklist
+    </a>
+
+
+</aside>
+
+
+
+<!-- =========================
+     DOCUMENT
+========================= -->
+
+<main class="document">
+
+
+<!-- =========================
+     1. INTRODUCTION
+========================= -->
+
+<section id="introduction">
+
+    <h2>
+        1. Introduction
+    </h2>
+
+
+    <p>
+        Sentinel Privilege Manager (SPM) is a fictional
+        Endpoint Privilege Management platform that
+        enables organizations to manage elevated
+        privileges across enterprise endpoints.
+    </p>
+
+
+    <p>
+        This guide describes the installation and
+        configuration process for deploying SPM in
+        an enterprise environment.
+    </p>
+
+
+    <div class="info-box">
+
+        <strong>
+            Purpose
+        </strong>
+
+        This document provides administrators with the
+        information required to prepare the environment,
+        install SPM components, configure the platform,
+        verify the installation, and perform basic
+        troubleshooting.
+
+    </div>
+
+
+    <h3>
+        1.1 Intended Audience
+    </h3>
+
+
+    <ul>
+
+        <li>
+            System Administrators
+        </li>
+
+        <li>
+            Security Administrators
+        </li>
+
+        <li>
+            Endpoint Management Teams
+        </li>
+
+        <li>
+            IT Operations Teams
+        </li>
+
+    </ul>
+
+</section>
+
+
+
+<!-- =========================
+     2. DEPLOYMENT OVERVIEW
+========================= -->
+
+<section id="architecture">
+
+    <h2>
+        2. Deployment Overview
+    </h2>
+
+
+    <p>
+        A typical SPM deployment consists of a central
+        management service and endpoint agents.
+    </p>
+
+
+    <div class="flow">
+
+        <div class="flow-item">
+            Administrator
+        </div>
+
+
+        <div class="arrow">
+            →
+        </div>
+
+
+        <div class="flow-item">
+            Web Console
+        </div>
+
+
+        <div class="arrow">
+            →
+        </div>
+
+
+        <div class="flow-item">
+            Management Service
+        </div>
+
+
+        <div class="arrow">
+            →
+        </div>
+
+
+        <div class="flow-item">
+            Endpoint Agent
+        </div>
+
+
+        <div class="arrow">
+            →
+        </div>
+
+
+        <div class="flow-item">
+            Managed Endpoint
+        </div>
+
+    </div>
+
+
+    <h3>
+        2.1 Core Components
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Component
+                    </th>
+
+                    <th>
+                        Purpose
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Web Console
+                    </td>
+
+                    <td>
+                        Provides the administrative interface
+                        for managing SPM.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Management Service
+                    </td>
+
+                    <td>
+                        Processes policies, endpoint
+                        communication, and management operations.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Endpoint Agent
+                    </td>
+
+                    <td>
+                        Runs on managed devices and applies
+                        privilege policies.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Database
+                    </td>
+
+                    <td>
+                        Stores configuration, policy,
+                        user, and activity information.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     3. REQUIREMENTS
+========================= -->
+
+<section id="requirements">
+
+    <h2>
+        3. System Requirements
+    </h2>
+
+
+    <p>
+        Verify that the target environment meets the
+        minimum requirements before beginning installation.
+    </p>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Component
+                    </th>
+
+                    <th>
+                        Minimum Requirement
+                    </th>
+
+                    <th>
+                        Recommended
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Operating System
+                    </td>
+
+                    <td>
+                        Windows Server 2019
+                    </td>
+
+                    <td>
+                        Windows Server 2022
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Processor
+                    </td>
+
+                    <td>
+                        4 CPU cores
+                    </td>
+
+                    <td>
+                        8 CPU cores
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Memory
+                    </td>
+
+                    <td>
+                        8 GB RAM
+                    </td>
+
+                    <td>
+                        16 GB RAM
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Disk Space
+                    </td>
+
+                    <td>
+                        100 GB
+                    </td>
+
+                    <td>
+                        250 GB SSD
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Database
+                    </td>
+
+                    <td>
+                        Supported relational database
+                    </td>
+
+                    <td>
+                        Dedicated database instance
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        3.1 Supported Endpoint Operating Systems
+    </h3>
+
+
+    <ul>
+
+        <li>
+            Windows 10
+        </li>
+
+        <li>
+            Windows 11
+        </li>
+
+        <li>
+            Windows Server 2019
+        </li>
+
+        <li>
+            Windows Server 2022
+        </li>
+
+        <li>
+            Supported macOS versions
+        </li>
+
+        <li>
+            Supported Linux distributions
+        </li>
+
+    </ul>
+
+</section>
+
+
+
+<!-- =========================
+     4. PREREQUISITES
+========================= -->
+
+<section id="prerequisites">
+
+    <h2>
+        4. Prerequisites
+    </h2>
+
+
+    <div class="requirements">
+
+
+        <div class="requirement">
+
+            <h3>
+                Administrative Access
+            </h3>
+
+            <p>
+                Ensure that you have administrator
+                privileges on the target installation server.
+            </p>
+
+        </div>
+
+
+        <div class="requirement">
+
+            <h3>
+                Network Connectivity
+            </h3>
+
+            <p>
+                Verify connectivity between the management
+                server and required endpoints.
+            </p>
+
+        </div>
+
+
+        <div class="requirement">
+
+            <h3>
+                Database Access
+            </h3>
+
+            <p>
+                Confirm that the required database instance
+                is available and accessible.
+            </p>
+
+        </div>
+
+
+        <div class="requirement">
+
+            <h3>
+                Firewall Configuration
+            </h3>
+
+            <p>
+                Ensure that required inbound and outbound
+                communication is permitted.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <h3>
+        4.1 Pre-Installation Checklist
+    </h3>
+
+
+    <ul class="checklist">
+
+        <li>
+            Installation server meets system requirements.
+        </li>
+
+        <li>
+            Administrator credentials are available.
+        </li>
+
+        <li>
+            Database connectivity has been verified.
+        </li>
+
+        <li>
+            Network connectivity has been verified.
+        </li>
+
+        <li>
+            Required firewall rules are configured.
+        </li>
+
+        <li>
+            Installation package has been downloaded.
+        </li>
+
+        <li>
+            Backup or rollback procedures are available.
+        </li>
+
+    </ul>
+
+</section>
+
+
+
+<!-- =========================
+     5. DOWNLOAD
+========================= -->
+
+<section id="download">
+
+    <h2>
+        5. Download the Installation Package
+    </h2>
+
+
+    <p>
+        Obtain the SPM installation package from the
+        organization's approved software repository.
+    </p>
+
+
+    <div class="warning">
+
+        <strong>
+            Important:
+        </strong>
+
+        Always obtain installation packages from an
+        approved and trusted source. Verify the package
+        version before beginning installation.
+
+    </div>
+
+
+    <h3>
+        5.1 Package Contents
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        File
+                    </th>
+
+                    <th>
+                        Purpose
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        <code>SPMInstaller.exe</code>
+                    </td>
+
+                    <td>
+                        Primary installation executable.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>SPMAgentSetup.msi</code>
+                    </td>
+
+                    <td>
+                        Endpoint agent installation package.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>configuration.json</code>
+                    </td>
+
+                    <td>
+                        Sample configuration file used
+                        during deployment.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     6. INSTALLATION
+========================= -->
+
+<section id="installation">
+
+    <h2>
+        6. Installation
+    </h2>
+
+
+    <p>
+        Follow the steps below to install the SPM
+        management components.
+    </p>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Open the Installer
+                </h3>
+
+                <p>
+                    Navigate to the directory containing
+                    <code>SPMInstaller.exe</code>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Run as Administrator
+                </h3>
+
+                <p>
+                    Right-click the installer and select
+                    <strong>Run as administrator</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Accept the License Agreement
+                </h3>
+
+                <p>
+                    Review and accept the applicable
+                    license agreement.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                4
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Select Installation Location
+                </h3>
+
+                <p>
+                    Specify the directory where the
+                    SPM components should be installed.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                5
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Configure Components
+                </h3>
+
+                <p>
+                    Select the components required for
+                    the deployment.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                6
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Start Installation
+                </h3>
+
+                <p>
+                    Review the configuration and click
+                    <strong>Install</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                7
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Complete Installation
+                </h3>
+
+                <p>
+                    Wait for the installation to complete
+                    and click <strong>Finish</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="note">
+
+        <strong>
+            Expected Result:
+        </strong>
+
+        The SPM management components are installed
+        successfully on the target server.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     7. CONFIGURATION
+========================= -->
+
+<section id="configuration">
+
+    <h2>
+        7. Configuration
+    </h2>
+
+
+    <p>
+        After installation, configure the management
+        service and database connection.
+    </p>
+
+
+    <h3>
+        7.1 Management Service Configuration
+    </h3>
+
+
+    <p>
+        Open the SPM configuration file and specify
+        the management service parameters.
+    </p>
+
+
+    <pre>
+{
+    "server": {
+        "host": "spm-server.example.local",
+        "port": 8443
+    },
+
+    "database": {
+        "host": "database.example.local",
+        "port": 5432,
+        "name": "spm"
+    },
+
+    "logging": {
+        "level": "INFO"
+    }
+}
+    </pre>
+
+
+    <div class="warning">
+
+        <strong>
+            Security Note:
+        </strong>
+
+        Do not store passwords, API keys, certificates,
+        or other sensitive credentials directly in
+        publicly accessible configuration files.
+
+    </div>
+
+
+    <h3>
+        7.2 Configuration Parameters
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Parameter
+                    </th>
+
+                    <th>
+                        Description
+                    </th>
+
+                    <th>
+                        Example
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        <code>server.host</code>
+                    </td>
+
+                    <td>
+                        Hostname of the SPM management server.
+                    </td>
+
+                    <td>
+                        spm-server.example.local
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>server.port</code>
+                    </td>
+
+                    <td>
+                        Port used by the management service.
+                    </td>
+
+                    <td>
+                        8443
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>database.host</code>
+                    </td>
+
+                    <td>
+                        Hostname of the database server.
+                    </td>
+
+                    <td>
+                        database.example.local
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>database.port</code>
+                    </td>
+
+                    <td>
+                        Port used for database connectivity.
+                    </td>
+
+                    <td>
+                        5432
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>logging.level</code>
+                    </td>
+
+                    <td>
+                        Controls the level of application logging.
+                    </td>
+
+                    <td>
+                        INFO
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     8. SERVICE VERIFICATION
+========================= -->
+
+<section id="service">
+
+    <h2>
+        8. Service Verification
+    </h2>
+
+
+    <p>
+        Verify that the SPM management service is running
+        after installation and configuration.
+    </p>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Open Windows Services
+                </h3>
+
+                <p>
+                    Open the Windows Services management
+                    console on the installation server.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Locate SPM Service
+                </h3>
+
+                <p>
+                    Locate the Sentinel Privilege Manager
+                    Management Service.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Verify Status
+                </h3>
+
+                <p>
+                    Confirm that the service status is
+                    <strong>Running</strong>.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="success">
+
+        <strong>
+            Expected Result:
+        </strong>
+
+        The SPM management service is running
+        without errors.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     9. ENDPOINT AGENT
+========================= -->
+
+<section id="agent">
+
+    <h2>
+        9. Install the Endpoint Agent
+    </h2>
+
+
+    <p>
+        The endpoint agent enables SPM to communicate
+        with and manage endpoint devices.
+    </p>
+
+
+    <h3>
+        9.1 Agent Installation
+    </h3>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Copy the Agent Package
+                </h3>
+
+                <p>
+                    Copy <code>SPMAgentSetup.msi</code>
+                    to the target endpoint.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Open an Elevated Command Prompt
+                </h3>
+
+                <p>
+                    Open Command Prompt with
+                    administrator privileges.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Run the Installer
+                </h3>
+
+                <p>
+                    Run the MSI package using the
+                    supported installation command.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <pre>
+msiexec /i SPMAgentSetup.msi /qn
+    </pre>
+
+
+    <div class="note">
+
+        <strong>
+            Note:
+        </strong>
+
+        The command above is an example for this
+        fictional portfolio product. Actual production
+        parameters depend on the deployment environment.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     10. VALIDATION
+========================= -->
+
+<section id="validation">
+
+    <h2>
+        10. Installation Validation
+    </h2>
+
+
+    <p>
+        Complete the following checks after installing
+        the server components and endpoint agent.
+    </p>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Validation
+                    </th>
+
+                    <th>
+                        Expected Result
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Management Service
+                    </td>
+
+                    <td>
+                        Service status is Running.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Web Console
+                    </td>
+
+                    <td>
+                        Administration console loads successfully.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Database
+                    </td>
+
+                    <td>
+                        Database connection is successful.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Endpoint Agent
+                    </td>
+
+                    <td>
+                        Agent service is running.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Endpoint Registration
+                    </td>
+
+                    <td>
+                        Endpoint appears in the SPM console.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Policy Communication
+                    </td>
+
+                    <td>
+                        Endpoint receives the configured policy.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="success">
+
+        <strong>
+            Installation Successful
+        </strong>
+
+        The environment is ready for initial policy
+        configuration and endpoint management.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     11. UPGRADE
+========================= -->
+
+<section id="upgrade">
+
+    <h2>
+        11. Upgrade
+    </h2>
+
+
+    <p>
+        Follow the organization's change management
+        process before upgrading an existing SPM
+        environment.
+    </p>
+
+
+    <h3>
+        11.1 Pre-Upgrade Activities
+    </h3>
+
+
+    <ul>
+
+        <li>
+            Review the release documentation.
+        </li>
+
+        <li>
+            Verify system requirements.
+        </li>
+
+        <li>
+            Back up the SPM database.
+        </li>
+
+        <li>
+            Back up configuration files.
+        </li>
+
+        <li>
+            Confirm rollback procedures.
+        </li>
+
+        <li>
+            Notify affected stakeholders.
+        </li>
+
+    </ul>
+
+
+    <h3>
+        11.2 Upgrade Procedure
+    </h3>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Stop Relevant Services
+                </h3>
+
+                <p>
+                    Stop the SPM services according to
+                    the approved change procedure.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Run the New Installer
+                </h3>
+
+                <p>
+                    Launch the installer for the target
+                    SPM version.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Apply Configuration
+                </h3>
+
+                <p>
+                    Verify that the existing configuration
+                    is retained or updated as required.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                4
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Start Services
+                </h3>
+
+                <p>
+                    Start the upgraded SPM services.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                5
+            </div>
+
+            <div class="step-content">
+
+                <h3>
+                    Validate the Environment
+                </h3>
+
+                <p>
+                    Verify console access, database
+                    connectivity, endpoint communication,
+                    and policy operation.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     12. UNINSTALL
+========================= -->
+
+<section id="uninstall">
+
+    <h2>
+        12. Uninstallation
+    </h2>
+
+
+    <div class="warning">
+
+        <strong>
+            Before You Begin:
+        </strong>
+
+        Back up required configuration and data before
+        removing SPM components.
+
+    </div>
+
+
+    <h3>
+        12.1 Remove the Management Components
+    </h3>
+
+
+    <ol>
+
+        <li>
+            Open <strong>Apps & Features</strong>
+            in Windows.
+        </li>
+
+        <li>
+            Locate Sentinel Privilege Manager.
+        </li>
+
+        <li>
+            Select <strong>Uninstall</strong>.
+        </li>
+
+        <li>
+            Follow the uninstallation wizard.
+        </li>
+
+        <li>
+            Restart the server if required.
+        </li>
+
+    </ol>
+
+
+    <h3>
+        12.2 Remove the Endpoint Agent
+    </h3>
+
+
+    <p>
+        Remove the endpoint agent from managed devices
+        using the organization's approved software
+        removal process.
+    </p>
+
+</section>
+
+
+
+<!-- =========================
+     13. TROUBLESHOOTING
+========================= -->
+
+<section id="troubleshooting">
+
+    <h2>
+        13. Troubleshooting
+    </h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Issue
+                    </th>
+
+                    <th>
+                        Possible Cause
+                    </th>
+
+                    <th>
+                        Resolution
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Installer does not start
+                    </td>
+
+                    <td>
+                        Insufficient permissions.
+                    </td>
+
+                    <td>
+                        Run the installer with
+                        administrator privileges.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Database connection fails
+                    </td>
+
+                    <td>
+                        Incorrect connection information
+                        or network connectivity issue.
+                    </td>
+
+                    <td>
+                        Verify database host, port,
+                        credentials, and connectivity.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Management service does not start
+                    </td>
+
+                    <td>
+                        Invalid configuration or
+                        unavailable dependency.
+                    </td>
+
+                    <td>
+                        Review configuration and
+                        application logs.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Endpoint does not appear
+                    </td>
+
+                    <td>
+                        Agent cannot communicate with
+                        the management service.
+                    </td>
+
+                    <td>
+                        Verify agent status, network
+                        connectivity, and server address.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Policy is not received
+                    </td>
+
+                    <td>
+                        Endpoint is not synchronized
+                        or policy is incorrectly assigned.
+                    </td>
+
+                    <td>
+                        Verify endpoint status and
+                        policy assignment.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        13.1 Log Locations
+    </h3>
+
+
+    <p>
+        Application and agent logs can be reviewed
+        when troubleshooting installation or
+        communication issues.
+    </p>
+
+
+    <pre>
+C:\ProgramData\SentinelPM\Logs\
+    </pre>
+
+
+    <div class="danger">
+
+        <strong>
+            Do not share sensitive logs publicly.
+        </strong>
+
+        Logs may contain hostnames, usernames,
+        configuration information, or other
+        environment-specific information.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     14. DEPLOYMENT CHECKLIST
+========================= -->
+
+<section id="checklist">
+
+    <h2>
+        14. Deployment Checklist
+    </h2>
+
+
+    <p>
+        Use this checklist to verify that the
+        installation is ready for operational use.
+    </p>
+
+
+    <ul class="checklist">
+
+        <li>
+            System requirements have been verified.
+        </li>
+
+        <li>
+            Administrative access is available.
+        </li>
+
+        <li>
+            Database connectivity has been verified.
+        </li>
+
+        <li>
+            Firewall requirements have been configured.
+        </li>
+
+        <li>
+            Management components have been installed.
+        </li>
+
+        <li>
+            Management service is running.
+        </li>
+
+        <li>
+            Web console is accessible.
+        </li>
+
+        <li>
+            Endpoint agent has been installed.
+        </li>
+
+        <li>
+            Endpoint appears in the console.
+        </li>
+
+        <li>
+            Initial policy has been assigned.
+        </li>
+
+        <li>
+            Endpoint communication has been validated.
+        </li>
+
+        <li>
+            Backup and rollback procedures have been documented.
+        </li>
+
+    </ul>
+
+
+    <div class="success">
+
+        <strong>
+            Deployment Ready
+        </strong>
+
+        Once all checklist items have been completed,
+        the SPM environment can proceed to operational
+        configuration and policy management.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     DOCUMENT INFORMATION
+========================= -->
+
+<section>
+
+    <h2>
+        Document Information
+    </h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <tbody>
+
+                <tr>
+
+                    <th>
+                        Document Type
+                    </th>
+
+                    <td>
+                        Installation & Configuration Guide
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Product
+                    </th>
+
+                    <td>
+                        Sentinel Privilege Manager
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Version
+                    </th>
+
+                    <td>
+                        3.2
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Audience
+                    </th>
+
+                    <td>
+                        System, Security, and Endpoint Administrators
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <td>
+                        Portfolio Sample
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Author
+                    </th>
+
+                    <td>
+                        Anshula Raina
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="warning">
+
+        <strong>
+            Portfolio Disclaimer:
+        </strong>
+
+        Sentinel Privilege Manager is a fictional product
+        created for demonstration purposes. The technical
+        values, commands, configuration parameters, and
+        deployment procedures in this sample are illustrative
+        and should not be used for production deployment.
+
+    </div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+
+        <strong>
+            Sentinel Privilege Manager
+        </strong>
+
+        — Installation & Configuration Guide
+
+    </p>
+
+
+    <p>
+
+        Portfolio sample created by
+
+        <a href="index.html">
+            Anshula Raina
+        </a>
+
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
