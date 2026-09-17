@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SPM 2.4.0 — Release Notes</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f8fb;
+            color: #263238;
+            line-height: 1.7;
+        }
+
+        a {
+            color: #0d8cd8;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #dfe7ee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0d8cd8;
+        }
+
+        nav a {
+            margin-left: 24px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .layout {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 235px 1fr;
+            gap: 35px;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 95px;
+            height: fit-content;
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 10px;
+            padding: 22px;
+        }
+
+        .sidebar h3 {
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #12344d;
+        }
+
+        .sidebar a {
+            display: block;
+            font-size: 13px;
+            padding: 7px 0;
+            color: #536775;
+        }
+
+        .sidebar a:hover {
+            color: #0d8cd8;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        .hero {
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 12px;
+            padding: 42px;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #eaf6fd;
+            color: #0d8cd8;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            line-height: 1.25;
+            color: #12344d;
+            margin-bottom: 10px;
+        }
+
+        .hero h2 {
+            font-size: 19px;
+            font-weight: 500;
+            color: #536775;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            color: #5d6d78;
+            max-width: 800px;
+        }
+
+        .metadata {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .metadata div {
+            background: #f7fafc;
+            border: 1px solid #e5edf3;
+            padding: 13px;
+            border-radius: 7px;
+        }
+
+        .metadata strong {
+            display: block;
+            font-size: 11px;
+            color: #71818c;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .metadata span {
+            font-size: 13px;
+        }
+
+        section {
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 10px;
+            padding: 32px;
+            margin-bottom: 22px;
+        }
+
+        section h2 {
+            color: #0d8cd8;
+            font-size: 23px;
+            margin-bottom: 18px;
+        }
+
+        section h3 {
+            color: #12344d;
+            font-size: 17px;
+            margin: 22px 0 10px;
+        }
+
+        section p {
+            margin-bottom: 14px;
+        }
+
+        .release-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .summary-card {
+            border: 1px solid #dfe7ee;
+            border-radius: 8px;
+            padding: 20px;
+            background: #fbfdfe;
+        }
+
+        .summary-card strong {
+            display: block;
+            font-size: 26px;
+            color: #0d8cd8;
+            margin-bottom: 3px;
+        }
+
+        .summary-card span {
+            font-size: 13px;
+            color: #62727d;
+        }
+
+        .release-section {
+            margin-top: 28px;
+        }
+
+        .release-section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #edf2f5;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .release-section-title h3 {
+            margin: 0;
+        }
+
+        .count {
+            font-size: 12px;
+            color: #71818c;
+            background: #f1f5f7;
+            padding: 4px 9px;
+            border-radius: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0 25px;
+        }
+
+        th {
+            background: #edf6fb;
+            color: #12344d;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #dce5eb;
+            padding: 13px 14px;
+            vertical-align: top;
+            font-size: 13px;
+        }
+
+        tr:nth-child(even) {
+            background: #fafcfd;
+        }
+
+        .type {
+            display: inline-block;
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #edf6fb;
+            color: #0d8cd8;
+        }
+
+        .note-box,
+        .warning-box {
+            padding: 17px 20px;
+            border-radius: 7px;
+            margin: 18px 0;
+        }
+
+        .note-box {
+            background: #f4f8f4;
+            border-left: 4px solid #5a8f5a;
+        }
+
+        .warning-box {
+            background: #fff8e8;
+            border-left: 4px solid #e2a62b;
+        }
+
+        .checklist {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .checklist li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+            border-bottom: 1px solid #edf1f4;
+        }
+
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: #0d8cd8;
+            font-size: 17px;
+        }
+
+        code {
+            background: #f0f3f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #71818c;
+            font-size: 13px;
+        }
+
+        @media (max-width: 850px) {
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .metadata,
+            .release-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .hero,
+            section {
+                padding: 22px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .metadata,
+            .release-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .header-container {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-container">
+
+        <div class="logo">
+            SPM Documentation
+        </div>
+
+        <nav>
+            <a href="index.html">Portfolio</a>
+            <a href="#highlights">Highlights</a>
+            <a href="#features">Features</a>
+            <a href="#fixes">Fixes</a>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<div class="layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <h3>Contents</h3>
+
+        <a href="#overview">1. Release Overview</a>
+        <a href="#highlights">2. Release Highlights</a>
+        <a href="#features">3. New Features</a>
+        <a href="#enhancements">4. Enhancements</a>
+        <a href="#fixes">5. Bug Fixes</a>
+        <a href="#upgrade">6. Upgrade Notes</a>
+        <a href="#known">7. Known Limitations</a>
+        <a href="#document">8. Document Information</a>
+
+    </aside>
+
+
+    <main>
+
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <span class="badge">
+                RELEASE NOTES
+            </span>
+
+            <h1>
+                Sentinel Privilege Manager 2.4.0
+            </h1>
+
+            <h2>
+                Feature and Enhancement Release
+            </h2>
+
+            <p>
+                This release introduces improved privilege request
+                workflows, policy management enhancements, expanded
+                reporting capabilities, and fixes for issues affecting
+                administration and endpoint operations.
+            </p>
+
+
+            <div class="metadata">
+
+                <div>
+                    <strong>Product</strong>
+                    <span>Sentinel Privilege Manager</span>
+                </div>
+
+                <div>
+                    <strong>Version</strong>
+                    <span>2.4.0</span>
+                </div>
+
+                <div>
+                    <strong>Release Date</strong>
+                    <span>17 September 2026</span>
+                </div>
+
+                <div>
+                    <strong>Release Type</strong>
+                    <span>Feature Release</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- OVERVIEW -->
+
+        <section id="overview">
+
+            <h2>1. Release Overview</h2>
+
+            <p>
+                SPM 2.4.0 focuses on improving administrative workflows,
+                increasing visibility into privilege activity, and
+                simplifying policy management.
+            </p>
+
+            <div class="release-summary">
+
+                <div class="summary-card">
+                    <strong>3</strong>
+                    <span>New Features</span>
+                </div>
+
+                <div class="summary-card">
+                    <strong>4</strong>
+                    <span>Enhancements</span>
+                </div>
+
+                <div class="summary-card">
+                    <strong>5</strong>
+                    <span>Bug Fixes</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- HIGHLIGHTS -->
+
+        <section id="highlights">
+
+            <h2>2. Release Highlights</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Area</th>
+                        <th>What's New</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Privilege Requests</td>
+                        <td>
+                            Administrators can configure
+                            multi-level approval workflows.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Policy Management</td>
+                        <td>
+                            Policy search and filtering have been
+                            expanded for faster administration.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Reporting</td>
+                        <td>
+                            Privilege activity reports now include
+                            additional filtering options.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Endpoint Operations</td>
+                        <td>
+                            Agent synchronization handling has been
+                            improved for intermittent connectivity.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- FEATURES -->
+
+        <section id="features">
+
+            <h2>3. New Features</h2>
+
+
+            <div class="release-section">
+
+                <div class="release-section-title">
+
+                    <h3>
+                        Multi-Level Privilege Approval
+                    </h3>
+
+                    <span class="count">
+                        Feature
+                    </span>
+
+                </div>
+
+                <p>
+                    Administrators can now configure approval workflows
+                    with multiple approval stages for elevated privilege
+                    requests.
+                </p>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Capability</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Approval Stages</td>
+                            <td>
+                                Configure sequential approval steps
+                                for sensitive access requests.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Approver Assignment</td>
+                            <td>
+                                Assign different approvers to individual
+                                workflow stages.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Status Tracking</td>
+                            <td>
+                                View the current approval stage and
+                                request status.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="release-section">
+
+                <div class="release-section-title">
+
+                    <h3>
+                        Scheduled Privilege Access
+                    </h3>
+
+                    <span class="count">
+                        Feature
+                    </span>
+
+                </div>
+
+                <p>
+                    Users can now request privilege access for a
+                    predefined future time window.
+                </p>
+
+                <p>
+                    This allows administrators to support planned
+                    maintenance activities without granting
+                    persistent elevated access.
+                </p>
+
+            </div>
+
+
+            <div class="release-section">
+
+                <div class="release-section-title">
+
+                    <h3>
+                        Privilege Activity Dashboard
+                    </h3>
+
+                    <span class="count">
+                        Feature
+                    </span>
+
+                </div>
+
+                <p>
+                    A new dashboard provides a consolidated view of
+                    privilege requests, approvals, active elevated
+                    sessions, and recently completed requests.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ENHANCEMENTS -->
+
+        <section id="enhancements">
+
+            <h2>4. Enhancements</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Area</th>
+                        <th>Enhancement</th>
+                        <th>User Impact</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Policy Management</td>
+                        <td>
+                            Added filtering by policy status,
+                            assignment group, and last modified date.
+                        </td>
+                        <td>
+                            Administrators can locate policies faster.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Application Search</td>
+                        <td>
+                            Improved application search with partial
+                            name matching.
+                        </td>
+                        <td>
+                            Reduces the time required to locate applications.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Reports</td>
+                        <td>
+                            Added date-range and user filters to
+                            privilege activity reports.
+                        </td>
+                        <td>
+                            Provides more focused reporting results.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Agent Synchronization</td>
+                        <td>
+                            Improved retry handling when communication
+                            with the management server is temporarily unavailable.
+                        </td>
+                        <td>
+                            Helps endpoints recover synchronization
+                            without manual intervention.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- BUG FIXES -->
+
+        <section id="fixes">
+
+            <h2>5. Bug Fixes</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Component</th>
+                        <th>Issue</th>
+                        <th>Resolution</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Policy Management</td>
+                        <td>
+                            Policy status was not refreshed immediately
+                            after an update.
+                        </td>
+                        <td>
+                            Status refresh handling has been corrected.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Privilege Requests</td>
+                        <td>
+                            Request details could become unavailable
+                            after a rejected request was reopened.
+                        </td>
+                        <td>
+                            Request state handling has been updated.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Reporting</td>
+                        <td>
+                            Exported reports could omit records when
+                            a date filter was applied.
+                        </td>
+                        <td>
+                            Report filtering and export processing
+                            have been corrected.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Agent</td>
+                        <td>
+                            Agent status could remain stale after
+                            temporary network interruptions.
+                        </td>
+                        <td>
+                            Endpoint status synchronization has been improved.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Administration</td>
+                        <td>
+                            Validation messages were not displayed
+                            consistently for incomplete policy forms.
+                        </td>
+                        <td>
+                            Form validation messaging has been standardized.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- UPGRADE -->
+
+        <section id="upgrade">
+
+            <h2>6. Upgrade Notes</h2>
+
+            <p>
+                Review the following items before upgrading an existing
+                SPM environment.
+            </p>
+
+            <ul class="checklist">
+
+                <li>
+                    Review the release changes with the SPM administrator.
+                </li>
+
+                <li>
+                    Back up the existing SPM configuration according
+                    to your organization's backup procedure.
+                </li>
+
+                <li>
+                    Review existing privilege approval workflows.
+                </li>
+
+                <li>
+                    Validate application and endpoint policies after
+                    the upgrade.
+                </li>
+
+                <li>
+                    Test privilege request and approval workflows
+                    before enabling them for all users.
+                </li>
+
+                <li>
+                    Review updated reporting and dashboard functionality.
+                </li>
+
+            </ul>
+
+            <div class="warning-box">
+
+                <strong>Important:</strong>
+                Upgrade procedures and prerequisites may vary by
+                deployment architecture. Refer to the applicable
+                installation and upgrade documentation before
+                performing an upgrade.
+
+            </div>
+
+        </section>
+
+
+        <!-- KNOWN LIMITATIONS -->
+
+        <section id="known">
+
+            <h2>7. Known Limitations</h2>
+
+            <p>
+                The following limitations apply to this sample release.
+            </p>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Area</th>
+                        <th>Limitation</th>
+                        <th>Workaround</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Scheduled Access</td>
+                        <td>
+                            Scheduled privileges cannot currently
+                            be created for recurring time windows.
+                        </td>
+                        <td>
+                            Create individual access windows as required.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Dashboard</td>
+                        <td>
+                            Activity data may take a short period
+                            to appear after a new event.
+                        </td>
+                        <td>
+                            Refresh the dashboard after the activity
+                            has been processed.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- DOCUMENT -->
+
+        <section id="document">
+
+            <h2>8. Document Information</h2>
+
+            <table>
+
+                <tbody>
+
+                    <tr>
+                        <th>Product</th>
+                        <td>Sentinel Privilege Manager</td>
+                    </tr>
+
+                    <tr>
+                        <th>Release</th>
+                        <td>2.4.0</td>
+                    </tr>
+
+                    <tr>
+                        <th>Release Date</th>
+                        <td>17 September 2026</td>
+                    </tr>
+
+                    <tr>
+                        <th>Document Type</th>
+                        <td>Release Notes</td>
+                    </tr>
+
+                    <tr>
+                        <th>Status</th>
+                        <td>Sample</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+
+            <div class="note-box">
+
+                <strong>Portfolio Sample:</strong>
+                This release note is a fictionalized technical-writing
+                sample created for portfolio demonstration purposes.
+                Sentinel Privilege Manager, features, enhancements,
+                fixes, and release details are illustrative and do not
+                represent a real production product.
+
+            </div>
+
+
+            <a class="back-link" href="index.html">
+                ← Back to Technical Writing Portfolio
+            </a>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<footer>
+    © 2026 Anshula Raina · Technical Writing Portfolio
+</footer>
+
+
+</body>
+</html>
