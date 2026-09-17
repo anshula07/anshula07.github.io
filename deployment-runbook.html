@@ -1,0 +1,3446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Sentinel Privilege Manager — Production Deployment Runbook
+    </title>
+
+    <meta name="description"
+          content="Production Deployment and Service Recovery Runbook for Sentinel Privilege Manager.">
+
+    <style>
+
+        :root {
+            --primary: #0d8cd8;
+            --primary-dark: #086aa5;
+            --primary-light: #eaf6fd;
+
+            --text: #263238;
+            --muted: #667085;
+
+            --border: #dfe5eb;
+
+            --background: #f7f9fc;
+            --white: #ffffff;
+
+            --code-bg: #17212b;
+            --code-text: #e7edf2;
+
+            --success: #198754;
+            --success-light: #edf8f2;
+
+            --warning: #b7791f;
+            --warning-light: #fff8e8;
+
+            --danger: #c0392b;
+            --danger-light: #fff1f0;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: var(--text);
+
+            background: var(--background);
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .topbar {
+            background: var(--white);
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+        .topbar-inner {
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding:
+                15px 25px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap: 20px;
+        }
+
+
+        .brand {
+            color: var(--primary);
+
+            text-decoration: none;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+
+        .back-link {
+            color: var(--muted);
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #eaf6fd,
+                    #ffffff
+                );
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            padding:
+                60px 25px;
+        }
+
+
+        .hero-container {
+            max-width: 1050px;
+
+            margin: auto;
+        }
+
+
+        .eyebrow {
+            display: inline-block;
+
+            background:
+                var(--primary-light);
+
+            color:
+                var(--primary-dark);
+
+            padding:
+                6px 13px;
+
+            border-radius:
+                20px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing: 0.6px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .hero h1 {
+            margin:
+                0 0 15px;
+
+            font-size: 42px;
+
+            line-height: 1.2;
+
+            color:
+                #172b3a;
+        }
+
+
+        .hero p {
+            max-width:
+                850px;
+
+            margin: 0;
+
+            font-size: 18px;
+
+            color:
+                var(--muted);
+        }
+
+
+        .metadata {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+
+        .metadata span {
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                6px;
+
+            padding:
+                7px 12px;
+
+            font-size: 13px;
+
+            color:
+                #475467;
+        }
+
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .layout {
+            max-width:
+                1250px;
+
+            margin:
+                40px auto;
+
+            padding:
+                0 25px;
+
+            display:
+                grid;
+
+            grid-template-columns:
+                235px
+                minmax(0, 1fr);
+
+            gap:
+                35px;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position:
+                sticky;
+
+            top:
+                95px;
+
+            height:
+                fit-content;
+
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                10px;
+
+            padding:
+                20px;
+        }
+
+
+        .sidebar-title {
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            color:
+                #475467;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.5px;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .sidebar a {
+            display:
+                block;
+
+            color:
+                #475467;
+
+            text-decoration:
+                none;
+
+            font-size:
+                13px;
+
+            padding:
+                6px 0;
+        }
+
+
+        .sidebar a:hover {
+            color:
+                var(--primary);
+        }
+
+
+        /* =========================
+           DOCUMENT
+        ========================= */
+
+        .document {
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                10px;
+
+            padding:
+                48px;
+
+            min-width:
+                0;
+        }
+
+
+        .document h2 {
+            color:
+                var(--primary);
+
+            font-size:
+                27px;
+
+            margin-top:
+                55px;
+
+            margin-bottom:
+                18px;
+
+            padding-bottom:
+                8px;
+
+            border-bottom:
+                1px solid
+                var(--border);
+        }
+
+
+        .document h2:first-child {
+            margin-top: 0;
+        }
+
+
+        .document h3 {
+            color:
+                #344054;
+
+            font-size:
+                20px;
+
+            margin-top:
+                30px;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .document p {
+            margin:
+                10px 0 16px;
+        }
+
+
+        .document ul,
+        .document ol {
+            padding-left:
+                25px;
+        }
+
+
+        .document li {
+            margin-bottom:
+                8px;
+        }
+
+
+        /* =========================
+           INFO BOXES
+        ========================= */
+
+        .info-box {
+            background:
+                var(--primary-light);
+
+            border-left:
+                4px solid
+                var(--primary);
+
+            padding:
+                18px 20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px 7px 0;
+        }
+
+
+        .info-box strong {
+            display:
+                block;
+
+            color:
+                var(--primary-dark);
+
+            margin-bottom:
+                4px;
+        }
+
+
+        .note {
+            background:
+                var(--success-light);
+
+            border-left:
+                4px solid
+                var(--success);
+
+            padding:
+                18px 20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px 7px 0;
+        }
+
+
+        .note strong {
+            color:
+                var(--success);
+        }
+
+
+        .warning {
+            background:
+                var(--warning-light);
+
+            border-left:
+                4px solid
+                var(--warning);
+
+            padding:
+                18px 20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px 7px 0;
+        }
+
+
+        .warning strong {
+            color:
+                var(--warning);
+        }
+
+
+        .danger {
+            background:
+                var(--danger-light);
+
+            border-left:
+                4px solid
+                var(--danger);
+
+            padding:
+                18px 20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px 7px 0;
+        }
+
+
+        .danger strong {
+            color:
+                var(--danger);
+        }
+
+
+        /* =========================
+           STEPS
+        ========================= */
+
+        .steps {
+            margin:
+                25px 0;
+        }
+
+
+        .step {
+            display:
+                grid;
+
+            grid-template-columns:
+                45px 1fr;
+
+            gap:
+                15px;
+
+            margin-bottom:
+                18px;
+
+            padding:
+                18px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                8px;
+
+            background:
+                #ffffff;
+        }
+
+
+        .step-number {
+            width:
+                36px;
+
+            height:
+                36px;
+
+            border-radius:
+                50%;
+
+            background:
+                var(--primary);
+
+            color:
+                white;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            font-size:
+                13px;
+
+            font-weight:
+                700;
+        }
+
+
+        .step-content h3 {
+            margin:
+                0 0 5px;
+
+            font-size:
+                18px;
+        }
+
+
+        .step-content p {
+            margin:
+                0;
+
+            color:
+                var(--muted);
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+            overflow-x:
+                auto;
+
+            margin:
+                20px 0 30px;
+        }
+
+
+        table {
+            width:
+                100%;
+
+            border-collapse:
+                collapse;
+
+            min-width:
+                600px;
+        }
+
+
+        th,
+        td {
+            border:
+                1px solid
+                var(--border);
+
+            padding:
+                12px 14px;
+
+            text-align:
+                left;
+
+            vertical-align:
+                top;
+        }
+
+
+        th {
+            background:
+                #f2f6f9;
+
+            color:
+                #344054;
+        }
+
+
+        tr:nth-child(even) td {
+            background:
+                #fafbfd;
+        }
+
+
+        /* =========================
+           CODE
+        ========================= */
+
+        code {
+            background:
+                #eef2f5;
+
+            color:
+                #c0392b;
+
+            padding:
+                2px 6px;
+
+            border-radius:
+                4px;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-size:
+                90%;
+        }
+
+
+        pre {
+            background:
+                var(--code-bg);
+
+            color:
+                var(--code-text);
+
+            padding:
+                20px;
+
+            border-radius:
+                8px;
+
+            overflow-x:
+                auto;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-size:
+                13px;
+
+            line-height:
+                1.65;
+
+            margin:
+                20px 0 28px;
+        }
+
+
+        /* =========================
+           CHECKLIST
+        ========================= */
+
+        .checklist {
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                8px;
+
+            overflow:
+                hidden;
+
+            margin:
+                20px 0 30px;
+        }
+
+
+        .check-item {
+            padding:
+                14px 18px;
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            display:
+                flex;
+
+            gap:
+                12px;
+
+            align-items:
+                flex-start;
+        }
+
+
+        .check-item:last-child {
+            border-bottom:
+                none;
+        }
+
+
+        .checkbox {
+            width:
+                18px;
+
+            height:
+                18px;
+
+            border:
+                2px solid
+                var(--primary);
+
+            border-radius:
+                4px;
+
+            flex:
+                0 0 auto;
+
+            margin-top:
+                3px;
+        }
+
+
+        /* =========================
+           SEVERITY
+        ========================= */
+
+        .severity {
+            display:
+                inline-block;
+
+            padding:
+                4px 9px;
+
+            border-radius:
+                5px;
+
+            font-size:
+                11px;
+
+            font-weight:
+                700;
+
+            text-transform:
+                uppercase;
+        }
+
+
+        .critical {
+            background:
+                #fde8e7;
+
+            color:
+                #a61b1b;
+        }
+
+
+        .high {
+            background:
+                #fff0e6;
+
+            color:
+                #c05621;
+        }
+
+
+        .medium {
+            background:
+                #fff8e1;
+
+            color:
+                #8a6500;
+        }
+
+
+        .low {
+            background:
+                #edf8f2;
+
+            color:
+                #087f5b;
+        }
+
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .card-grid {
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                15px;
+
+            margin:
+                22px 0;
+        }
+
+
+        .card {
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                8px;
+
+            padding:
+                18px;
+
+            background:
+                #fbfcfd;
+        }
+
+
+        .card h3 {
+            margin:
+                0 0 7px;
+
+            font-size:
+                17px;
+
+            color:
+                var(--primary-dark);
+        }
+
+
+        .card p {
+            margin:
+                0;
+
+            font-size:
+                14px;
+
+            color:
+                var(--muted);
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align:
+                center;
+
+            padding:
+                40px 20px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                13px;
+        }
+
+
+        footer a {
+            color:
+                var(--primary);
+
+            text-decoration:
+                none;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .layout {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .sidebar {
+                position:
+                    relative;
+
+                top:
+                    0;
+            }
+
+
+            .sidebar a {
+                display:
+                    inline-block;
+
+                margin-right:
+                    12px;
+            }
+
+
+            .card-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .document {
+                padding:
+                    30px;
+            }
+
+
+            .hero h1 {
+                font-size:
+                    34px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .hero {
+                padding:
+                    45px 18px;
+            }
+
+
+            .hero h1 {
+                font-size:
+                    29px;
+            }
+
+
+            .hero p {
+                font-size:
+                    16px;
+            }
+
+
+            .layout {
+                padding:
+                    0 15px;
+
+                margin:
+                    25px auto;
+            }
+
+
+            .document {
+                padding:
+                    22px;
+            }
+
+
+            .document h2 {
+                font-size:
+                    24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="topbar">
+
+    <div class="topbar-inner">
+
+        <a href="index.html"
+           class="brand">
+
+            Anshula Raina
+
+        </a>
+
+
+        <a href="index.html#documentation"
+           class="back-link">
+
+            ← Back to Portfolio
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-container">
+
+        <span class="eyebrow">
+            Operations Documentation
+        </span>
+
+
+        <h1>
+            Production Deployment & Service Recovery Runbook
+        </h1>
+
+
+        <p>
+            Operational procedures for deploying,
+            validating, monitoring, and recovering
+            Sentinel Privilege Manager in a production
+            environment.
+        </p>
+
+
+        <div class="metadata">
+
+            <span>
+                <strong>Product:</strong>
+                Sentinel Privilege Manager
+            </span>
+
+
+            <span>
+                <strong>Document Type:</strong>
+                Production Runbook
+            </span>
+
+
+            <span>
+                <strong>Version:</strong>
+                3.2
+            </span>
+
+
+            <span>
+                <strong>Audience:</strong>
+                Operations & Support Teams
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     LAYOUT
+========================= -->
+
+<div class="layout">
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">
+        Runbook Contents
+    </div>
+
+
+    <a href="#purpose">
+        1. Purpose & Scope
+    </a>
+
+
+    <a href="#ownership">
+        2. Ownership
+    </a>
+
+
+    <a href="#environment">
+        3. Environment Overview
+    </a>
+
+
+    <a href="#prerequisites">
+        4. Prerequisites
+    </a>
+
+
+    <a href="#predeployment">
+        5. Pre-Deployment Checklist
+    </a>
+
+
+    <a href="#deployment">
+        6. Deployment Procedure
+    </a>
+
+
+    <a href="#validation">
+        7. Post-Deployment Validation
+    </a>
+
+
+    <a href="#health">
+        8. Health Checks
+    </a>
+
+
+    <a href="#incidents">
+        9. Incident Response
+    </a>
+
+
+    <a href="#recovery">
+        10. Service Recovery
+    </a>
+
+
+    <a href="#rollback">
+        11. Rollback
+    </a>
+
+
+    <a href="#escalation">
+        12. Escalation
+    </a>
+
+
+    <a href="#postincident">
+        13. Post-Incident Checklist
+    </a>
+
+
+    <a href="#best-practices">
+        14. Operational Best Practices
+    </a>
+
+
+</aside>
+
+
+
+<!-- =========================
+     DOCUMENT
+========================= -->
+
+<main class="document">
+
+
+<!-- =========================
+     1. PURPOSE
+========================= -->
+
+<section id="purpose">
+
+    <h2>
+        1. Purpose & Scope
+    </h2>
+
+
+    <p>
+        This runbook provides standardized procedures
+        for deploying and recovering Sentinel Privilege
+        Manager (SPM) in a production environment.
+    </p>
+
+
+    <p>
+        It is intended to provide operations and support
+        teams with a repeatable procedure for routine
+        deployments, service validation, incident
+        investigation, and service recovery.
+    </p>
+
+
+    <div class="info-box">
+
+        <strong>
+            When should this runbook be used?
+        </strong>
+
+        Use this runbook during planned production
+        deployments, post-deployment validation,
+        service outages, application health issues,
+        and controlled recovery activities.
+
+    </div>
+
+
+    <h3>
+        1.1 Scope
+    </h3>
+
+
+    <ul>
+
+        <li>
+            Production application deployment
+        </li>
+
+        <li>
+            Service startup and shutdown
+        </li>
+
+        <li>
+            Post-deployment validation
+        </li>
+
+        <li>
+            Basic service recovery
+        </li>
+
+        <li>
+            Incident triage
+        </li>
+
+        <li>
+            Rollback procedures
+        </li>
+
+        <li>
+            Operational escalation
+        </li>
+
+    </ul>
+
+</section>
+
+
+
+<!-- =========================
+     2. OWNERSHIP
+========================= -->
+
+<section id="ownership">
+
+    <h2>
+        2. Ownership & Responsibilities
+    </h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Role
+                    </th>
+
+                    <th>
+                        Responsibility
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Release Engineer
+                    </td>
+
+                    <td>
+                        Executes the production deployment
+                        and validates the release.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        System Administrator
+                    </td>
+
+                    <td>
+                        Manages server access, services,
+                        operating system health, and
+                        infrastructure dependencies.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Application Support
+                    </td>
+
+                    <td>
+                        Performs application-level
+                        troubleshooting and incident triage.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Security Administrator
+                    </td>
+
+                    <td>
+                        Validates authentication, privilege
+                        policies, and security-related
+                        functionality.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Incident Manager
+                    </td>
+
+                    <td>
+                        Coordinates major incidents,
+                        communication, escalation, and
+                        recovery activities.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     3. ENVIRONMENT
+========================= -->
+
+<section id="environment">
+
+    <h2>
+        3. Environment Overview
+    </h2>
+
+
+    <p>
+        The sample production environment contains
+        application services, a database, an API gateway,
+        and an administrative web interface.
+    </p>
+
+
+    <div class="card-grid">
+
+
+        <div class="card">
+
+            <h3>
+                Application Server
+            </h3>
+
+            <p>
+                Hosts the SPM application services and
+                background processing components.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                API Gateway
+            </h3>
+
+            <p>
+                Routes API requests between clients and
+                backend application services.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Database Server
+            </h3>
+
+            <p>
+                Stores application configuration,
+                identity information, policies, and
+                operational data.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Administration Console
+            </h3>
+
+            <p>
+                Provides the administrative interface
+                used by authorized administrators.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <h3>
+        3.1 Example Service Components
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Component
+                    </th>
+
+                    <th>
+                        Example Service
+                    </th>
+
+                    <th>
+                        Purpose
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        API Service
+                    </td>
+
+                    <td>
+                        SPM-API
+                    </td>
+
+                    <td>
+                        Handles application API requests.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Policy Service
+                    </td>
+
+                    <td>
+                        SPM-Policy
+                    </td>
+
+                    <td>
+                        Processes privilege policies.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Synchronization Service
+                    </td>
+
+                    <td>
+                        SPM-Sync
+                    </td>
+
+                    <td>
+                        Processes identity synchronization.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Gateway
+                    </td>
+
+                    <td>
+                        SPM-Gateway
+                    </td>
+
+                    <td>
+                        Routes client requests.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     4. PREREQUISITES
+========================= -->
+
+<section id="prerequisites">
+
+    <h2>
+        4. Prerequisites
+    </h2>
+
+
+    <p>
+        Complete the following prerequisites before
+        starting a production deployment.
+    </p>
+
+
+    <div class="checklist">
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Confirm an approved change request
+                exists for the deployment.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Confirm the deployment package has
+                passed required testing.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Confirm a recent database backup
+                is available.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Confirm application and database
+                connectivity.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Confirm required administrator
+                credentials are available.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Confirm the support team is aware
+                of the planned maintenance window.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Confirm the rollback package or
+                previous version is available.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="warning">
+
+        <strong>
+            Do not proceed:
+        </strong>
+
+        If a required prerequisite is not satisfied,
+        stop the deployment and escalate to the
+        release owner.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     5. PRE-DEPLOYMENT
+========================= -->
+
+<section id="predeployment">
+
+    <h2>
+        5. Pre-Deployment Checklist
+    </h2>
+
+
+    <h3>
+        5.1 Application Health
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Check
+                    </th>
+
+                    <th>
+                        Expected Result
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Application services
+                    </td>
+
+                    <td>
+                        All required services are running.
+                    </td>
+
+                    <td>
+                        Required
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Database connectivity
+                    </td>
+
+                    <td>
+                        Application can connect to database.
+                    </td>
+
+                    <td>
+                        Required
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        API availability
+                    </td>
+
+                    <td>
+                        API health endpoint responds successfully.
+                    </td>
+
+                    <td>
+                        Required
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Authentication
+                    </td>
+
+                    <td>
+                        Test administrator can sign in.
+                    </td>
+
+                    <td>
+                        Required
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        5.2 Backup Verification
+    </h3>
+
+
+    <p>
+        Confirm that the latest approved database backup
+        completed successfully before modifying the
+        production environment.
+    </p>
+
+
+    <pre>
+Backup Status:
+Database: spm-production
+Backup Type: Full
+Status: Successful
+Retention: 7 days
+    </pre>
+
+</section>
+
+
+
+<!-- =========================
+     6. DEPLOYMENT
+========================= -->
+
+<section id="deployment">
+
+    <h2>
+        6. Deployment Procedure
+    </h2>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Notify Stakeholders
+                </h3>
+
+                <p>
+                    Confirm that the maintenance window
+                    has started and notify relevant
+                    stakeholders.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Stop Application Services
+                </h3>
+
+                <p>
+                    Stop the SPM application services
+                    according to the approved deployment
+                    sequence.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Backup Configuration
+                </h3>
+
+                <p>
+                    Back up the current application
+                    configuration and deployment metadata.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                4
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Deploy the New Version
+                </h3>
+
+                <p>
+                    Deploy the approved release package
+                    to the production application server.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                5
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Apply Configuration
+                </h3>
+
+                <p>
+                    Apply approved configuration changes
+                    and verify environment-specific values.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                6
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Start Services
+                </h3>
+
+                <p>
+                    Start application services in the
+                    documented dependency order.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                7
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Perform Validation
+                </h3>
+
+                <p>
+                    Execute the post-deployment validation
+                    checklist before declaring the deployment
+                    successful.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="info-box">
+
+        <strong>
+            Deployment Principle
+        </strong>
+
+        Do not consider a deployment complete when
+        files have been successfully installed. The
+        deployment is complete only after application,
+        API, authentication, and critical business
+        workflows have been validated.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     7. VALIDATION
+========================= -->
+
+<section id="validation">
+
+    <h2>
+        7. Post-Deployment Validation
+    </h2>
+
+
+    <p>
+        Complete the following checks immediately after
+        the deployment.
+    </p>
+
+
+    <div class="checklist">
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Verify all required services are running.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Verify the administration console
+                is accessible.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Verify administrator authentication.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Verify API health endpoint.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Verify database connectivity.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Verify endpoint inventory is accessible.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Verify privilege policy retrieval.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Review application logs for errors.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <h3>
+        7.1 API Health Check
+    </h3>
+
+
+    <pre>
+GET https://spm.example.com/health
+
+Expected Response:
+
+{
+    "status": "healthy",
+    "version": "3.2"
+}
+    </pre>
+
+
+    <div class="note">
+
+        <strong>
+            Successful Validation:
+        </strong>
+
+        Record the validation results in the approved
+        change or deployment record.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     8. HEALTH CHECKS
+========================= -->
+
+<section id="health">
+
+    <h2>
+        8. Health Checks
+    </h2>
+
+
+    <p>
+        Use the following checks when investigating
+        application availability or performance issues.
+    </p>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Component
+                    </th>
+
+                    <th>
+                        Check
+                    </th>
+
+                    <th>
+                        Expected Result
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        API Service
+                    </td>
+
+                    <td>
+                        Check service status.
+                    </td>
+
+                    <td>
+                        Running
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Policy Service
+                    </td>
+
+                    <td>
+                        Check service status.
+                    </td>
+
+                    <td>
+                        Running
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Sync Service
+                    </td>
+
+                    <td>
+                        Check latest synchronization status.
+                    </td>
+
+                    <td>
+                        Successful
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Database
+                    </td>
+
+                    <td>
+                        Test connectivity.
+                    </td>
+
+                    <td>
+                        Connection successful
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Gateway
+                    </td>
+
+                    <td>
+                        Test API routing.
+                    </td>
+
+                    <td>
+                        Requests successfully routed
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        8.1 Service Status Commands
+    </h3>
+
+
+    <p>
+        Example commands for a Windows-based deployment:
+    </p>
+
+
+    <pre>
+Get-Service SPM-API
+Get-Service SPM-Policy
+Get-Service SPM-Sync
+Get-Service SPM-Gateway
+    </pre>
+
+
+    <p>
+        A healthy service should report a
+        <code>Running</code> status.
+    </p>
+
+</section>
+
+
+
+<!-- =========================
+     9. INCIDENT RESPONSE
+========================= -->
+
+<section id="incidents">
+
+    <h2>
+        9. Incident Response
+    </h2>
+
+
+    <p>
+        Use this section when the SPM production
+        environment experiences an unexpected service
+        interruption or application issue.
+    </p>
+
+
+    <h3>
+        9.1 Incident Severity
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Severity
+                    </th>
+
+                    <th>
+                        Example
+                    </th>
+
+                    <th>
+                        Initial Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        <span class="severity critical">
+                            Critical
+                        </span>
+                    </td>
+
+                    <td>
+                        Production platform unavailable
+                        for all administrators.
+                    </td>
+
+                    <td>
+                        Start incident bridge and
+                        escalate immediately.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <span class="severity high">
+                            High
+                        </span>
+                    </td>
+
+                    <td>
+                        Major functionality unavailable
+                        for a significant user group.
+                    </td>
+
+                    <td>
+                        Begin application triage and
+                        notify application support.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <span class="severity medium">
+                            Medium
+                        </span>
+                    </td>
+
+                    <td>
+                        Limited functionality or
+                        degraded performance.
+                    </td>
+
+                    <td>
+                        Investigate logs and
+                        affected components.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <span class="severity low">
+                            Low
+                        </span>
+                    </td>
+
+                    <td>
+                        Non-critical warning or
+                        isolated issue.
+                    </td>
+
+                    <td>
+                        Record and investigate
+                        during normal support operations.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        9.2 Initial Triage
+    </h3>
+
+
+    <ol>
+
+        <li>
+            Confirm the reported issue and affected
+            functionality.
+        </li>
+
+        <li>
+            Determine whether the issue affects one
+            user, multiple users, or the entire platform.
+        </li>
+
+        <li>
+            Check application service status.
+        </li>
+
+        <li>
+            Check database connectivity.
+        </li>
+
+        <li>
+            Review recent deployment or configuration changes.
+        </li>
+
+        <li>
+            Review application and system logs.
+        </li>
+
+        <li>
+            Determine whether service recovery or
+            escalation is required.
+        </li>
+
+    </ol>
+
+</section>
+
+
+
+<!-- =========================
+     10. RECOVERY
+========================= -->
+
+<section id="recovery">
+
+    <h2>
+        10. Service Recovery
+    </h2>
+
+
+    <p>
+        If an application service is unavailable,
+        perform the following controlled recovery
+        procedure.
+    </p>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Confirm Service Failure
+                </h3>
+
+                <p>
+                    Verify that the affected service is
+                    stopped or unhealthy.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Review Recent Logs
+                </h3>
+
+                <p>
+                    Review the service logs for startup,
+                    dependency, configuration, or
+                    connectivity errors.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Verify Dependencies
+                </h3>
+
+                <p>
+                    Confirm that the database, gateway,
+                    network, and required dependent
+                    services are available.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                4
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Restart the Service
+                </h3>
+
+                <p>
+                    Restart the affected service using
+                    the approved operational procedure.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                5
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Validate Recovery
+                </h3>
+
+                <p>
+                    Confirm service status and execute
+                    the application health checks.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <h3>
+        10.1 Example Restart Commands
+    </h3>
+
+
+    <pre>
+Restart-Service SPM-API
+
+Restart-Service SPM-Policy
+
+Restart-Service SPM-Sync
+
+Restart-Service SPM-Gateway
+    </pre>
+
+
+    <div class="warning">
+
+        <strong>
+            Caution:
+        </strong>
+
+        Restart only the affected service unless
+        the approved recovery procedure requires
+        a broader restart. Record all recovery
+        actions in the incident record.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     11. ROLLBACK
+========================= -->
+
+<section id="rollback">
+
+    <h2>
+        11. Rollback Procedure
+    </h2>
+
+
+    <p>
+        Use rollback when a deployment cannot be
+        stabilized through standard recovery procedures
+        and the release owner approves reverting to
+        the previous version.
+    </p>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Confirm Rollback Decision
+                </h3>
+
+                <p>
+                    Obtain approval from the designated
+                    release or incident owner.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Stop Current Services
+                </h3>
+
+                <p>
+                    Stop affected application services
+                    according to the deployment sequence.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Restore Previous Application Version
+                </h3>
+
+                <p>
+                    Restore the previously approved
+                    application package.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                4
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Restore Configuration
+                </h3>
+
+                <p>
+                    Restore the configuration associated
+                    with the previous version.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                5
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Start Services
+                </h3>
+
+                <p>
+                    Start services using the approved
+                    startup sequence.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                6
+            </div>
+
+
+            <div class="step-content">
+
+                <h3>
+                    Validate the Environment
+                </h3>
+
+                <p>
+                    Perform the complete post-rollback
+                    validation checklist.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="danger">
+
+        <strong>
+            Rollback Warning:
+        </strong>
+
+        Do not restore database backups unless the
+        approved rollback plan explicitly requires
+        database restoration. Database rollback can
+        result in data loss.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     12. ESCALATION
+========================= -->
+
+<section id="escalation">
+
+    <h2>
+        12. Escalation Matrix
+    </h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Issue Type
+                    </th>
+
+                    <th>
+                        Primary Owner
+                    </th>
+
+                    <th>
+                        Escalate To
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Application error
+                    </td>
+
+                    <td>
+                        Application Support
+                    </td>
+
+                    <td>
+                        Engineering Team
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Database issue
+                    </td>
+
+                    <td>
+                        Database Administrator
+                    </td>
+
+                    <td>
+                        Infrastructure Team
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Authentication issue
+                    </td>
+
+                    <td>
+                        Security Administrator
+                    </td>
+
+                    <td>
+                        Identity Platform Team
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Infrastructure outage
+                    </td>
+
+                    <td>
+                        Infrastructure Team
+                    </td>
+
+                    <td>
+                        Incident Manager
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Critical production outage
+                    </td>
+
+                    <td>
+                        Incident Manager
+                    </td>
+
+                    <td>
+                        Engineering & Leadership
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     13. POST INCIDENT
+========================= -->
+
+<section id="postincident">
+
+    <h2>
+        13. Post-Incident Checklist
+    </h2>
+
+
+    <div class="checklist">
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Confirm the service has returned to
+                normal operating status.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Confirm affected workflows are functioning.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Review application and infrastructure logs.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Document the incident timeline.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Record actions taken during recovery.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Identify the root cause or suspected
+                root cause.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Document corrective and preventive actions.
+            </span>
+
+        </div>
+
+
+        <div class="check-item">
+
+            <span class="checkbox"></span>
+
+            <span>
+                Close the change or incident record
+                after required approvals.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <h3>
+        13.1 Incident Record Template
+    </h3>
+
+
+    <pre>
+Incident ID:
+Date:
+Start Time:
+End Time:
+
+Affected Component:
+Severity:
+
+Customer/User Impact:
+
+Initial Symptoms:
+
+Actions Taken:
+
+Root Cause:
+
+Resolution:
+
+Preventive Actions:
+
+Owner:
+
+Closure Date:
+    </pre>
+
+</section>
+
+
+
+<!-- =========================
+     14. BEST PRACTICES
+========================= -->
+
+<section id="best-practices">
+
+    <h2>
+        14. Operational Best Practices
+    </h2>
+
+
+    <ul>
+
+        <li>
+            Always use an approved change process
+            for production deployments.
+        </li>
+
+        <li>
+            Validate backups before performing
+            high-impact changes.
+        </li>
+
+        <li>
+            Record operational actions during
+            incidents and recovery.
+        </li>
+
+        <li>
+            Avoid making undocumented configuration
+            changes in production.
+        </li>
+
+        <li>
+            Validate critical workflows after
+            every production deployment.
+        </li>
+
+        <li>
+            Keep rollback packages and recovery
+            procedures accessible to authorized
+            operations teams.
+        </li>
+
+        <li>
+            Review and update the runbook whenever
+            architecture, deployment procedures,
+            or operational ownership changes.
+        </li>
+
+        <li>
+            Review the runbook periodically to ensure
+            procedures remain accurate and executable.
+        </li>
+
+    </ul>
+
+
+    <div class="info-box">
+
+        <strong>
+            Runbook Principle
+        </strong>
+
+        A good runbook should allow an authorized
+        operator to execute a procedure consistently
+        without depending on undocumented tribal knowledge.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     DOCUMENT INFORMATION
+========================= -->
+
+<section>
+
+    <h2>
+        Document Information
+    </h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <tbody>
+
+                <tr>
+
+                    <th>
+                        Document Type
+                    </th>
+
+                    <td>
+                        Production Deployment Runbook
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Product
+                    </th>
+
+                    <td>
+                        Sentinel Privilege Manager
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Version
+                    </th>
+
+                    <td>
+                        3.2
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Audience
+                    </th>
+
+                    <td>
+                        Release Engineers,
+                        System Administrators,
+                        Application Support,
+                        and Incident Managers
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <td>
+                        Portfolio Sample
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Author
+                    </th>
+
+                    <td>
+                        Anshula Raina
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="warning">
+
+        <strong>
+            Portfolio Disclaimer:
+        </strong>
+
+        Sentinel Privilege Manager is a fictional
+        product created for portfolio demonstration.
+        Server names, commands, URLs, service names,
+        configurations, and operational procedures
+        are illustrative examples and are not intended
+        for production use.
+
+    </div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+
+        <strong>
+            Sentinel Privilege Manager
+        </strong>
+
+        — Production Deployment & Service Recovery Runbook
+
+    </p>
+
+
+    <p>
+
+        Portfolio sample created by
+
+        <a href="index.html">
+            Anshula Raina
+        </a>
+
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
