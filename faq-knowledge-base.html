@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>FAQ & Knowledge Base — Sentinel Privilege Manager</title>
+
+  <meta name="description"
+        content="Portfolio sample demonstrating FAQ and Knowledge Base documentation for Sentinel Privilege Manager.">
+
+  <style>
+    :root {
+      --blue: #0D8CD8;
+      --dark-blue: #075b91;
+      --text: #243447;
+      --muted: #667085;
+      --light: #f5f9fc;
+      --border: #dbe5ec;
+      --white: #ffffff;
+      --success: #18794e;
+      --warning: #9a6700;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: #ffffff;
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Header */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.97);
+      border-bottom: 1px solid var(--border);
+      padding: 15px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--dark-blue);
+    }
+
+    nav a {
+      margin-left: 22px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Layout */
+
+    .page-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      max-width: 1250px;
+      margin: 0 auto;
+      min-height: calc(100vh - 70px);
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--border);
+      padding: 35px 22px;
+      background: #fbfdff;
+    }
+
+    .sidebar h4 {
+      margin-top: 0;
+      color: var(--dark-blue);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 7px 0;
+      font-size: 13px;
+      color: #475467;
+    }
+
+    .content {
+      padding: 45px 55px 80px;
+      max-width: 950px;
+    }
+
+    /* Hero */
+
+    .hero {
+      background: linear-gradient(135deg, #eef8ff, #ffffff);
+      border: 1px solid #d7ebf8;
+      border-radius: 14px;
+      padding: 35px;
+      margin-bottom: 40px;
+    }
+
+    .eyebrow {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: 34px;
+      line-height: 1.25;
+      color: #12344d;
+    }
+
+    .hero p {
+      color: var(--muted);
+      margin-bottom: 25px;
+    }
+
+    .metadata {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .metadata div {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .metadata strong {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .metadata span {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* Sections */
+
+    section {
+      margin-bottom: 45px;
+      scroll-margin-top: 90px;
+    }
+
+    h2 {
+      font-size: 25px;
+      color: #12344d;
+      border-bottom: 2px solid #e6f1f7;
+      padding-bottom: 9px;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      color: var(--dark-blue);
+      font-size: 18px;
+      margin-top: 25px;
+    }
+
+    h4 {
+      color: #344054;
+      font-size: 15px;
+      margin-bottom: 7px;
+    }
+
+    .intro-box {
+      background: var(--light);
+      border-left: 4px solid var(--blue);
+      padding: 18px 20px;
+      border-radius: 6px;
+      margin: 20px 0;
+    }
+
+    /* FAQ */
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .faq-question {
+      background: #f8fbfd;
+      padding: 16px 20px;
+      font-weight: 700;
+      color: #12344d;
+      font-size: 15px;
+    }
+
+    .faq-answer {
+      padding: 16px 20px;
+      color: #475467;
+      font-size: 14px;
+    }
+
+    .faq-answer p {
+      margin: 0 0 10px;
+    }
+
+    .faq-answer p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Knowledge Base Cards */
+
+    .kb-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .kb-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+      background: #ffffff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .kb-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(20, 60, 90, 0.08);
+    }
+
+    .kb-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue);
+      background: #eef8ff;
+      padding: 4px 8px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .kb-card h3 {
+      margin: 3px 0 8px;
+      font-size: 17px;
+    }
+
+    .kb-card p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 14px;
+    }
+
+    .kb-card .article-meta {
+      font-size: 12px;
+      color: #667085;
+    }
+
+    /* Tables */
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f3f8fb;
+      color: #12344d;
+      font-weight: 700;
+    }
+
+    /* Steps */
+
+    .steps {
+      counter-reset: step;
+      margin-top: 20px;
+    }
+
+    .step {
+      position: relative;
+      padding: 0 0 22px 50px;
+      margin-bottom: 10px;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    /* Callouts */
+
+    .note {
+      background: #f4f9fd;
+      border: 1px solid #cfe5f3;
+      border-radius: 8px;
+      padding: 15px 18px;
+      margin: 18px 0;
+    }
+
+    .tip {
+      background: #f5fbf7;
+      border: 1px solid #cde8d7;
+      border-radius: 8px;
+      padding: 15px 18px;
+      margin: 18px 0;
+    }
+
+    .warning {
+      background: #fffaf0;
+      border: 1px solid #f0dca8;
+      border-radius: 8px;
+      padding: 15px 18px;
+      margin: 18px 0;
+    }
+
+    /* Footer */
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 25px;
+      margin-top: 50px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 850px) {
+      .page-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .content {
+        padding: 30px 22px 60px;
+      }
+
+      .metadata {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .kb-grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .hero {
+        padding: 25px;
+      }
+
+      .hero h1 {
+        font-size: 27px;
+      }
+
+      .metadata {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Anshula Raina</div>
+
+  <nav>
+    <a href="index.html">Portfolio</a>
+    <a href="index.html#documentation">Documentation</a>
+    <a href="index.html#skills">Skills</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+
+<div class="page-layout">
+
+  <!-- Sidebar -->
+
+  <aside class="sidebar">
+
+    <h4>On this page</h4>
+
+    <a href="#overview">Overview</a>
+    <a href="#faq">Frequently Asked Questions</a>
+    <a href="#access">Access & Account</a>
+    <a href="#privilege">Privilege Management</a>
+    <a href="#policies">Policies & Configuration</a>
+    <a href="#knowledge-base">Knowledge Base</a>
+    <a href="#getting-help">Getting Help</a>
+    <a href="#document-info">Document Information</a>
+
+  </aside>
+
+
+  <!-- Main Content -->
+
+  <main class="content">
+
+    <!-- Hero -->
+
+    <div class="hero">
+
+      <div class="eyebrow">Knowledge Management Documentation</div>
+
+      <h1>FAQ & Knowledge Base</h1>
+
+      <p>
+        A user-focused collection of frequently asked questions and
+        knowledge base articles for Sentinel Privilege Manager (SPM).
+        The sample demonstrates concise technical communication,
+        information organization, self-service support, and searchable
+        knowledge content.
+      </p>
+
+      <div class="metadata">
+
+        <div>
+          <strong>Product</strong>
+          <span>Sentinel Privilege Manager</span>
+        </div>
+
+        <div>
+          <strong>Document Type</strong>
+          <span>FAQ & Knowledge Base</span>
+        </div>
+
+        <div>
+          <strong>Version</strong>
+          <span>2.4</span>
+        </div>
+
+        <div>
+          <strong>Audience</strong>
+          <span>Users & Administrators</span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Overview -->
+
+    <section id="overview">
+
+      <h2>1. Overview</h2>
+
+      <p>
+        The SPM FAQ and Knowledge Base provides quick answers to common
+        product questions and concise solutions for frequently encountered
+        tasks or issues.
+      </p>
+
+      <div class="intro-box">
+
+        <strong>Purpose:</strong>
+
+        This knowledge resource is designed to help users find answers
+        without requiring assistance from an administrator or support team
+        for routine questions.
+
+      </div>
+
+      <p>
+        The content is organized into two complementary areas:
+      </p>
+
+      <ul>
+        <li><strong>FAQ:</strong> Short answers to common product and usage questions.</li>
+        <li><strong>Knowledge Base:</strong> Focused articles addressing specific tasks, scenarios, or recurring issues.</li>
+      </ul>
+
+    </section>
+
+
+    <!-- FAQ -->
+
+    <section id="faq">
+
+      <h2>2. Frequently Asked Questions</h2>
+
+      <p>
+        Use the FAQs below to quickly find answers to common questions
+        about Sentinel Privilege Manager.
+      </p>
+
+
+      <!-- FAQ 1 -->
+
+      <div class="faq-item">
+
+        <div class="faq-question">
+          What is Sentinel Privilege Manager?
+        </div>
+
+        <div class="faq-answer">
+
+          <p>
+            Sentinel Privilege Manager (SPM) is an endpoint privilege
+            management solution that helps organizations control,
+            manage, and monitor elevated access to applications and
+            endpoints.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- FAQ 2 -->
+
+      <div class="faq-item">
+
+        <div class="faq-question">
+          Who can request application privileges?
+        </div>
+
+        <div class="faq-answer">
+
+          <p>
+            Users can request application privileges when the application
+            requires elevated permissions and the organization's policy
+            allows privilege requests.
+          </p>
+
+          <p>
+            Depending on the configured workflow, the request may require
+            approval from an authorized approver.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- FAQ 3 -->
+
+      <div class="faq-item">
+
+        <div class="faq-question">
+          How long does an approved privilege remain active?
+        </div>
+
+        <div class="faq-answer">
+
+          <p>
+            The duration depends on the privilege policy configured by
+            the administrator.
+          </p>
+
+          <p>
+            Policies may allow temporary access for a defined period or
+            provide access according to an organization's approved
+            privilege model.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- FAQ 4 -->
+
+      <div class="faq-item">
+
+        <div class="faq-question">
+          Can an administrator revoke an approved privilege?
+        </div>
+
+        <div class="faq-answer">
+
+          <p>
+            Yes. Administrators can revoke access when required by
+            organizational policy, security requirements, or operational
+            circumstances.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- FAQ 5 -->
+
+      <div class="faq-item">
+
+        <div class="faq-question">
+          Where can I view my privilege requests?
+        </div>
+
+        <div class="faq-answer">
+
+          <p>
+            Users can view submitted privilege requests from the
+            <strong>My Requests</strong> section of the SPM console.
+          </p>
+
+          <p>
+            The request status indicates whether the request is pending,
+            approved, rejected, or expired.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- FAQ 6 -->
+
+      <div class="faq-item">
+
+        <div class="faq-question">
+          Why was my privilege request rejected?
+        </div>
+
+        <div class="faq-answer">
+
+          <p>
+            A request may be rejected because it does not meet the
+            configured approval rules, application policy, access
+            requirements, or business justification criteria.
+          </p>
+
+          <p>
+            If available, review the rejection reason shown in the
+            request details.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- FAQ 7 -->
+
+      <div class="faq-item">
+
+        <div class="faq-question">
+          Can privilege access be scheduled?
+        </div>
+
+        <div class="faq-answer">
+
+          <p>
+            Yes. If scheduled privilege access is enabled, users can
+            request access for a defined future period according to
+            the applicable policy.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- FAQ 8 -->
+
+      <div class="faq-item">
+
+        <div class="faq-question">
+          Where can administrators review privilege activity?
+        </div>
+
+        <div class="faq-answer">
+
+          <p>
+            Administrators can use the privilege activity and reporting
+            capabilities available in the SPM administrative console to
+            review access events and user activity.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Access -->
+
+    <section id="access">
+
+      <h2>3. Access & Account</h2>
+
+      <h3>How do I access the SPM console?</h3>
+
+      <p>
+        Open the SPM console URL provided by your organization's
+        administrator and sign in using your assigned credentials or
+        configured authentication method.
+      </p>
+
+
+      <h3>What should I do if I cannot sign in?</h3>
+
+      <p>
+        Verify that your credentials are correct and that your account
+        is active. If the issue persists, contact your administrator
+        or support team.
+      </p>
+
+      <div class="note">
+
+        <strong>Note:</strong>
+
+        Do not share passwords, authentication codes, or other
+        credentials when requesting support.
+
+      </div>
+
+    </section>
+
+
+    <!-- Privilege Management -->
+
+    <section id="privilege">
+
+      <h2>4. Privilege Management</h2>
+
+      <h3>How do I request application privilege?</h3>
+
+      <div class="steps">
+
+        <div class="step">
+          Sign in to the SPM console.
+        </div>
+
+        <div class="step">
+          Open the <strong>Privilege Requests</strong> section.
+        </div>
+
+        <div class="step">
+          Select the application for which elevated access is required.
+        </div>
+
+        <div class="step">
+          Enter the required business justification and access duration.
+        </div>
+
+        <div class="step">
+          Submit the request for processing.
+        </div>
+
+      </div>
+
+
+      <h3>What happens after I submit a request?</h3>
+
+      <p>
+        The request is evaluated against the configured privilege and
+        approval policies. Depending on the workflow, the request may
+        be automatically approved or routed to an authorized approver.
+      </p>
+
+
+      <h3>How can I check request status?</h3>
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>Pending</strong></td>
+            <td>The request is waiting for processing or approval.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Approved</strong></td>
+            <td>The requested privilege has been granted.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Rejected</strong></td>
+            <td>The request was not approved.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Expired</strong></td>
+            <td>The approved privilege duration has ended.</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </section>
+
+
+    <!-- Policies -->
+
+    <section id="policies">
+
+      <h2>5. Policies & Configuration</h2>
+
+      <h3>What is a privilege policy?</h3>
+
+      <p>
+        A privilege policy defines the conditions under which users can
+        receive elevated access to applications or resources.
+      </p>
+
+      <h3>Who can configure privilege policies?</h3>
+
+      <p>
+        Privilege policies are managed by authorized administrators
+        according to the organization's access-control model.
+      </p>
+
+      <h3>What should I do if a policy change is not reflected?</h3>
+
+      <p>
+        Allow sufficient time for policy synchronization and verify
+        that the endpoint is communicating with the SPM platform.
+        If the change remains unavailable, follow the applicable
+        troubleshooting procedure or contact the administrator.
+      </p>
+
+      <div class="tip">
+
+        <strong>Best Practice:</strong>
+
+        Document significant policy changes and maintain an appropriate
+        review and approval process for administrative configuration.
+
+      </div>
+
+    </section>
+
+
+    <!-- Knowledge Base -->
+
+    <section id="knowledge-base">
+
+      <h2>6. Knowledge Base</h2>
+
+      <p>
+        Knowledge Base articles provide focused solutions for recurring
+        user questions and operational scenarios. Each article should
+        address one specific problem or task.
+      </p>
+
+
+      <div class="kb-grid">
+
+
+        <!-- KB 1 -->
+
+        <div class="kb-card">
+
+          <span class="kb-label">Access</span>
+
+          <h3>
+            KB-001: User Account Is Not Available
+          </h3>
+
+          <p>
+            Steps to verify account status, assigned access, and
+            administrator configuration when a user cannot access
+            the SPM console.
+          </p>
+
+          <div class="article-meta">
+            Audience: End Users & Administrators
+          </div>
+
+        </div>
+
+
+        <!-- KB 2 -->
+
+        <div class="kb-card">
+
+          <span class="kb-label">Privilege Request</span>
+
+          <h3>
+            KB-002: Privilege Request Remains Pending
+          </h3>
+
+          <p>
+            Guidance for identifying approval dependencies and checking
+            request status when a submitted privilege request remains
+            pending.
+          </p>
+
+          <div class="article-meta">
+            Audience: End Users
+          </div>
+
+        </div>
+
+
+        <!-- KB 3 -->
+
+        <div class="kb-card">
+
+          <span class="kb-label">Policy</span>
+
+          <h3>
+            KB-003: Application Is Not Available for Privilege Request
+          </h3>
+
+          <p>
+            Checks for application assignment, policy configuration,
+            endpoint synchronization, and application eligibility.
+          </p>
+
+          <div class="article-meta">
+            Audience: End Users & Administrators
+          </div>
+
+        </div>
+
+
+        <!-- KB 4 -->
+
+        <div class="kb-card">
+
+          <span class="kb-label">Reporting</span>
+
+          <h3>
+            KB-004: Privilege Activity Is Missing from Reports
+          </h3>
+
+          <p>
+            Guidance for checking report filters, activity dates,
+            user scope, and data synchronization when expected
+            privilege activity is not displayed.
+          </p>
+
+          <div class="article-meta">
+            Audience: Administrators
+          </div>
+
+        </div>
+
+
+        <!-- KB 5 -->
+
+        <div class="kb-card">
+
+          <span class="kb-label">Administration</span>
+
+          <h3>
+            KB-005: Update an Existing Privilege Policy
+          </h3>
+
+          <p>
+            A task-oriented guide for reviewing an existing policy,
+            updating its configuration, validating the change,
+            and documenting the modification.
+          </p>
+
+          <div class="article-meta">
+            Audience: Administrators
+          </div>
+
+        </div>
+
+
+        <!-- KB 6 -->
+
+        <div class="kb-card">
+
+          <span class="kb-label">Audit</span>
+
+          <h3>
+            KB-006: Review Privilege Request History
+          </h3>
+
+          <p>
+            Guidance for locating historical privilege requests and
+            reviewing request status, timestamps, users, and
+            associated applications.
+          </p>
+
+          <div class="article-meta">
+            Audience: Administrators & Auditors
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- Getting Help -->
+
+    <section id="getting-help">
+
+      <h2>7. Getting Help</h2>
+
+      <p>
+        If the information in the FAQ or Knowledge Base does not resolve
+        the issue, collect the relevant details before contacting the
+        administrator or support team.
+      </p>
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Information</th>
+            <th>Example</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>User or administrator account</td>
+            <td>Username or assigned administrator identity</td>
+          </tr>
+
+          <tr>
+            <td>Application</td>
+            <td>Name of the affected application</td>
+          </tr>
+
+          <tr>
+            <td>Issue description</td>
+            <td>Brief description of the problem</td>
+          </tr>
+
+          <tr>
+            <td>Time of occurrence</td>
+            <td>Date and approximate time</td>
+          </tr>
+
+          <tr>
+            <td>Error information</td>
+            <td>Exact error message or screenshot</td>
+          </tr>
+
+          <tr>
+            <td>Steps already performed</td>
+            <td>Actions attempted before escalation</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+
+      <div class="warning">
+
+        <strong>Security Reminder:</strong>
+
+        Never include passwords, authentication tokens, secret keys,
+        or other sensitive credentials in a support request.
+
+      </div>
+
+    </section>
+
+
+    <!-- Document Information -->
+
+    <section id="document-info">
+
+      <h2>8. Document Information</h2>
+
+      <table>
+
+        <tbody>
+
+          <tr>
+            <th>Document</th>
+            <td>FAQ & Knowledge Base</td>
+          </tr>
+
+          <tr>
+            <th>Product</th>
+            <td>Sentinel Privilege Manager (SPM)</td>
+          </tr>
+
+          <tr>
+            <th>Version</th>
+            <td>2.4</td>
+          </tr>
+
+          <tr>
+            <th>Document Type</th>
+            <td>Knowledge Management Documentation</td>
+          </tr>
+
+          <tr>
+            <th>Audience</th>
+            <td>End Users, Administrators, Auditors</td>
+          </tr>
+
+          <tr>
+            <th>Purpose</th>
+            <td>
+              Provide concise answers and self-service guidance
+              for common product questions and recurring scenarios.
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+
+      <div class="intro-box">
+
+        <strong>Portfolio Sample:</strong>
+
+        This document is a fictionalized portfolio sample created to
+        demonstrate FAQ design, knowledge management, information
+        architecture, concise technical writing, and self-service
+        support content. Product names, workflows, screens, and
+        configurations are illustrative.
+
+      </div>
+
+    </section>
+
+
+    <footer>
+
+      <strong>Documentation Sample — Sentinel Privilege Manager</strong>
+
+      <br>
+
+      Created as part of the Anshula Raina Technical Writing Portfolio.
+
+      <br>
+
+      <a class="back-link" href="index.html">
+        ← Back to Portfolio
+      </a>
+
+    </footer>
+
+  </main>
+
+</div>
+
+</body>
+</html>
