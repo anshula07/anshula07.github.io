@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SPM — User Privilege Request & Approval SOP</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f8fb;
+            color: #263238;
+            line-height: 1.7;
+        }
+
+        a {
+            color: #0d8cd8;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #dfe7ee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0d8cd8;
+        }
+
+        nav a {
+            margin-left: 24px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .layout {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 35px;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 95px;
+            height: fit-content;
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 10px;
+            padding: 22px;
+        }
+
+        .sidebar h3 {
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #12344d;
+        }
+
+        .sidebar a {
+            display: block;
+            font-size: 13px;
+            padding: 7px 0;
+            color: #536775;
+        }
+
+        .sidebar a:hover {
+            color: #0d8cd8;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        .hero {
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 12px;
+            padding: 42px;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #eaf6fd;
+            color: #0d8cd8;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            line-height: 1.25;
+            color: #12344d;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: #5d6d78;
+            max-width: 800px;
+        }
+
+        .metadata {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .metadata div {
+            background: #f7fafc;
+            border: 1px solid #e5edf3;
+            padding: 13px;
+            border-radius: 7px;
+        }
+
+        .metadata strong {
+            display: block;
+            font-size: 11px;
+            color: #71818c;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .metadata span {
+            font-size: 13px;
+            color: #263238;
+        }
+
+        section {
+            background: #ffffff;
+            border: 1px solid #dfe7ee;
+            border-radius: 10px;
+            padding: 32px;
+            margin-bottom: 22px;
+        }
+
+        section h2 {
+            color: #0d8cd8;
+            font-size: 23px;
+            margin-bottom: 18px;
+        }
+
+        section h3 {
+            color: #12344d;
+            font-size: 17px;
+            margin: 24px 0 10px;
+        }
+
+        section p {
+            margin-bottom: 14px;
+        }
+
+        ul,
+        ol {
+            margin: 12px 0 18px 25px;
+        }
+
+        li {
+            margin-bottom: 7px;
+        }
+
+        .info-box,
+        .note-box,
+        .warning-box {
+            padding: 17px 20px;
+            border-radius: 7px;
+            margin: 18px 0;
+        }
+
+        .info-box {
+            background: #eef8fe;
+            border-left: 4px solid #0d8cd8;
+        }
+
+        .note-box {
+            background: #f4f8f4;
+            border-left: 4px solid #5a8f5a;
+        }
+
+        .warning-box {
+            background: #fff8e8;
+            border-left: 4px solid #e2a62b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+        }
+
+        th {
+            background: #edf6fb;
+            color: #12344d;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            border: 1px solid #dce5eb;
+            padding: 12px 14px;
+            vertical-align: top;
+            font-size: 13px;
+        }
+
+        tr:nth-child(even) {
+            background: #fafcfd;
+        }
+
+        .step {
+            border: 1px solid #e0e8ee;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            background: #fbfdfe;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            background: #0d8cd8;
+            color: #ffffff;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .step h3 {
+            display: inline;
+            margin: 0;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .checklist li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+            border-bottom: 1px solid #edf1f4;
+        }
+
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: #0d8cd8;
+            font-size: 18px;
+        }
+
+        .process-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+
+        .process-item {
+            background: #eef8fe;
+            border: 1px solid #cfe7f5;
+            padding: 12px 16px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .arrow {
+            color: #7a8a94;
+            font-weight: bold;
+        }
+
+        code {
+            background: #f0f3f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #71818c;
+            font-size: 13px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 850px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .metadata {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .hero,
+            section {
+                padding: 22px;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .metadata {
+                grid-template-columns: 1fr;
+            }
+
+            .header-container {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-container">
+        <div class="logo">SPM Documentation</div>
+
+        <nav>
+            <a href="index.html">Portfolio</a>
+            <a href="#purpose">Purpose</a>
+            <a href="#procedure">Procedure</a>
+            <a href="#controls">Controls</a>
+        </nav>
+    </div>
+</header>
+
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <h3>Contents</h3>
+
+        <a href="#purpose">1. Purpose & Scope</a>
+        <a href="#roles">2. Roles & Responsibilities</a>
+        <a href="#inputs">3. Inputs & Prerequisites</a>
+        <a href="#process">4. Process Overview</a>
+        <a href="#procedure">5. Procedure</a>
+        <a href="#approval">6. Approval Rules</a>
+        <a href="#exceptions">7. Exception Handling</a>
+        <a href="#controls">8. Process Controls</a>
+        <a href="#records">9. Records & Audit</a>
+        <a href="#completion">10. Completion Criteria</a>
+        <a href="#document">11. Document Information</a>
+
+    </aside>
+
+
+    <main>
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <span class="badge">STANDARD OPERATING PROCEDURE</span>
+
+            <h1>User Privilege Request & Approval Process</h1>
+
+            <p>
+                This SOP defines the standardized process for requesting,
+                reviewing, approving, and assigning elevated privileges
+                through Sentinel Privilege Manager (SPM).
+            </p>
+
+            <div class="metadata">
+
+                <div>
+                    <strong>Product</strong>
+                    <span>Sentinel Privilege Manager</span>
+                </div>
+
+                <div>
+                    <strong>Document Type</strong>
+                    <span>SOP</span>
+                </div>
+
+                <div>
+                    <strong>Version</strong>
+                    <span>1.0</span>
+                </div>
+
+                <div>
+                    <strong>Audience</strong>
+                    <span>IT & Security Teams</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PURPOSE -->
+
+        <section id="purpose">
+
+            <h2>1. Purpose & Scope</h2>
+
+            <p>
+                The purpose of this SOP is to establish a consistent
+                and auditable process for managing user requests for
+                elevated application or endpoint privileges.
+            </p>
+
+            <p>
+                The procedure applies to employees, contractors,
+                service desk personnel, application owners, and
+                security administrators involved in privilege requests.
+            </p>
+
+            <div class="info-box">
+                <strong>What this SOP covers:</strong>
+                Request submission, request validation, approval,
+                privilege assignment, notification, and record retention.
+            </div>
+
+        </section>
+
+
+        <!-- ROLES -->
+
+        <section id="roles">
+
+            <h2>2. Roles & Responsibilities</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Responsibility</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td><strong>Requester</strong></td>
+                        <td>
+                            Provides the business justification,
+                            requested application, duration, and
+                            required privilege level.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Manager</strong></td>
+                        <td>
+                            Reviews the business requirement and
+                            confirms that the request is justified.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Application Owner</strong></td>
+                        <td>
+                            Validates application-specific requirements
+                            where applicable.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Security Administrator</strong></td>
+                        <td>
+                            Validates policy compliance and assigns
+                            the approved privilege.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Service Desk</strong></td>
+                        <td>
+                            Tracks requests and assists users with
+                            submission or status-related queries.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- INPUTS -->
+
+        <section id="inputs">
+
+            <h2>3. Inputs & Prerequisites</h2>
+
+            <p>
+                The following information must be available before
+                a privilege request is submitted.
+            </p>
+
+            <ul class="checklist">
+
+                <li>Valid SPM user account.</li>
+
+                <li>Application or resource requiring elevated access.</li>
+
+                <li>Business justification for the request.</li>
+
+                <li>Required privilege level.</li>
+
+                <li>Requested access duration.</li>
+
+                <li>Manager or designated approver information.</li>
+
+            </ul>
+
+            <div class="warning-box">
+                <strong>Important:</strong>
+                Privilege requests must contain sufficient business
+                justification. Requests with incomplete information
+                may be returned to the requester.
+            </div>
+
+        </section>
+
+
+        <!-- PROCESS -->
+
+        <section id="process">
+
+            <h2>4. Process Overview</h2>
+
+            <p>
+                The privilege request lifecycle follows a controlled
+                approval flow.
+            </p>
+
+            <div class="process-flow">
+
+                <div class="process-item">Request</div>
+
+                <div class="arrow">→</div>
+
+                <div class="process-item">Validation</div>
+
+                <div class="arrow">→</div>
+
+                <div class="process-item">Approval</div>
+
+                <div class="arrow">→</div>
+
+                <div class="process-item">Assignment</div>
+
+                <div class="arrow">→</div>
+
+                <div class="process-item">Confirmation</div>
+
+            </div>
+
+            <p>
+                Each stage must be completed before the request
+                proceeds to the next stage.
+            </p>
+
+        </section>
+
+
+        <!-- PROCEDURE -->
+
+        <section id="procedure">
+
+            <h2>5. Procedure</h2>
+
+
+            <div class="step">
+
+                <span class="step-number">1</span>
+
+                <h3>Submit the Request</h3>
+
+                <p>
+                    The requester signs in to SPM and opens a new
+                    privilege request.
+                </p>
+
+                <ol>
+                    <li>Select the required endpoint or application.</li>
+                    <li>Select the required privilege level.</li>
+                    <li>Enter the business justification.</li>
+                    <li>Specify the requested access duration.</li>
+                    <li>Select the applicable approver.</li>
+                    <li>Submit the request.</li>
+                </ol>
+
+            </div>
+
+
+            <div class="step">
+
+                <span class="step-number">2</span>
+
+                <h3>Validate the Request</h3>
+
+                <p>
+                    The request is reviewed for completeness and
+                    consistency with the stated business requirement.
+                </p>
+
+                <ul>
+                    <li>Confirm that the requester is authorized.</li>
+                    <li>Verify the target application or endpoint.</li>
+                    <li>Review the requested privilege level.</li>
+                    <li>Check the requested access duration.</li>
+                </ul>
+
+            </div>
+
+
+            <div class="step">
+
+                <span class="step-number">3</span>
+
+                <h3>Review and Approve</h3>
+
+                <p>
+                    The designated approver reviews the request and
+                    either approves or rejects it based on the
+                    documented business requirement.
+                </p>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Decision</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>Approve</td>
+                            <td>
+                                Request proceeds to privilege assignment.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Reject</td>
+                            <td>
+                                Request is closed with the rejection
+                                reason recorded.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Return</td>
+                            <td>
+                                Requester provides missing or corrected
+                                information.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="step">
+
+                <span class="step-number">4</span>
+
+                <h3>Assign the Privilege</h3>
+
+                <p>
+                    After approval, the security administrator
+                    assigns the approved privilege through SPM.
+                </p>
+
+                <ol>
+                    <li>Open the approved request.</li>
+                    <li>Verify the approval status.</li>
+                    <li>Confirm the target endpoint or application.</li>
+                    <li>Apply the approved privilege policy.</li>
+                    <li>Set the approved access duration.</li>
+                    <li>Save the configuration.</li>
+                </ol>
+
+            </div>
+
+
+            <div class="step">
+
+                <span class="step-number">5</span>
+
+                <h3>Confirm Completion</h3>
+
+                <p>
+                    The requester receives confirmation that the
+                    approved privilege has been assigned.
+                </p>
+
+                <p>
+                    The administrator records the completion status
+                    and verifies that the request contains the required
+                    audit information.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- APPROVAL -->
+
+        <section id="approval">
+
+            <h2>6. Approval Rules</h2>
+
+            <p>
+                Approval requirements may vary according to the
+                privilege level and resource being accessed.
+            </p>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Request Type</th>
+                        <th>Minimum Approval</th>
+                        <th>Typical Duration</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Standard Application Access</td>
+                        <td>Manager</td>
+                        <td>Business-defined</td>
+                    </tr>
+
+                    <tr>
+                        <td>Elevated Application Privilege</td>
+                        <td>Manager + Application Owner</td>
+                        <td>Time-bound</td>
+                    </tr>
+
+                    <tr>
+                        <td>Administrative Privilege</td>
+                        <td>Manager + Security Administrator</td>
+                        <td>Strictly time-bound</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="note-box">
+                Approval requirements shown in this portfolio sample
+                are illustrative. Organizations should configure
+                approval policies according to their own security
+                and access-control requirements.
+            </div>
+
+        </section>
+
+
+        <!-- EXCEPTIONS -->
+
+        <section id="exceptions">
+
+            <h2>7. Exception Handling</h2>
+
+            <p>
+                Exceptions should be handled through an approved
+                process rather than bypassing the standard workflow.
+            </p>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Scenario</th>
+                        <th>Required Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Incomplete request</td>
+                        <td>
+                            Return the request to the requester
+                            for additional information.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Incorrect approver</td>
+                        <td>
+                            Reassign the request to the designated
+                            approval authority.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Urgent business requirement</td>
+                        <td>
+                            Follow the organization's documented
+                            emergency-access process.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Privilege no longer required</td>
+                        <td>
+                            Initiate privilege removal and update
+                            the request record.
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- CONTROLS -->
+
+        <section id="controls">
+
+            <h2>8. Process Controls</h2>
+
+            <p>
+                The following controls help maintain consistency,
+                accountability, and traceability throughout the process.
+            </p>
+
+            <ul>
+
+                <li>
+                    Privileges must be assigned only after the required
+                    approval is recorded.
+                </li>
+
+                <li>
+                    Business justification must be captured for every
+                    elevated-access request.
+                </li>
+
+                <li>
+                    Time-bound access should have a defined expiration
+                    where applicable.
+                </li>
+
+                <li>
+                    Approval and assignment activities must remain
+                    traceable to the request.
+                </li>
+
+                <li>
+                    Access that is no longer required should be removed
+                    according to the organization's access-review process.
+                </li>
+
+            </ul>
+
+        </section>
+
+
+        <!-- RECORDS -->
+
+        <section id="records">
+
+            <h2>9. Records & Audit</h2>
+
+            <p>
+                The following information should be retained as part
+                of the privilege request record:
+            </p>
+
+            <ul>
+
+                <li>Requester identity.</li>
+
+                <li>Requested application or endpoint.</li>
+
+                <li>Business justification.</li>
+
+                <li>Requested privilege level.</li>
+
+                <li>Approval decision and approver.</li>
+
+                <li>Privilege assignment details.</li>
+
+                <li>Request and completion timestamps.</li>
+
+                <li>Access expiration, where applicable.</li>
+
+            </ul>
+
+            <div class="info-box">
+                These records provide traceability for access reviews,
+                internal controls, and audit activities.
+            </div>
+
+        </section>
+
+
+        <!-- COMPLETION -->
+
+        <section id="completion">
+
+            <h2>10. Completion Criteria</h2>
+
+            <p>
+                The procedure is considered complete when all applicable
+                conditions below have been satisfied:
+            </p>
+
+            <ul class="checklist">
+
+                <li>Request contains the required information.</li>
+
+                <li>Required approvals have been recorded.</li>
+
+                <li>Approved privilege has been assigned.</li>
+
+                <li>Requester has been notified.</li>
+
+                <li>Request status has been updated.</li>
+
+                <li>Audit information has been retained.</li>
+
+            </ul>
+
+        </section>
+
+
+        <!-- DOCUMENT INFORMATION -->
+
+        <section id="document">
+
+            <h2>11. Document Information</h2>
+
+            <table>
+
+                <tbody>
+
+                    <tr>
+                        <th>Document Owner</th>
+                        <td>Security Operations</td>
+                    </tr>
+
+                    <tr>
+                        <th>Document Type</th>
+                        <td>Standard Operating Procedure</td>
+                    </tr>
+
+                    <tr>
+                        <th>Version</th>
+                        <td>1.0</td>
+                    </tr>
+
+                    <tr>
+                        <th>Review Frequency</th>
+                        <td>Periodic / As required</td>
+                    </tr>
+
+                    <tr>
+                        <th>Status</th>
+                        <td>Sample</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="note-box">
+
+                <strong>Portfolio Sample:</strong>
+                This document is a fictionalized technical-writing
+                sample created for portfolio demonstration purposes.
+                Sentinel Privilege Manager, workflows, roles,
+                configurations, and process details are illustrative
+                and do not represent a real production system.
+
+            </div>
+
+            <a class="back-link" href="index.html">
+                ← Back to Technical Writing Portfolio
+            </a>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<footer>
+    © 2026 Anshula Raina · Technical Writing Portfolio
+</footer>
+
+</body>
+</html>
