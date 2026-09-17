@@ -1,0 +1,3421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Sentinel Privilege Manager — REST API Documentation
+    </title>
+
+    <meta name="description"
+          content="REST API documentation for Sentinel Privilege Manager, a fictional Endpoint Privilege Management platform.">
+
+    <style>
+
+        :root {
+            --primary: #0d8cd8;
+            --primary-dark: #086aa5;
+            --primary-light: #eaf6fd;
+
+            --text: #263238;
+            --muted: #667085;
+
+            --border: #dfe5eb;
+
+            --background: #f7f9fc;
+            --white: #ffffff;
+
+            --code-bg: #17212b;
+            --code-text: #e7edf2;
+
+            --success: #198754;
+            --success-light: #edf8f2;
+
+            --warning: #b7791f;
+            --warning-light: #fff8e8;
+
+            --danger: #c0392b;
+            --danger-light: #fff1f0;
+
+            --get: #087f5b;
+            --post: #1864ab;
+            --put: #ae3ec9;
+            --delete: #c92a2a;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: var(--text);
+
+            background: var(--background);
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .topbar {
+            background: var(--white);
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+        .topbar-inner {
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding:
+                15px
+                25px;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap: 20px;
+        }
+
+
+        .brand {
+            color:
+                var(--primary);
+
+            text-decoration:
+                none;
+
+            font-size:
+                18px;
+
+            font-weight:
+                700;
+        }
+
+
+        .back-link {
+            color:
+                var(--muted);
+
+            text-decoration:
+                none;
+
+            font-size:
+                14px;
+        }
+
+
+        .back-link:hover {
+            color:
+                var(--primary);
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #eaf6fd,
+                    #ffffff
+                );
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            padding:
+                65px
+                25px;
+        }
+
+
+        .hero-container {
+            max-width:
+                1050px;
+
+            margin:
+                auto;
+        }
+
+
+        .eyebrow {
+            display:
+                inline-block;
+
+            background:
+                var(--primary-light);
+
+            color:
+                var(--primary-dark);
+
+            padding:
+                6px
+                13px;
+
+            border-radius:
+                20px;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.6px;
+
+            margin-bottom:
+                18px;
+        }
+
+
+        .hero h1 {
+            margin:
+                0 0 15px;
+
+            font-size:
+                42px;
+
+            line-height:
+                1.2;
+
+            color:
+                #172b3a;
+        }
+
+
+        .hero p {
+            max-width:
+                850px;
+
+            margin:
+                0;
+
+            font-size:
+                18px;
+
+            color:
+                var(--muted);
+        }
+
+
+        .metadata {
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                10px;
+
+            margin-top:
+                25px;
+        }
+
+
+        .metadata span {
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                6px;
+
+            padding:
+                7px
+                12px;
+
+            font-size:
+                13px;
+
+            color:
+                #475467;
+        }
+
+
+        /* =========================
+           MAIN LAYOUT
+        ========================= */
+
+        .layout {
+            max-width:
+                1250px;
+
+            margin:
+                40px auto;
+
+            padding:
+                0 25px;
+
+            display:
+                grid;
+
+            grid-template-columns:
+                235px
+                minmax(0, 1fr);
+
+            gap:
+                35px;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position:
+                sticky;
+
+            top:
+                95px;
+
+            height:
+                fit-content;
+
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                10px;
+
+            padding:
+                20px;
+        }
+
+
+        .sidebar-title {
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            color:
+                #475467;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.5px;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .sidebar a {
+            display:
+                block;
+
+            color:
+                #475467;
+
+            text-decoration:
+                none;
+
+            font-size:
+                13px;
+
+            padding:
+                6px 0;
+        }
+
+
+        .sidebar a:hover {
+            color:
+                var(--primary);
+        }
+
+
+        /* =========================
+           DOCUMENT
+        ========================= */
+
+        .document {
+            background:
+                var(--white);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                10px;
+
+            padding:
+                48px;
+
+            min-width:
+                0;
+        }
+
+
+        .document h2 {
+            color:
+                var(--primary);
+
+            font-size:
+                27px;
+
+            margin-top:
+                55px;
+
+            margin-bottom:
+                18px;
+
+            padding-bottom:
+                8px;
+
+            border-bottom:
+                1px solid
+                var(--border);
+        }
+
+
+        .document h2:first-child {
+            margin-top:
+                0;
+        }
+
+
+        .document h3 {
+            color:
+                #344054;
+
+            font-size:
+                20px;
+
+            margin-top:
+                30px;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .document p {
+            margin:
+                10px 0 16px;
+        }
+
+
+        .document ul,
+        .document ol {
+            padding-left:
+                25px;
+        }
+
+
+        .document li {
+            margin-bottom:
+                7px;
+        }
+
+
+        /* =========================
+           INFO BOX
+        ========================= */
+
+        .info-box {
+            background:
+                var(--primary-light);
+
+            border-left:
+                4px solid
+                var(--primary);
+
+            padding:
+                18px
+                20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px
+                7px 0;
+        }
+
+
+        .info-box strong {
+            display:
+                block;
+
+            color:
+                var(--primary-dark);
+
+            margin-bottom:
+                4px;
+        }
+
+
+        .note {
+            background:
+                var(--success-light);
+
+            border-left:
+                4px solid
+                var(--success);
+
+            padding:
+                18px
+                20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px
+                7px 0;
+        }
+
+
+        .note strong {
+            color:
+                var(--success);
+        }
+
+
+        .warning {
+            background:
+                var(--warning-light);
+
+            border-left:
+                4px solid
+                var(--warning);
+
+            padding:
+                18px
+                20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px
+                7px 0;
+        }
+
+
+        .danger {
+            background:
+                var(--danger-light);
+
+            border-left:
+                4px solid
+                var(--danger);
+
+            padding:
+                18px
+                20px;
+
+            margin:
+                22px 0;
+
+            border-radius:
+                0 7px
+                7px 0;
+        }
+
+
+        /* =========================
+           CODE
+        ========================= */
+
+        code {
+            background:
+                #eef2f5;
+
+            color:
+                #c0392b;
+
+            padding:
+                2px 6px;
+
+            border-radius:
+                4px;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-size:
+                90%;
+        }
+
+
+        pre {
+            background:
+                var(--code-bg);
+
+            color:
+                var(--code-text);
+
+            padding:
+                20px;
+
+            border-radius:
+                8px;
+
+            overflow-x:
+                auto;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-size:
+                13px;
+
+            line-height:
+                1.65;
+
+            margin:
+                20px 0 28px;
+        }
+
+
+        /* =========================
+           API ENDPOINT
+        ========================= */
+
+        .endpoint {
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                9px;
+
+            overflow:
+                hidden;
+
+            margin:
+                30px 0 40px;
+        }
+
+
+        .endpoint-header {
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                12px;
+
+            padding:
+                14px 18px;
+
+            background:
+                #f7f9fb;
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            flex-wrap:
+                wrap;
+        }
+
+
+        .method {
+            display:
+                inline-block;
+
+            min-width:
+                65px;
+
+            padding:
+                5px
+                10px;
+
+            border-radius:
+                5px;
+
+            color:
+                white;
+
+            text-align:
+                center;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            font-family:
+                Consolas,
+                monospace;
+        }
+
+
+        .method.get {
+            background:
+                var(--get);
+        }
+
+
+        .method.post {
+            background:
+                var(--post);
+        }
+
+
+        .method.put {
+            background:
+                var(--put);
+        }
+
+
+        .method.delete {
+            background:
+                var(--delete);
+        }
+
+
+        .endpoint-path {
+            font-family:
+                Consolas,
+                monospace;
+
+            color:
+                #344054;
+
+            font-size:
+                14px;
+
+            word-break:
+                break-all;
+        }
+
+
+        .endpoint-body {
+            padding:
+                22px;
+        }
+
+
+        .endpoint-body h4 {
+            margin:
+                22px 0 10px;
+
+            color:
+                #344054;
+        }
+
+
+        .endpoint-body h4:first-child {
+            margin-top:
+                0;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+            overflow-x:
+                auto;
+
+            margin:
+                20px 0 30px;
+        }
+
+
+        table {
+            width:
+                100%;
+
+            border-collapse:
+                collapse;
+
+            min-width:
+                600px;
+        }
+
+
+        th,
+        td {
+            border:
+                1px solid
+                var(--border);
+
+            padding:
+                12px
+                14px;
+
+            text-align:
+                left;
+
+            vertical-align:
+                top;
+        }
+
+
+        th {
+            background:
+                #f2f6f9;
+
+            color:
+                #344054;
+        }
+
+
+        tr:nth-child(even) td {
+            background:
+                #fafbfd;
+        }
+
+
+        /* =========================
+           STATUS BADGES
+        ========================= */
+
+        .status {
+            display:
+                inline-block;
+
+            padding:
+                3px 8px;
+
+            border-radius:
+                5px;
+
+            font-size:
+                12px;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-weight:
+                700;
+        }
+
+
+        .status.success {
+            background:
+                #e7f6ed;
+
+            color:
+                #087f5b;
+        }
+
+
+        .status.client {
+            background:
+                #e7f0fa;
+
+            color:
+                #1864ab;
+        }
+
+
+        .status.server {
+            background:
+                #fff0e6;
+
+            color:
+                #c05621;
+        }
+
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .card-grid {
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                15px;
+
+            margin:
+                22px 0;
+        }
+
+
+        .card {
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                8px;
+
+            padding:
+                18px;
+
+            background:
+                #fbfcfd;
+        }
+
+
+        .card h3 {
+            margin:
+                0 0 7px;
+
+            font-size:
+                17px;
+
+            color:
+                var(--primary-dark);
+        }
+
+
+        .card p {
+            margin:
+                0;
+
+            font-size:
+                14px;
+
+            color:
+                var(--muted);
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align:
+                center;
+
+            padding:
+                40px 20px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                13px;
+        }
+
+
+        footer a {
+            color:
+                var(--primary);
+
+            text-decoration:
+                none;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .layout {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .sidebar {
+                position:
+                    relative;
+
+                top:
+                    0;
+            }
+
+
+            .sidebar a {
+                display:
+                    inline-block;
+
+                margin-right:
+                    12px;
+            }
+
+
+            .card-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .document {
+                padding:
+                    30px;
+            }
+
+
+            .hero h1 {
+                font-size:
+                    34px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .hero {
+                padding:
+                    45px 18px;
+            }
+
+
+            .hero h1 {
+                font-size:
+                    29px;
+            }
+
+
+            .hero p {
+                font-size:
+                    16px;
+            }
+
+
+            .layout {
+                padding:
+                    0 15px;
+
+                margin:
+                    25px auto;
+            }
+
+
+            .document {
+                padding:
+                    22px;
+            }
+
+
+            .document h2 {
+                font-size:
+                    24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="topbar">
+
+    <div class="topbar-inner">
+
+        <a href="index.html"
+           class="brand">
+
+            Anshula Raina
+
+        </a>
+
+
+        <a href="index.html#documentation"
+           class="back-link">
+
+            ← Back to Portfolio
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-container">
+
+        <span class="eyebrow">
+            REST API Documentation
+        </span>
+
+
+        <h1>
+            Sentinel Privilege Manager API
+        </h1>
+
+
+        <p>
+            Reference documentation for integrating
+            applications with Sentinel Privilege Manager
+            using REST APIs.
+        </p>
+
+
+        <div class="metadata">
+
+            <span>
+                <strong>API Version:</strong>
+                v1
+            </span>
+
+
+            <span>
+                <strong>Product:</strong>
+                Sentinel Privilege Manager
+            </span>
+
+
+            <span>
+                <strong>Format:</strong>
+                JSON
+            </span>
+
+
+            <span>
+                <strong>Protocol:</strong>
+                HTTPS
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     MAIN LAYOUT
+========================= -->
+
+<div class="layout">
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">
+        API Reference
+    </div>
+
+
+    <a href="#overview">
+        1. API Overview
+    </a>
+
+
+    <a href="#authentication">
+        2. Authentication
+    </a>
+
+
+    <a href="#base-url">
+        3. Base URL
+    </a>
+
+
+    <a href="#headers">
+        4. HTTP Headers
+    </a>
+
+
+    <a href="#responses">
+        5. Response Format
+    </a>
+
+
+    <a href="#status-codes">
+        6. Status Codes
+    </a>
+
+
+    <a href="#users">
+        7. User APIs
+    </a>
+
+
+    <a href="#endpoints">
+        8. Endpoint APIs
+    </a>
+
+
+    <a href="#policies">
+        9. Policy APIs
+    </a>
+
+
+    <a href="#activity">
+        10. Activity APIs
+    </a>
+
+
+    <a href="#pagination">
+        11. Pagination
+    </a>
+
+
+    <a href="#errors">
+        12. Errors
+    </a>
+
+
+    <a href="#rate-limits">
+        13. Rate Limits
+    </a>
+
+
+    <a href="#workflow">
+        14. Integration Workflow
+    </a>
+
+
+</aside>
+
+
+
+<!-- =========================
+     DOCUMENT
+========================= -->
+
+<main class="document">
+
+
+<!-- =========================
+     1. OVERVIEW
+========================= -->
+
+<section id="overview">
+
+    <h2>
+        1. API Overview
+    </h2>
+
+
+    <p>
+        The Sentinel Privilege Manager REST API provides
+        programmatic access to platform resources and
+        management operations.
+    </p>
+
+
+    <p>
+        Applications can use the API to retrieve users,
+        manage endpoints, create privilege policies,
+        and retrieve security activity.
+    </p>
+
+
+    <div class="info-box">
+
+        <strong>
+            What can you do with the API?
+        </strong>
+
+        The API enables authorized applications to
+        integrate Sentinel Privilege Manager with
+        internal applications, automation workflows,
+        security platforms, and reporting systems.
+
+    </div>
+
+
+    <h3>
+        1.1 API Characteristics
+    </h3>
+
+
+    <div class="card-grid">
+
+
+        <div class="card">
+
+            <h3>
+                RESTful
+            </h3>
+
+            <p>
+                Uses standard HTTP methods and
+                resource-oriented endpoints.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                JSON
+            </h3>
+
+            <p>
+                Request and response payloads use
+                JSON format.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                HTTPS
+            </h3>
+
+            <p>
+                API communication is performed
+                over HTTPS.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                Versioned
+            </h3>
+
+            <p>
+                API endpoints are versioned to support
+                controlled changes.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     2. AUTHENTICATION
+========================= -->
+
+<section id="authentication">
+
+    <h2>
+        2. Authentication
+    </h2>
+
+
+    <p>
+        API requests must be authenticated using a
+        valid access token.
+    </p>
+
+
+    <div class="warning">
+
+        <strong>
+            Security Requirement
+        </strong>
+
+        Treat API credentials as sensitive information.
+        Do not expose access tokens in source code,
+        public repositories, client-side applications,
+        or logs.
+
+    </div>
+
+
+    <h3>
+        2.1 Authorization Header
+    </h3>
+
+
+    <p>
+        Include the access token in the
+        <code>Authorization</code> header.
+    </p>
+
+
+    <pre>
+Authorization: Bearer &lt;access_token&gt;
+    </pre>
+
+
+    <h3>
+        2.2 Example Request
+    </h3>
+
+
+    <pre>
+curl -X GET "https://api.spm.example.com/v1/users" \
+-H "Authorization: Bearer &lt;access_token&gt;" \
+-H "Accept: application/json"
+    </pre>
+
+</section>
+
+
+
+<!-- =========================
+     3. BASE URL
+========================= -->
+
+<section id="base-url">
+
+    <h2>
+        3. Base URL
+    </h2>
+
+
+    <p>
+        All API endpoints are relative to the following
+        base URL.
+    </p>
+
+
+    <pre>
+https://api.spm.example.com/v1
+    </pre>
+
+
+    <h3>
+        3.1 Endpoint Structure
+    </h3>
+
+
+    <pre>
+https://api.spm.example.com/v1/{resource}
+    </pre>
+
+
+    <p>
+        For example, the Users endpoint is:
+    </p>
+
+
+    <pre>
+https://api.spm.example.com/v1/users
+    </pre>
+
+</section>
+
+
+
+<!-- =========================
+     4. HEADERS
+========================= -->
+
+<section id="headers">
+
+    <h2>
+        4. HTTP Headers
+    </h2>
+
+
+    <p>
+        The following headers can be used when
+        making API requests.
+    </p>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Header
+                    </th>
+
+                    <th>
+                        Required
+                    </th>
+
+                    <th>
+                        Description
+                    </th>
+
+                    <th>
+                        Example
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        <code>Authorization</code>
+                    </td>
+
+                    <td>
+                        Yes
+                    </td>
+
+                    <td>
+                        Access token used to authenticate
+                        the request.
+                    </td>
+
+                    <td>
+                        Bearer token
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>Accept</code>
+                    </td>
+
+                    <td>
+                        Recommended
+                    </td>
+
+                    <td>
+                        Specifies the expected response format.
+                    </td>
+
+                    <td>
+                        application/json
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>Content-Type</code>
+                    </td>
+
+                    <td>
+                        For requests with a body
+                    </td>
+
+                    <td>
+                        Specifies the request payload format.
+                    </td>
+
+                    <td>
+                        application/json
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     5. RESPONSE
+========================= -->
+
+<section id="responses">
+
+    <h2>
+        5. Response Format
+    </h2>
+
+
+    <p>
+        Successful API requests return JSON responses.
+    </p>
+
+
+    <h3>
+        5.1 Example Response
+    </h3>
+
+
+    <pre>
+{
+    "success": true,
+    "data": {
+        "id": "usr_10245",
+        "username": "alex.smith",
+        "email": "alex.smith@example.com",
+        "status": "active",
+        "role": "security-admin"
+    }
+}
+    </pre>
+
+
+    <h3>
+        5.2 Collection Response
+    </h3>
+
+
+    <pre>
+{
+    "success": true,
+    "data": [
+        {
+            "id": "usr_10245",
+            "username": "alex.smith",
+            "status": "active"
+        },
+        {
+            "id": "usr_10246",
+            "username": "jordan.lee",
+            "status": "active"
+        }
+    ]
+}
+    </pre>
+
+</section>
+
+
+
+<!-- =========================
+     6. STATUS CODES
+========================= -->
+
+<section id="status-codes">
+
+    <h2>
+        6. HTTP Status Codes
+    </h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Status Code
+                    </th>
+
+                    <th>
+                        Meaning
+                    </th>
+
+                    <th>
+                        Description
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        <span class="status success">
+                            200
+                        </span>
+                    </td>
+
+                    <td>
+                        OK
+                    </td>
+
+                    <td>
+                        Request completed successfully.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <span class="status success">
+                            201
+                        </span>
+                    </td>
+
+                    <td>
+                        Created
+                    </td>
+
+                    <td>
+                        Resource was created successfully.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <span class="status client">
+                            400
+                        </span>
+                    </td>
+
+                    <td>
+                        Bad Request
+                    </td>
+
+                    <td>
+                        Request contains invalid or
+                        missing information.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <span class="status client">
+                            401
+                        </span>
+                    </td>
+
+                    <td>
+                        Unauthorized
+                    </td>
+
+                    <td>
+                        Authentication credentials are
+                        missing or invalid.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <span class="status client">
+                            403
+                        </span>
+                    </td>
+
+                    <td>
+                        Forbidden
+                    </td>
+
+                    <td>
+                        Authenticated user does not have
+                        permission to perform the operation.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <span class="status client">
+                            404
+                        </span>
+                    </td>
+
+                    <td>
+                        Not Found
+                    </td>
+
+                    <td>
+                        Requested resource does not exist.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <span class="status client">
+                            429
+                        </span>
+                    </td>
+
+                    <td>
+                        Too Many Requests
+                    </td>
+
+                    <td>
+                        Request limit has been exceeded.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <span class="status server">
+                            500
+                        </span>
+                    </td>
+
+                    <td>
+                        Internal Server Error
+                    </td>
+
+                    <td>
+                        Unexpected server-side error.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     7. USER APIs
+========================= -->
+
+<section id="users">
+
+    <h2>
+        7. User APIs
+    </h2>
+
+
+    <p>
+        User APIs allow authorized applications to
+        retrieve and manage user information.
+    </p>
+
+
+    <!-- GET USERS -->
+
+    <div class="endpoint">
+
+        <div class="endpoint-header">
+
+            <span class="method get">
+                GET
+            </span>
+
+            <span class="endpoint-path">
+                /users
+            </span>
+
+        </div>
+
+
+        <div class="endpoint-body">
+
+            <h3>
+                List Users
+            </h3>
+
+
+            <p>
+                Retrieves a list of users available to
+                the authenticated administrator.
+            </p>
+
+
+            <h4>
+                Query Parameters
+            </h4>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Parameter
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Required
+                            </th>
+
+                            <th>
+                                Description
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <code>page</code>
+                            </td>
+
+                            <td>
+                                Integer
+                            </td>
+
+                            <td>
+                                No
+                            </td>
+
+                            <td>
+                                Page number to retrieve.
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <code>limit</code>
+                            </td>
+
+                            <td>
+                                Integer
+                            </td>
+
+                            <td>
+                                No
+                            </td>
+
+                            <td>
+                                Number of records returned
+                                per page.
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <code>status</code>
+                            </td>
+
+                            <td>
+                                String
+                            </td>
+
+                            <td>
+                                No
+                            </td>
+
+                            <td>
+                                Filters users by status.
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <h4>
+                Example Request
+            </h4>
+
+
+            <pre>
+GET /v1/users?page=1&limit=20&status=active
+            </pre>
+
+
+            <h4>
+                Example Response
+            </h4>
+
+
+            <pre>
+{
+    "success": true,
+    "data": [
+        {
+            "id": "usr_10245",
+            "username": "alex.smith",
+            "email": "alex.smith@example.com",
+            "status": "active"
+        }
+    ],
+    "pagination": {
+        "page": 1,
+        "limit": 20,
+        "total": 1
+    }
+}
+            </pre>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- GET USER -->
+
+    <div class="endpoint">
+
+        <div class="endpoint-header">
+
+            <span class="method get">
+                GET
+            </span>
+
+            <span class="endpoint-path">
+                /users/{userId}
+            </span>
+
+        </div>
+
+
+        <div class="endpoint-body">
+
+            <h3>
+                Get User
+            </h3>
+
+
+            <p>
+                Retrieves details for a specific user.
+            </p>
+
+
+            <h4>
+                Path Parameters
+            </h4>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Parameter
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Required
+                            </th>
+
+                            <th>
+                                Description
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <code>userId</code>
+                            </td>
+
+                            <td>
+                                String
+                            </td>
+
+                            <td>
+                                Yes
+                            </td>
+
+                            <td>
+                                Unique identifier of the user.
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <h4>
+                Example Request
+            </h4>
+
+
+            <pre>
+GET /v1/users/usr_10245
+            </pre>
+
+
+            <h4>
+                Example Response
+            </h4>
+
+
+            <pre>
+{
+    "success": true,
+    "data": {
+        "id": "usr_10245",
+        "username": "alex.smith",
+        "email": "alex.smith@example.com",
+        "role": "security-admin",
+        "status": "active"
+    }
+}
+            </pre>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     8. ENDPOINT APIs
+========================= -->
+
+<section id="endpoints">
+
+    <h2>
+        8. Endpoint APIs
+    </h2>
+
+
+    <p>
+        Endpoint APIs provide access to managed endpoint
+        information.
+    </p>
+
+
+    <!-- GET ENDPOINTS -->
+
+    <div class="endpoint">
+
+        <div class="endpoint-header">
+
+            <span class="method get">
+                GET
+            </span>
+
+            <span class="endpoint-path">
+                /endpoints
+            </span>
+
+        </div>
+
+
+        <div class="endpoint-body">
+
+            <h3>
+                List Endpoints
+            </h3>
+
+
+            <p>
+                Retrieves managed endpoints associated
+                with the authenticated account.
+            </p>
+
+
+            <h4>
+                Example Request
+            </h4>
+
+
+            <pre>
+GET /v1/endpoints?page=1&limit=20
+            </pre>
+
+
+            <h4>
+                Example Response
+            </h4>
+
+
+            <pre>
+{
+    "success": true,
+    "data": [
+        {
+            "id": "ep_50123",
+            "name": "FIN-LAPTOP-023",
+            "os": "Windows 11",
+            "agentVersion": "3.2.1",
+            "status": "online"
+        }
+    ]
+}
+            </pre>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- GET ENDPOINT -->
+
+    <div class="endpoint">
+
+        <div class="endpoint-header">
+
+            <span class="method get">
+                GET
+            </span>
+
+            <span class="endpoint-path">
+                /endpoints/{endpointId}
+            </span>
+
+        </div>
+
+
+        <div class="endpoint-body">
+
+            <h3>
+                Get Endpoint Details
+            </h3>
+
+
+            <p>
+                Retrieves detailed information for a
+                specific managed endpoint.
+            </p>
+
+
+            <h4>
+                Example Request
+            </h4>
+
+
+            <pre>
+GET /v1/endpoints/ep_50123
+            </pre>
+
+
+            <h4>
+                Example Response
+            </h4>
+
+
+            <pre>
+{
+    "success": true,
+    "data": {
+        "id": "ep_50123",
+        "name": "FIN-LAPTOP-023",
+        "os": "Windows 11",
+        "ipAddress": "192.0.2.25",
+        "agentVersion": "3.2.1",
+        "status": "online",
+        "lastCheckIn": "2026-09-17T10:30:00Z"
+    }
+}
+            </pre>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     9. POLICY APIs
+========================= -->
+
+<section id="policies">
+
+    <h2>
+        9. Policy APIs
+    </h2>
+
+
+    <p>
+        Policy APIs allow authorized applications to
+        retrieve and create privilege policies.
+    </p>
+
+
+    <!-- GET POLICIES -->
+
+    <div class="endpoint">
+
+        <div class="endpoint-header">
+
+            <span class="method get">
+                GET
+            </span>
+
+            <span class="endpoint-path">
+                /policies
+            </span>
+
+        </div>
+
+
+        <div class="endpoint-body">
+
+            <h3>
+                List Policies
+            </h3>
+
+
+            <p>
+                Retrieves privilege policies configured
+                in Sentinel Privilege Manager.
+            </p>
+
+
+            <h4>
+                Example Request
+            </h4>
+
+
+            <pre>
+GET /v1/policies
+            </pre>
+
+
+            <h4>
+                Example Response
+            </h4>
+
+
+            <pre>
+{
+    "success": true,
+    "data": [
+        {
+            "id": "pol_20001",
+            "name": "Approved Developer Tools",
+            "status": "active",
+            "targetType": "user-group"
+        }
+    ]
+}
+            </pre>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- POST POLICY -->
+
+    <div class="endpoint">
+
+        <div class="endpoint-header">
+
+            <span class="method post">
+                POST
+            </span>
+
+            <span class="endpoint-path">
+                /policies
+            </span>
+
+        </div>
+
+
+        <div class="endpoint-body">
+
+            <h3>
+                Create Policy
+            </h3>
+
+
+            <p>
+                Creates a new privilege policy.
+            </p>
+
+
+            <h4>
+                Request Body
+            </h4>
+
+
+            <pre>
+{
+    "name": "Approved Developer Tools",
+    "description": "Controlled elevation for approved tools",
+    "targetType": "user-group",
+    "targetId": "grp_30001",
+    "status": "active"
+}
+            </pre>
+
+
+            <h4>
+                Example Request
+            </h4>
+
+
+            <pre>
+POST /v1/policies
+
+Content-Type: application/json
+
+{
+    "name": "Approved Developer Tools",
+    "description": "Controlled elevation for approved tools",
+    "targetType": "user-group",
+    "targetId": "grp_30001",
+    "status": "active"
+}
+            </pre>
+
+
+            <h4>
+                Example Response
+            </h4>
+
+
+            <pre>
+{
+    "success": true,
+    "data": {
+        "id": "pol_20002",
+        "name": "Approved Developer Tools",
+        "status": "active"
+    }
+}
+            </pre>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     10. ACTIVITY APIs
+========================= -->
+
+<section id="activity">
+
+    <h2>
+        10. Activity APIs
+    </h2>
+
+
+    <p>
+        Activity APIs provide access to privilege-related
+        events recorded by Sentinel Privilege Manager.
+    </p>
+
+
+    <div class="endpoint">
+
+        <div class="endpoint-header">
+
+            <span class="method get">
+                GET
+            </span>
+
+            <span class="endpoint-path">
+                /activity
+            </span>
+
+        </div>
+
+
+        <div class="endpoint-body">
+
+            <h3>
+                List Activity Events
+            </h3>
+
+
+            <p>
+                Retrieves activity events based on the
+                supplied filters.
+            </p>
+
+
+            <h4>
+                Query Parameters
+            </h4>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Parameter
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Required
+                            </th>
+
+                            <th>
+                                Description
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <code>endpointId</code>
+                            </td>
+
+                            <td>
+                                String
+                            </td>
+
+                            <td>
+                                No
+                            </td>
+
+                            <td>
+                                Filters events by endpoint.
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <code>eventType</code>
+                            </td>
+
+                            <td>
+                                String
+                            </td>
+
+                            <td>
+                                No
+                            </td>
+
+                            <td>
+                                Filters events by event type.
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <code>from</code>
+                            </td>
+
+                            <td>
+                                DateTime
+                            </td>
+
+                            <td>
+                                No
+                            </td>
+
+                            <td>
+                                Start date and time for
+                                the activity range.
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <code>to</code>
+                            </td>
+
+                            <td>
+                                DateTime
+                            </td>
+
+                            <td>
+                                No
+                            </td>
+
+                            <td>
+                                End date and time for
+                                the activity range.
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <h4>
+                Example Request
+            </h4>
+
+
+            <pre>
+GET /v1/activity?endpointId=ep_50123&eventType=elevation
+            </pre>
+
+
+            <h4>
+                Example Response
+            </h4>
+
+
+            <pre>
+{
+    "success": true,
+    "data": [
+        {
+            "id": "evt_80001",
+            "eventType": "elevation",
+            "endpointId": "ep_50123",
+            "application": "DeveloperTool.exe",
+            "result": "allowed",
+            "timestamp": "2026-09-17T10:30:00Z"
+        }
+    ]
+}
+            </pre>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     11. PAGINATION
+========================= -->
+
+<section id="pagination">
+
+    <h2>
+        11. Pagination
+    </h2>
+
+
+    <p>
+        Collection endpoints support pagination to
+        control the number of records returned in
+        a single response.
+    </p>
+
+
+    <h3>
+        11.1 Pagination Parameters
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Parameter
+                    </th>
+
+                    <th>
+                        Description
+                    </th>
+
+                    <th>
+                        Example
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        <code>page</code>
+                    </td>
+
+                    <td>
+                        Page number.
+                    </td>
+
+                    <td>
+                        1
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>limit</code>
+                    </td>
+
+                    <td>
+                        Number of records returned per page.
+                    </td>
+
+                    <td>
+                        20
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <h3>
+        11.2 Example
+    </h3>
+
+
+    <pre>
+GET /v1/users?page=2&limit=20
+    </pre>
+
+
+    <p>
+        The response includes pagination metadata to
+        help the client determine the total number of
+        available records.
+    </p>
+
+
+    <pre>
+"pagination": {
+    "page": 2,
+    "limit": 20,
+    "total": 75
+}
+    </pre>
+
+</section>
+
+
+
+<!-- =========================
+     12. ERRORS
+========================= -->
+
+<section id="errors">
+
+    <h2>
+        12. Error Handling
+    </h2>
+
+
+    <p>
+        When an API request cannot be completed,
+        SPM returns an HTTP error status and a JSON
+        response describing the issue.
+    </p>
+
+
+    <h3>
+        12.1 Error Response
+    </h3>
+
+
+    <pre>
+{
+    "success": false,
+    "error": {
+        "code": "INVALID_REQUEST",
+        "message": "The policy name is required.",
+        "details": []
+    }
+}
+    </pre>
+
+
+    <h3>
+        12.2 Common Error Codes
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Error Code
+                    </th>
+
+                    <th>
+                        Description
+                    </th>
+
+                    <th>
+                        HTTP Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        <code>INVALID_REQUEST</code>
+                    </td>
+
+                    <td>
+                        One or more request fields are invalid.
+                    </td>
+
+                    <td>
+                        400
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>AUTHENTICATION_FAILED</code>
+                    </td>
+
+                    <td>
+                        Authentication credentials are
+                        missing or invalid.
+                    </td>
+
+                    <td>
+                        401
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>ACCESS_DENIED</code>
+                    </td>
+
+                    <td>
+                        The authenticated user does not
+                        have permission.
+                    </td>
+
+                    <td>
+                        403
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>RESOURCE_NOT_FOUND</code>
+                    </td>
+
+                    <td>
+                        The requested resource does not exist.
+                    </td>
+
+                    <td>
+                        404
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>RATE_LIMIT_EXCEEDED</code>
+                    </td>
+
+                    <td>
+                        The API request limit has been exceeded.
+                    </td>
+
+                    <td>
+                        429
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <code>INTERNAL_ERROR</code>
+                    </td>
+
+                    <td>
+                        An unexpected server-side error occurred.
+                    </td>
+
+                    <td>
+                        500
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     13. RATE LIMITS
+========================= -->
+
+<section id="rate-limits">
+
+    <h2>
+        13. Rate Limits
+    </h2>
+
+
+    <p>
+        Rate limits help maintain API availability
+        and prevent excessive requests.
+    </p>
+
+
+    <div class="info-box">
+
+        <strong>
+            Portfolio Example
+        </strong>
+
+        The limits shown in this sample are illustrative
+        values for demonstrating API documentation
+        structure.
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        API Category
+                    </th>
+
+                    <th>
+                        Example Limit
+                    </th>
+
+                    <th>
+                        Window
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Read Operations
+                    </td>
+
+                    <td>
+                        100 requests
+                    </td>
+
+                    <td>
+                        Per minute
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Write Operations
+                    </td>
+
+                    <td>
+                        30 requests
+                    </td>
+
+                    <td>
+                        Per minute
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Reporting APIs
+                    </td>
+
+                    <td>
+                        20 requests
+                    </td>
+
+                    <td>
+                        Per minute
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <p>
+        If the rate limit is exceeded, the API returns
+        <code>429 Too Many Requests</code>.
+    </p>
+
+</section>
+
+
+
+<!-- =========================
+     14. WORKFLOW
+========================= -->
+
+<section id="workflow">
+
+    <h2>
+        14. Integration Workflow
+    </h2>
+
+
+    <p>
+        A typical application integration with the SPM
+        REST API follows the workflow below.
+    </p>
+
+
+    <div class="card-grid">
+
+
+        <div class="card">
+
+            <h3>
+                1. Authenticate
+            </h3>
+
+            <p>
+                Obtain a valid access token using the
+                organization's approved authentication flow.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                2. Send Request
+            </h3>
+
+            <p>
+                Send an HTTPS request with the required
+                headers and parameters.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                3. Process Response
+            </h3>
+
+            <p>
+                Parse the JSON response and handle the
+                returned status code.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                4. Handle Errors
+            </h3>
+
+            <p>
+                Process API errors and implement
+                appropriate retry or remediation logic.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <h3>
+        14.1 Example Integration Flow
+    </h3>
+
+
+    <pre>
+Client Application
+        |
+        |  Authenticate
+        v
+Access Token
+        |
+        |  HTTPS API Request
+        v
+Sentinel Privilege Manager API
+        |
+        |  JSON Response
+        v
+Client Application
+        |
+        |  Process Result
+        v
+Application Workflow
+    </pre>
+
+
+    <div class="success">
+
+        <strong>
+            Integration Complete
+        </strong>
+
+        Once authentication, request processing,
+        response handling, and error handling have
+        been implemented, the client application can
+        interact with the supported SPM API resources.
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     DOCUMENT INFORMATION
+========================= -->
+
+<section>
+
+    <h2>
+        Document Information
+    </h2>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <tbody>
+
+                <tr>
+
+                    <th>
+                        Document Type
+                    </th>
+
+                    <td>
+                        REST API Documentation
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Product
+                    </th>
+
+                    <td>
+                        Sentinel Privilege Manager
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        API Version
+                    </th>
+
+                    <td>
+                        v1
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Format
+                    </th>
+
+                    <td>
+                        JSON
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Audience
+                    </th>
+
+                    <td>
+                        Developers, Integrators, and Security Engineers
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <td>
+                        Portfolio Sample
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Author
+                    </th>
+
+                    <td>
+                        Anshula Raina
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="warning">
+
+        <strong>
+            Portfolio Disclaimer:
+        </strong>
+
+        Sentinel Privilege Manager is a fictional product
+        created for demonstration purposes. API endpoints,
+        authentication flows, request parameters, response
+        structures, URLs, limits, and example values in this
+        document are illustrative and are not intended for
+        production use.
+
+    </div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+
+        <strong>
+            Sentinel Privilege Manager
+        </strong>
+
+        — REST API Documentation
+
+    </p>
+
+
+    <p>
+
+        Portfolio sample created by
+
+        <a href="index.html">
+            Anshula Raina
+        </a>
+
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
